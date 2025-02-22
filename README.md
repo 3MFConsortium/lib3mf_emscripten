@@ -3,7 +3,7 @@ lib3mf emscripten demos
 
 This repository holds the code for lib3mf emscripten demos
 
-This will not build on anything other than ubuntu 24.04.
+This will only build on Linux. 
 It is only kept here for archival purposes. 
 
 It has the following demos
@@ -14,7 +14,17 @@ It has the following demos
 * Multiple STL to 3MF (With optional color chooser)
 
 
-If you have a Ubuntu 24.04 machine, you can do the following
+If you have a Linux machine, you can do the following
+
+First make sure to pull vcpkg
+
+```shell
+git submodule update --init --recursive
+```
+
+Also ensure that `emcc` and `em++` are installed and available in system path
+
+Then do the following
 
 ```shell
 mkdir build

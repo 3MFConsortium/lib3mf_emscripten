@@ -1,3 +1,5 @@
+../vcpkg/vcpkg/bootstrap-vcpkg.sh
+../vcpkg/vcpkg install lib3mf --triplet=wasm32-emscripten --allow-unsupported
 cmake .. \
   -DVCPKG_TARGET_TRIPLET=wasm32-emscripten \
   -DCMAKE_C_COMPILER=$(which emcc) \
