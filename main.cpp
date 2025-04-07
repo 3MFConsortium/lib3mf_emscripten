@@ -348,7 +348,6 @@ MeshData getMeshData(const std::string& inputFile) {
     return meshData;
 }
 
-
 int multiSTLTo3MF(emscripten::val inputFiles, emscripten::val inputColors, emscripten::val inputNames, const std::string& outputFile) {
     try {
         // Convert JavaScript arrays to std::vector

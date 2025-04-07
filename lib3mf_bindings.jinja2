@@ -1,0 +1,58 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <emscripten.h>
+#include <emscripten/bind.h>
+#include "Cpp/lib3mf_implicit.hpp"
+
+using namespace emscripten;
+using namespace Lib3MF;
+
+EMSCRIPTEN_BINDINGS(lib3mf) {
+    // Enums
+    {%- for enum in enums %}
+
+    enum_<e{{ enum.name }}>("e{{ enum.name }}")
+    {%- for option in enum.options %}
+        .value("{{ option.name }}", e{{ enum.name }}::{{ option.name }})
+    {%- endfor %};
+
+    {%- endfor %}
+
+    // Structs
+    {%- for struct in structs %}
+
+    value_object<s{{ struct.name }}> ("s{{ struct.name }}")
+    {%- for member in struct.members %}
+        .field("{{ member.name }}", &s{{ struct.name }}::m_{{ member.name }})
+    {%- endfor %};
+
+    {%- endfor %}
+
+    // Value arrays for struct fields that are arrays
+    {# {%- for struct in structs %}
+    {%- for member in struct.members %}
+    {%- if member.rows and not member.cols %}
+    value_array<std::array<Lib3MF_{{ member.type }}, {{ member.rows }}>>("array_{{ member.type }}_{{ member.rows }}")
+        {%- for i in range(member.rows) %}
+        .element(index<{{ i }}>())
+        {%- endfor %};
+    {%- endif %}
+    {%- endfor %}
+    {%- endfor %} #}
+
+    // Classes
+    {%- for cls in classes %}
+
+    class_<C{{ cls.name }}> ("C{{ cls.name }}")
+    {%- for method in cls.methods %}
+        {%- if method.comment_out %}
+        // .function("{{ method.name }}", &C{{ cls.name }}::{{ method.name }})
+        {%- else %}
+        .function("{{ method.name }}", &C{{ cls.name }}::{{ method.name }})
+        {%- endif %}
+    {%- endfor %}
+    ;
+    {%- endfor %}
+}
+

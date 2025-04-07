@@ -9,8 +9,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_TYPE Release)
 
 # Find lib3mf via VCPKG
-find_package(lib3mf REQUIRED)
+#find_package(lib3mf REQUIRED)
 
+#include_directories("/home/vijai/Code/Deps/emsdk/upstream/emscripten/system/include")
 include_directories(${CMAKE_CURRENT_LIST_DIR}/vcpkg/installed/wasm32-emscripten/include)
 set(STATIC_LIBRARIES
         ${CMAKE_CURRENT_LIST_DIR}/vcpkg/installed/wasm32-emscripten/lib/lib3mf.a
@@ -22,7 +23,7 @@ set(STATIC_LIBRARIES
 )
 
 # Add the executable
-add_executable(lib3mfEmscriptenTest.js main.cpp)
+add_executable(lib3mfEmscriptenTest.js lib3mf_bindings.cpp)
 
 # Apply Emscripten-specific linking options
 target_link_options(lib3mfEmscriptenTest.js PRIVATE
