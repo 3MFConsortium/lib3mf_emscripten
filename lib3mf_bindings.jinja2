@@ -44,7 +44,7 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
     // Classes
     {%- for cls in classes %}
 
-    class_<C{{ cls.name }}> ("C{{ cls.name }}")
+    class_<C{{ cls.name }}{% if cls.parent %}, base<C{{ cls.parent }}>{% endif %}> ("C{{ cls.name }}")
     .smart_ptr<std::shared_ptr<C{{ cls.name }}>>("shared_ptr<C{{ cls.name }}>")
     {%- for method in cls.methods %}
         {%- if method.comment_out %}
