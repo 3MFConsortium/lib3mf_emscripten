@@ -109,15 +109,16 @@ def extract_wrapper_methods(lib3mf_idl):
         if not isinstance(params, list):
             params = [params]
 
-        has_nonconst_in = False
+        has_out_param = False
         parsed_params = []
+
         for param in params:
-            param_type = param["@type"]
             param_pass = param["@pass"]
+            param_type = param["@type"]
             param_class = param.get("@class", None)
 
-            if param_pass == "in" and param_type not in ["string", "pointer", "handle"]:
-                has_nonconst_in = True
+            if param_pass == "out":
+                has_out_param = True
 
             parsed_params.append({
                 "name": param["@name"],
@@ -129,7 +130,7 @@ def extract_wrapper_methods(lib3mf_idl):
         wrapper_methods.append({
             "name": method_name,
             "params": parsed_params,
-            "comment_out": has_nonconst_in
+            "comment_out": has_out_param
         })
 
     return wrapper_methods
