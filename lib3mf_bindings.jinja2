@@ -45,6 +45,7 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
     {%- for cls in classes %}
 
     class_<C{{ cls.name }}> ("C{{ cls.name }}")
+    .smart_ptr<std::shared_ptr<C{{ cls.name }}>>("shared_ptr<C{{ cls.name }}>")
     {%- for method in cls.methods %}
         {%- if method.comment_out %}
         // .function("{{ method.name }}", &C{{ cls.name }}::{{ method.name }})
@@ -54,5 +55,17 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
     {%- endfor %}
     ;
     {%- endfor %}
+
+    // Globals
+    class_<CWrapper>("CWrapper")
+        .constructor<>()
+    {%- for method in wrapper_methods %}
+        {%- if method.comment_out %}
+        // .function("{{ method.name }}", &CWrapper::{{ method.name }})
+        {%- else %}
+        .function("{{ method.name }}", &CWrapper::{{ method.name }})
+        {%- endif %}
+    {%- endfor %}
+    ;
 }
 

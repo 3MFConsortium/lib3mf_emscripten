@@ -96,16 +96,54 @@ def extract_classes(lib3mf_idl):
 
     return classes
 
+def extract_wrapper_methods(lib3mf_idl):
+    wrapper_methods = []
+    all_methods = lib3mf_idl["component"]["global"]["method"]
+
+    if not isinstance(all_methods, list):
+        all_methods = [all_methods]
+
+    for method in all_methods:
+        method_name = method["@name"]
+        params = method.get("param", [])
+        if not isinstance(params, list):
+            params = [params]
+
+        has_nonconst_in = False
+        parsed_params = []
+        for param in params:
+            param_type = param["@type"]
+            param_pass = param["@pass"]
+            param_class = param.get("@class", None)
+
+            if param_pass == "in" and param_type not in ["string", "pointer", "handle"]:
+                has_nonconst_in = True
+
+            parsed_params.append({
+                "name": param["@name"],
+                "type": param_type,
+                "pass": param_pass,
+                "class": param_class
+            })
+
+        wrapper_methods.append({
+            "name": method_name,
+            "params": parsed_params,
+            "comment_out": has_nonconst_in
+        })
+
+    return wrapper_methods
 
 
 # Generate C++ file using Jinja
-def generate_cpp(enums, structs, classes, template_file="lib3mf_bindings.jinja2", output_file="lib3mf_bindings.cpp"):
+def generate_cpp(enums, structs, classes, wrapper_methods, template_file="lib3mf_bindings.jinja2", output_file="lib3mf_bindings.cpp"):
     with open(template_file, "r", encoding="utf-8") as file:
         template = jinja2.Template(file.read())
-    cpp_code = template.render(enums=enums, structs=structs, classes=classes)
+    cpp_code = template.render(enums=enums, structs=structs, classes=classes, wrapper_methods=wrapper_methods)
     with open(output_file, "w", encoding="utf-8") as file:
         file.write(cpp_code)
     print(f"✅ Generated {output_file}")
+
 
 if __name__ == "__main__":
     xml_file = "lib3mf.xml"  # Update this if needed
@@ -113,4 +151,5 @@ if __name__ == "__main__":
     enums = extract_enums(lib3mf_idl)
     structs = extract_structs(lib3mf_idl)
     classes = extract_classes(lib3mf_idl)
-    generate_cpp(enums, structs, classes)
+    wrapper_methods = extract_wrapper_methods(lib3mf_idl)
+    generate_cpp(enums, structs, classes,wrapper_methods)
