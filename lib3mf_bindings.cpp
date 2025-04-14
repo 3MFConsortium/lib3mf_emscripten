@@ -356,13 +356,6 @@ static Lib3MF_uint32 wrap_MeshObject_AddTriangle(CMeshObject &self, const sTrian
 static void wrap_MeshObject_SetTriangleProperties(CMeshObject &self, Lib3MF_uint32 Index, const sTrianglePropertiesWrapper& Properties) {
     self.SetTriangleProperties(Index, Properties.toStruct());
 }
-static emscripten::val wrap_MeshObject_GetTriangleProperties(CMeshObject &self, Lib3MF_uint32 Index) {
-    sTrianglePropertiesWrapper Property;
-    self.GetTriangleProperties(Index, Property.value);
-    emscripten::val output = emscripten::val::object();
-    output.set("Property", Property);
-    return output;
-}
 static sTransformWrapper wrap_LevelSet_GetTransform(CLevelSet &self) {
     auto result = self.GetTransform();
     sTransformWrapper wrapper;
@@ -525,32 +518,6 @@ static sColorWrapper wrap_Wrapper_FloatRGBAToColor(CWrapper &self, Lib3MF_single
     wrapper.value = result;
     return wrapper;
 }
-static emscripten::val wrap_Wrapper_ColorToRGBA(CWrapper &self, const sColorWrapper& TheColor) {
-    Lib3MF_uint8 Red;
-    Lib3MF_uint8 Green;
-    Lib3MF_uint8 Blue;
-    Lib3MF_uint8 Alpha;
-    self.ColorToRGBA(TheColor.toStruct(), Red, Green, Blue, Alpha);
-    emscripten::val output = emscripten::val::object();
-    output.set("Red", Red);
-    output.set("Green", Green);
-    output.set("Blue", Blue);
-    output.set("Alpha", Alpha);
-    return output;
-}
-static emscripten::val wrap_Wrapper_ColorToFloatRGBA(CWrapper &self, const sColorWrapper& TheColor) {
-    Lib3MF_single Red;
-    Lib3MF_single Green;
-    Lib3MF_single Blue;
-    Lib3MF_single Alpha;
-    self.ColorToFloatRGBA(TheColor.toStruct(), Red, Green, Blue, Alpha);
-    emscripten::val output = emscripten::val::object();
-    output.set("Red", Red);
-    output.set("Green", Green);
-    output.set("Blue", Blue);
-    output.set("Alpha", Alpha);
-    return output;
-}
 static sTransformWrapper wrap_Wrapper_GetIdentityTransform(CWrapper &self) {
     auto result = self.GetIdentityTransform();
     sTransformWrapper wrapper;
@@ -574,6 +541,375 @@ static sTransformWrapper wrap_Wrapper_GetTranslationTransform(CWrapper &self, Li
     sTransformWrapper wrapper;
     wrapper.value = result;
     return wrapper;
+}
+// ================== Static Method Wrappers for Out Parameters ==================
+static emscripten::val wrap_Writer_WriteToBuffer(CWriter &self) {
+    std::vector<Lib3MF_uint8> Buffer;
+    emscripten::val output = emscripten::val::object();
+    self.WriteToBuffer(Buffer);
+    output.set("Buffer", Buffer);
+    return output;
+}
+static emscripten::val wrap_Writer_GetWarning(CWriter &self, Lib3MF_uint32 Index) {
+    Lib3MF_uint32 ErrorCode;
+    std::string return_value = self.GetWarning(Index, ErrorCode);
+    emscripten::val output = emscripten::val::object();
+    output.set("return", return_value);
+    output.set("ErrorCode", ErrorCode);
+    return output;
+}
+static emscripten::val wrap_Reader_GetWarning(CReader &self, Lib3MF_uint32 Index) {
+    Lib3MF_uint32 ErrorCode;
+    std::string return_value = self.GetWarning(Index, ErrorCode);
+    emscripten::val output = emscripten::val::object();
+    output.set("return", return_value);
+    output.set("ErrorCode", ErrorCode);
+    return output;
+}
+static emscripten::val wrap_TriangleSet_GetTriangleList(CTriangleSet &self) {
+    std::vector<Lib3MF_uint32> TriangleIndices;
+    emscripten::val output = emscripten::val::object();
+    self.GetTriangleList(TriangleIndices);
+    output.set("TriangleIndices", TriangleIndices);
+    return output;
+}
+static emscripten::val wrap_Object_GetUUID(CObject &self) {
+    bool HasUUID;
+    std::string return_value = self.GetUUID(HasUUID);
+    emscripten::val output = emscripten::val::object();
+    output.set("return", return_value);
+    output.set("HasUUID", HasUUID);
+    return output;
+}
+static emscripten::val wrap_MeshObject_GetVertices(CMeshObject &self) {
+    std::vector<sPosition> Vertices;
+    emscripten::val output = emscripten::val::object();
+    self.GetVertices(Vertices);
+    output.set("Vertices", Vertices);
+    return output;
+}
+static emscripten::val wrap_MeshObject_GetTriangleIndices(CMeshObject &self) {
+    std::vector<sTriangle> Indices;
+    emscripten::val output = emscripten::val::object();
+    self.GetTriangleIndices(Indices);
+    output.set("Indices", Indices);
+    return output;
+}
+static emscripten::val wrap_MeshObject_GetObjectLevelProperty(CMeshObject &self) {
+    Lib3MF_uint32 UniqueResourceID;
+    Lib3MF_uint32 PropertyID;
+    bool return_value = self.GetObjectLevelProperty(UniqueResourceID, PropertyID);
+    emscripten::val output = emscripten::val::object();
+    output.set("return", return_value);
+    output.set("UniqueResourceID", UniqueResourceID);
+    output.set("PropertyID", PropertyID);
+    return output;
+}
+static emscripten::val wrap_MeshObject_GetTriangleProperties(CMeshObject &self, Lib3MF_uint32 Index) {
+    sTrianglePropertiesWrapper Property;
+    emscripten::val output = emscripten::val::object();
+    self.GetTriangleProperties(Index, Property.value);
+    output.set("Property", Property);
+    return output;
+}
+static emscripten::val wrap_MeshObject_GetAllTriangleProperties(CMeshObject &self) {
+    std::vector<sTriangleProperties> PropertiesArray;
+    emscripten::val output = emscripten::val::object();
+    self.GetAllTriangleProperties(PropertiesArray);
+    output.set("PropertiesArray", PropertiesArray);
+    return output;
+}
+static emscripten::val wrap_BeamLattice_GetClipping(CBeamLattice &self) {
+    eBeamLatticeClipMode ClipMode;
+    Lib3MF_uint32 UniqueResourceID;
+    emscripten::val output = emscripten::val::object();
+    self.GetClipping(ClipMode, UniqueResourceID);
+    output.set("ClipMode", ClipMode);
+    output.set("UniqueResourceID", UniqueResourceID);
+    return output;
+}
+static emscripten::val wrap_BeamLattice_GetRepresentation(CBeamLattice &self) {
+    Lib3MF_uint32 UniqueResourceID;
+    bool return_value = self.GetRepresentation(UniqueResourceID);
+    emscripten::val output = emscripten::val::object();
+    output.set("return", return_value);
+    output.set("UniqueResourceID", UniqueResourceID);
+    return output;
+}
+static emscripten::val wrap_BeamLattice_GetBallOptions(CBeamLattice &self) {
+    eBeamLatticeBallMode BallMode;
+    Lib3MF_double BallRadius;
+    emscripten::val output = emscripten::val::object();
+    self.GetBallOptions(BallMode, BallRadius);
+    output.set("BallMode", BallMode);
+    output.set("BallRadius", BallRadius);
+    return output;
+}
+static emscripten::val wrap_BeamLattice_GetBeams(CBeamLattice &self) {
+    std::vector<sBeam> BeamInfo;
+    emscripten::val output = emscripten::val::object();
+    self.GetBeams(BeamInfo);
+    output.set("BeamInfo", BeamInfo);
+    return output;
+}
+static emscripten::val wrap_BeamLattice_GetBalls(CBeamLattice &self) {
+    std::vector<sBall> BallInfo;
+    emscripten::val output = emscripten::val::object();
+    self.GetBalls(BallInfo);
+    output.set("BallInfo", BallInfo);
+    return output;
+}
+static emscripten::val wrap_Component_GetUUID(CComponent &self) {
+    bool HasUUID;
+    std::string return_value = self.GetUUID(HasUUID);
+    emscripten::val output = emscripten::val::object();
+    output.set("return", return_value);
+    output.set("HasUUID", HasUUID);
+    return output;
+}
+static emscripten::val wrap_BeamSet_GetReferences(CBeamSet &self) {
+    std::vector<Lib3MF_uint32> References;
+    emscripten::val output = emscripten::val::object();
+    self.GetReferences(References);
+    output.set("References", References);
+    return output;
+}
+static emscripten::val wrap_BeamSet_GetBallReferences(CBeamSet &self) {
+    std::vector<Lib3MF_uint32> BallReferences;
+    emscripten::val output = emscripten::val::object();
+    self.GetBallReferences(BallReferences);
+    output.set("BallReferences", BallReferences);
+    return output;
+}
+static emscripten::val wrap_BaseMaterialGroup_GetAllPropertyIDs(CBaseMaterialGroup &self) {
+    std::vector<Lib3MF_uint32> PropertyIDs;
+    emscripten::val output = emscripten::val::object();
+    self.GetAllPropertyIDs(PropertyIDs);
+    output.set("PropertyIDs", PropertyIDs);
+    return output;
+}
+static emscripten::val wrap_ColorGroup_GetAllPropertyIDs(CColorGroup &self) {
+    std::vector<Lib3MF_uint32> PropertyIDs;
+    emscripten::val output = emscripten::val::object();
+    self.GetAllPropertyIDs(PropertyIDs);
+    output.set("PropertyIDs", PropertyIDs);
+    return output;
+}
+static emscripten::val wrap_Texture2DGroup_GetAllPropertyIDs(CTexture2DGroup &self) {
+    std::vector<Lib3MF_uint32> PropertyIDs;
+    emscripten::val output = emscripten::val::object();
+    self.GetAllPropertyIDs(PropertyIDs);
+    output.set("PropertyIDs", PropertyIDs);
+    return output;
+}
+static emscripten::val wrap_CompositeMaterials_GetAllPropertyIDs(CCompositeMaterials &self) {
+    std::vector<Lib3MF_uint32> PropertyIDs;
+    emscripten::val output = emscripten::val::object();
+    self.GetAllPropertyIDs(PropertyIDs);
+    output.set("PropertyIDs", PropertyIDs);
+    return output;
+}
+static emscripten::val wrap_CompositeMaterials_GetComposite(CCompositeMaterials &self, Lib3MF_uint32 PropertyID) {
+    std::vector<sCompositeConstituent> Composite;
+    emscripten::val output = emscripten::val::object();
+    self.GetComposite(PropertyID, Composite);
+    output.set("Composite", Composite);
+    return output;
+}
+static emscripten::val wrap_MultiPropertyGroup_GetAllPropertyIDs(CMultiPropertyGroup &self) {
+    std::vector<Lib3MF_uint32> PropertyIDs;
+    emscripten::val output = emscripten::val::object();
+    self.GetAllPropertyIDs(PropertyIDs);
+    output.set("PropertyIDs", PropertyIDs);
+    return output;
+}
+static emscripten::val wrap_MultiPropertyGroup_GetMultiProperty(CMultiPropertyGroup &self, Lib3MF_uint32 PropertyID) {
+    std::vector<Lib3MF_uint32> PropertyIDs;
+    emscripten::val output = emscripten::val::object();
+    self.GetMultiProperty(PropertyID, PropertyIDs);
+    output.set("PropertyIDs", PropertyIDs);
+    return output;
+}
+static emscripten::val wrap_Attachment_WriteToBuffer(CAttachment &self) {
+    std::vector<Lib3MF_uint8> Buffer;
+    emscripten::val output = emscripten::val::object();
+    self.WriteToBuffer(Buffer);
+    output.set("Buffer", Buffer);
+    return output;
+}
+static emscripten::val wrap_Texture2D_GetTileStyleUV(CTexture2D &self) {
+    eTextureTileStyle TileStyleU;
+    eTextureTileStyle TileStyleV;
+    emscripten::val output = emscripten::val::object();
+    self.GetTileStyleUV(TileStyleU, TileStyleV);
+    output.set("TileStyleU", TileStyleU);
+    output.set("TileStyleV", TileStyleV);
+    return output;
+}
+static emscripten::val wrap_FunctionFromImage3D_GetTileStyles(CFunctionFromImage3D &self) {
+    eTextureTileStyle TileStyleU;
+    eTextureTileStyle TileStyleV;
+    eTextureTileStyle TileStyleW;
+    emscripten::val output = emscripten::val::object();
+    self.GetTileStyles(TileStyleU, TileStyleV, TileStyleW);
+    output.set("TileStyleU", TileStyleU);
+    output.set("TileStyleV", TileStyleV);
+    output.set("TileStyleW", TileStyleW);
+    return output;
+}
+static emscripten::val wrap_BuildItem_GetUUID(CBuildItem &self) {
+    bool HasUUID;
+    std::string return_value = self.GetUUID(HasUUID);
+    emscripten::val output = emscripten::val::object();
+    output.set("return", return_value);
+    output.set("HasUUID", HasUUID);
+    return output;
+}
+static emscripten::val wrap_Slice_GetVertices(CSlice &self) {
+    std::vector<sPosition2D> Vertices;
+    emscripten::val output = emscripten::val::object();
+    self.GetVertices(Vertices);
+    output.set("Vertices", Vertices);
+    return output;
+}
+static emscripten::val wrap_Slice_GetPolygonIndices(CSlice &self, Lib3MF_uint64 Index) {
+    std::vector<Lib3MF_uint32> Indices;
+    emscripten::val output = emscripten::val::object();
+    self.GetPolygonIndices(Index, Indices);
+    output.set("Indices", Indices);
+    return output;
+}
+static emscripten::val wrap_ContentEncryptionParams_GetKey(CContentEncryptionParams &self) {
+    std::vector<Lib3MF_uint8> ByteData;
+    emscripten::val output = emscripten::val::object();
+    self.GetKey(ByteData);
+    output.set("ByteData", ByteData);
+    return output;
+}
+static emscripten::val wrap_ContentEncryptionParams_GetInitializationVector(CContentEncryptionParams &self) {
+    std::vector<Lib3MF_uint8> ByteData;
+    emscripten::val output = emscripten::val::object();
+    self.GetInitializationVector(ByteData);
+    output.set("ByteData", ByteData);
+    return output;
+}
+static emscripten::val wrap_ContentEncryptionParams_GetAuthenticationTag(CContentEncryptionParams &self) {
+    std::vector<Lib3MF_uint8> ByteData;
+    emscripten::val output = emscripten::val::object();
+    self.GetAuthenticationTag(ByteData);
+    output.set("ByteData", ByteData);
+    return output;
+}
+static emscripten::val wrap_ContentEncryptionParams_GetAdditionalAuthenticationData(CContentEncryptionParams &self) {
+    std::vector<Lib3MF_uint8> ByteData;
+    emscripten::val output = emscripten::val::object();
+    self.GetAdditionalAuthenticationData(ByteData);
+    output.set("ByteData", ByteData);
+    return output;
+}
+static emscripten::val wrap_ResourceData_GetAdditionalAuthenticationData(CResourceData &self) {
+    std::vector<Lib3MF_uint8> ByteData;
+    emscripten::val output = emscripten::val::object();
+    self.GetAdditionalAuthenticationData(ByteData);
+    output.set("ByteData", ByteData);
+    return output;
+}
+static emscripten::val wrap_KeyStore_GetUUID(CKeyStore &self) {
+    bool HasUUID;
+    std::string return_value = self.GetUUID(HasUUID);
+    emscripten::val output = emscripten::val::object();
+    output.set("return", return_value);
+    output.set("HasUUID", HasUUID);
+    return output;
+}
+static emscripten::val wrap_Model_GetBuildUUID(CModel &self) {
+    bool HasUUID;
+    std::string return_value = self.GetBuildUUID(HasUUID);
+    emscripten::val output = emscripten::val::object();
+    output.set("return", return_value);
+    output.set("HasUUID", HasUUID);
+    return output;
+}
+static emscripten::val wrap_Wrapper_GetLibraryVersion(CWrapper &self) {
+    Lib3MF_uint32 Major;
+    Lib3MF_uint32 Minor;
+    Lib3MF_uint32 Micro;
+    emscripten::val output = emscripten::val::object();
+    self.GetLibraryVersion(Major, Minor, Micro);
+    output.set("Major", Major);
+    output.set("Minor", Minor);
+    output.set("Micro", Micro);
+    return output;
+}
+static emscripten::val wrap_Wrapper_GetPrereleaseInformation(CWrapper &self) {
+    std::string PrereleaseInfo;
+    bool return_value = self.GetPrereleaseInformation(PrereleaseInfo);
+    emscripten::val output = emscripten::val::object();
+    output.set("return", return_value);
+    output.set("PrereleaseInfo", PrereleaseInfo);
+    return output;
+}
+static emscripten::val wrap_Wrapper_GetBuildInformation(CWrapper &self) {
+    std::string BuildInformation;
+    bool return_value = self.GetBuildInformation(BuildInformation);
+    emscripten::val output = emscripten::val::object();
+    output.set("return", return_value);
+    output.set("BuildInformation", BuildInformation);
+    return output;
+}
+static emscripten::val wrap_Wrapper_GetSpecificationVersion(CWrapper &self, std::string SpecificationURL) {
+    bool IsSupported;
+    Lib3MF_uint32 Major;
+    Lib3MF_uint32 Minor;
+    Lib3MF_uint32 Micro;
+    emscripten::val output = emscripten::val::object();
+    self.GetSpecificationVersion(SpecificationURL, IsSupported, Major, Minor, Micro);
+    output.set("IsSupported", IsSupported);
+    output.set("Major", Major);
+    output.set("Minor", Minor);
+    output.set("Micro", Micro);
+    return output;
+}
+static emscripten::val wrap_Wrapper_GetLastError(CWrapper &self, PBase Instance) {
+    std::string LastErrorString;
+    bool return_value = self.GetLastError(Instance, LastErrorString);
+    emscripten::val output = emscripten::val::object();
+    output.set("return", return_value);
+    output.set("LastErrorString", LastErrorString);
+    return output;
+}
+static emscripten::val wrap_Wrapper_RetrieveProgressMessage(CWrapper &self, eProgressIdentifier TheProgressIdentifier) {
+    std::string ProgressMessage;
+    emscripten::val output = emscripten::val::object();
+    self.RetrieveProgressMessage(TheProgressIdentifier, ProgressMessage);
+    output.set("ProgressMessage", ProgressMessage);
+    return output;
+}
+static emscripten::val wrap_Wrapper_ColorToRGBA(CWrapper &self, const sColorWrapper& TheColor) {
+    Lib3MF_uint8 Red;
+    Lib3MF_uint8 Green;
+    Lib3MF_uint8 Blue;
+    Lib3MF_uint8 Alpha;
+    emscripten::val output = emscripten::val::object();
+    self.ColorToRGBA(TheColor.toStruct(), Red, Green, Blue, Alpha);
+    output.set("Red", Red);
+    output.set("Green", Green);
+    output.set("Blue", Blue);
+    output.set("Alpha", Alpha);
+    return output;
+}
+static emscripten::val wrap_Wrapper_ColorToFloatRGBA(CWrapper &self, const sColorWrapper& TheColor) {
+    Lib3MF_single Red;
+    Lib3MF_single Green;
+    Lib3MF_single Blue;
+    Lib3MF_single Alpha;
+    emscripten::val output = emscripten::val::object();
+    self.ColorToFloatRGBA(TheColor.toStruct(), Red, Green, Blue, Alpha);
+    output.set("Red", Red);
+    output.set("Green", Green);
+    output.set("Blue", Blue);
+    output.set("Alpha", Alpha);
+    return output;
 }
 // ================== Emscripten Bindings ==================
 EMSCRIPTEN_BINDINGS(lib3mf) {

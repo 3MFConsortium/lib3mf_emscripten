@@ -87,6 +87,23 @@ static {{ w.return_type }} wrap_{{ w.class }}_{{ w.name }}(C{{ w.class }} &self{
 {% endfor %}
 
 
+// ================== Static Method Wrappers for Out Parameters ==================
+{% for w in out_param_wrappers %}
+static {{ w.return_type }} wrap_{{ w.class }}_{{ w.name }}(C{{ w.class }} &self{% if w.param_decls %}, {{ w.param_decls | join(', ') }}{% endif %}) {
+    {% for decl in w.out_decls %}
+    {{ decl }}
+    {% endfor %}
+    {% if w.call_stmt %}
+    {{ w.call_stmt }}
+    {% endif %}
+    {% for s in w.out_sets %}
+    {{ s }}
+    {% endfor %}
+    return {{ w.return_expression }};
+}
+{% endfor %}
+
+
 
 // ================== Emscripten Bindings ==================
 EMSCRIPTEN_BINDINGS(lib3mf) {
