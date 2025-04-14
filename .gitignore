@@ -2,3 +2,5 @@ cmake-build-*
 build
 build_*
 .idea
+*.3mf
+*.log
