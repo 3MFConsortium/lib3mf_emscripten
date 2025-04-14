@@ -10,7 +10,6 @@ using namespace Lib3MF;
 
 // ================== Struct Wrappers ==================
 
-
 struct sTriangleWrapper {
     sTriangle value;
     
@@ -29,6 +28,7 @@ struct sTriangleWrapper {
             
         
     
+
     sTriangle toStruct() const { return value; }
 
     static sTriangleWrapper fromStruct(const emscripten::val &js) {
@@ -50,11 +50,12 @@ struct sTriangleWrapper {
     }
 };
 
-
-
 struct sTrianglePropertiesWrapper {
     sTriangleProperties value;
     
+        
+    Lib3MF_uint32 get_ResourceID() const { return value.m_ResourceID; }
+    void set_ResourceID(Lib3MF_uint32 v) { value.m_ResourceID = v; }
         
     
         
@@ -72,11 +73,14 @@ struct sTrianglePropertiesWrapper {
             
         
     
+
     sTriangleProperties toStruct() const { return value; }
 
     static sTrianglePropertiesWrapper fromStruct(const emscripten::val &js) {
         sTrianglePropertiesWrapper wrapper;
         
+            
+        wrapper.value.m_ResourceID = js["ResourceID"].as<Lib3MF_uint32>();
             
         
             
@@ -94,8 +98,6 @@ struct sTrianglePropertiesWrapper {
         return wrapper;
     }
 };
-
-
 
 struct sPositionWrapper {
     sPosition value;
@@ -115,6 +117,7 @@ struct sPositionWrapper {
             
         
     
+
     sPosition toStruct() const { return value; }
 
     static sPositionWrapper fromStruct(const emscripten::val &js) {
@@ -136,8 +139,6 @@ struct sPositionWrapper {
     }
 };
 
-
-
 struct sPosition2DWrapper {
     sPosition2D value;
     
@@ -153,6 +154,7 @@ struct sPosition2DWrapper {
             
         
     
+
     sPosition2D toStruct() const { return value; }
 
     static sPosition2DWrapper fromStruct(const emscripten::val &js) {
@@ -172,13 +174,98 @@ struct sPosition2DWrapper {
     }
 };
 
+struct sCompositeConstituentWrapper {
+    sCompositeConstituent value;
+    
+        
+    Lib3MF_uint32 get_PropertyID() const { return value.m_PropertyID; }
+    void set_PropertyID(Lib3MF_uint32 v) { value.m_PropertyID = v; }
+        
+    
+        
+    Lib3MF_double get_MixingRatio() const { return value.m_MixingRatio; }
+    void set_MixingRatio(Lib3MF_double v) { value.m_MixingRatio = v; }
+        
+    
 
+    sCompositeConstituent toStruct() const { return value; }
 
+    static sCompositeConstituentWrapper fromStruct(const emscripten::val &js) {
+        sCompositeConstituentWrapper wrapper;
+        
+            
+        wrapper.value.m_PropertyID = js["PropertyID"].as<Lib3MF_uint32>();
+            
+        
+            
+        wrapper.value.m_MixingRatio = js["MixingRatio"].as<Lib3MF_double>();
+            
+        
+        return wrapper;
+    }
+};
 
+struct sMultiPropertyLayerWrapper {
+    sMultiPropertyLayer value;
+    
+        
+    Lib3MF_uint32 get_ResourceID() const { return value.m_ResourceID; }
+    void set_ResourceID(Lib3MF_uint32 v) { value.m_ResourceID = v; }
+        
+    
+        
+    eBlendMethod get_TheBlendMethod() const { return value.m_TheBlendMethod; }
+    void set_TheBlendMethod(eBlendMethod v) { value.m_TheBlendMethod = v; }
+        
+    
 
+    sMultiPropertyLayer toStruct() const { return value; }
 
+    static sMultiPropertyLayerWrapper fromStruct(const emscripten::val &js) {
+        sMultiPropertyLayerWrapper wrapper;
+        
+            
+        wrapper.value.m_ResourceID = js["ResourceID"].as<Lib3MF_uint32>();
+            
+        
+            
+        wrapper.value.m_TheBlendMethod = js["TheBlendMethod"].as<eBlendMethod>();
+            
+        
+        return wrapper;
+    }
+};
 
+struct sTex2CoordWrapper {
+    sTex2Coord value;
+    
+        
+    Lib3MF_double get_U() const { return value.m_U; }
+    void set_U(Lib3MF_double v) { value.m_U = v; }
+        
+    
+        
+    Lib3MF_double get_V() const { return value.m_V; }
+    void set_V(Lib3MF_double v) { value.m_V = v; }
+        
+    
 
+    sTex2Coord toStruct() const { return value; }
+
+    static sTex2CoordWrapper fromStruct(const emscripten::val &js) {
+        sTex2CoordWrapper wrapper;
+        
+            
+        wrapper.value.m_U = js["U"].as<Lib3MF_double>();
+            
+        
+            
+        wrapper.value.m_V = js["V"].as<Lib3MF_double>();
+            
+        
+        return wrapper;
+    }
+};
 
 struct sTransformWrapper {
     sTransform value;
@@ -190,39 +277,41 @@ struct sTransformWrapper {
     Lib3MF_single get_Fields_0_0() const { return value.m_Fields[0][0]; }
     void set_Fields_0_0(Lib3MF_single v) { value.m_Fields[0][0] = v; }
                     
-    Lib3MF_single get_Fields_1_0() const { return value.m_Fields[1][0]; }
-    void set_Fields_1_0(Lib3MF_single v) { value.m_Fields[1][0] = v; }
-                    
-    Lib3MF_single get_Fields_2_0() const { return value.m_Fields[2][0]; }
-    void set_Fields_2_0(Lib3MF_single v) { value.m_Fields[2][0] = v; }
-                    
-    Lib3MF_single get_Fields_3_0() const { return value.m_Fields[3][0]; }
-    void set_Fields_3_0(Lib3MF_single v) { value.m_Fields[3][0] = v; }
-                    
-                
-                    
     Lib3MF_single get_Fields_0_1() const { return value.m_Fields[0][1]; }
     void set_Fields_0_1(Lib3MF_single v) { value.m_Fields[0][1] = v; }
-                    
-    Lib3MF_single get_Fields_1_1() const { return value.m_Fields[1][1]; }
-    void set_Fields_1_1(Lib3MF_single v) { value.m_Fields[1][1] = v; }
-                    
-    Lib3MF_single get_Fields_2_1() const { return value.m_Fields[2][1]; }
-    void set_Fields_2_1(Lib3MF_single v) { value.m_Fields[2][1] = v; }
-                    
-    Lib3MF_single get_Fields_3_1() const { return value.m_Fields[3][1]; }
-    void set_Fields_3_1(Lib3MF_single v) { value.m_Fields[3][1] = v; }
-                    
-                
                     
     Lib3MF_single get_Fields_0_2() const { return value.m_Fields[0][2]; }
     void set_Fields_0_2(Lib3MF_single v) { value.m_Fields[0][2] = v; }
                     
+                
+                    
+    Lib3MF_single get_Fields_1_0() const { return value.m_Fields[1][0]; }
+    void set_Fields_1_0(Lib3MF_single v) { value.m_Fields[1][0] = v; }
+                    
+    Lib3MF_single get_Fields_1_1() const { return value.m_Fields[1][1]; }
+    void set_Fields_1_1(Lib3MF_single v) { value.m_Fields[1][1] = v; }
+                    
     Lib3MF_single get_Fields_1_2() const { return value.m_Fields[1][2]; }
     void set_Fields_1_2(Lib3MF_single v) { value.m_Fields[1][2] = v; }
                     
+                
+                    
+    Lib3MF_single get_Fields_2_0() const { return value.m_Fields[2][0]; }
+    void set_Fields_2_0(Lib3MF_single v) { value.m_Fields[2][0] = v; }
+                    
+    Lib3MF_single get_Fields_2_1() const { return value.m_Fields[2][1]; }
+    void set_Fields_2_1(Lib3MF_single v) { value.m_Fields[2][1] = v; }
+                    
     Lib3MF_single get_Fields_2_2() const { return value.m_Fields[2][2]; }
     void set_Fields_2_2(Lib3MF_single v) { value.m_Fields[2][2] = v; }
+                    
+                
+                    
+    Lib3MF_single get_Fields_3_0() const { return value.m_Fields[3][0]; }
+    void set_Fields_3_0(Lib3MF_single v) { value.m_Fields[3][0] = v; }
+                    
+    Lib3MF_single get_Fields_3_1() const { return value.m_Fields[3][1]; }
+    void set_Fields_3_1(Lib3MF_single v) { value.m_Fields[3][1] = v; }
                     
     Lib3MF_single get_Fields_3_2() const { return value.m_Fields[3][2]; }
     void set_Fields_3_2(Lib3MF_single v) { value.m_Fields[3][2] = v; }
@@ -231,6 +320,7 @@ struct sTransformWrapper {
             
         
     
+
     sTransform toStruct() const { return value; }
 
     static sTransformWrapper fromStruct(const emscripten::val &js) {
@@ -276,8 +366,6 @@ struct sTransformWrapper {
     }
 };
 
-
-
 struct sBoxWrapper {
     sBox value;
     
@@ -311,6 +399,7 @@ struct sBoxWrapper {
             
         
     
+
     sBox toStruct() const { return value; }
 
     static sBoxWrapper fromStruct(const emscripten::val &js) {
@@ -344,9 +433,54 @@ struct sBoxWrapper {
     }
 };
 
+struct sColorWrapper {
+    sColor value;
+    
+        
+    Lib3MF_uint8 get_Red() const { return value.m_Red; }
+    void set_Red(Lib3MF_uint8 v) { value.m_Red = v; }
+        
+    
+        
+    Lib3MF_uint8 get_Green() const { return value.m_Green; }
+    void set_Green(Lib3MF_uint8 v) { value.m_Green = v; }
+        
+    
+        
+    Lib3MF_uint8 get_Blue() const { return value.m_Blue; }
+    void set_Blue(Lib3MF_uint8 v) { value.m_Blue = v; }
+        
+    
+        
+    Lib3MF_uint8 get_Alpha() const { return value.m_Alpha; }
+    void set_Alpha(Lib3MF_uint8 v) { value.m_Alpha = v; }
+        
+    
 
+    sColor toStruct() const { return value; }
 
-
+    static sColorWrapper fromStruct(const emscripten::val &js) {
+        sColorWrapper wrapper;
+        
+            
+        wrapper.value.m_Red = js["Red"].as<Lib3MF_uint8>();
+            
+        
+            
+        wrapper.value.m_Green = js["Green"].as<Lib3MF_uint8>();
+            
+        
+            
+        wrapper.value.m_Blue = js["Blue"].as<Lib3MF_uint8>();
+            
+        
+            
+        wrapper.value.m_Alpha = js["Alpha"].as<Lib3MF_uint8>();
+            
+        
+        return wrapper;
+    }
+};
 
 struct sBeamWrapper {
     sBeam value;
@@ -387,6 +521,7 @@ struct sBeamWrapper {
             
         
     
+
     sBeam toStruct() const { return value; }
 
     static sBeamWrapper fromStruct(const emscripten::val &js) {
@@ -426,9 +561,36 @@ struct sBeamWrapper {
     }
 };
 
+struct sBallWrapper {
+    sBall value;
+    
+        
+    Lib3MF_uint32 get_Index() const { return value.m_Index; }
+    void set_Index(Lib3MF_uint32 v) { value.m_Index = v; }
+        
+    
+        
+    Lib3MF_double get_Radius() const { return value.m_Radius; }
+    void set_Radius(Lib3MF_double v) { value.m_Radius = v; }
+        
+    
 
+    sBall toStruct() const { return value; }
 
-
+    static sBallWrapper fromStruct(const emscripten::val &js) {
+        sBallWrapper wrapper;
+        
+            
+        wrapper.value.m_Index = js["Index"].as<Lib3MF_uint32>();
+            
+        
+            
+        wrapper.value.m_Radius = js["Radius"].as<Lib3MF_double>();
+            
+        
+        return wrapper;
+    }
+};
 
 struct sVectorWrapper {
     sVector value;
@@ -448,6 +610,7 @@ struct sVectorWrapper {
             
         
     
+
     sVector toStruct() const { return value; }
 
     static sVectorWrapper fromStruct(const emscripten::val &js) {
@@ -469,8 +632,6 @@ struct sVectorWrapper {
     }
 };
 
-
-
 struct sMatrix4x4Wrapper {
     sMatrix4x4 value;
     
@@ -481,53 +642,53 @@ struct sMatrix4x4Wrapper {
     Lib3MF_double get_Field_0_0() const { return value.m_Field[0][0]; }
     void set_Field_0_0(Lib3MF_double v) { value.m_Field[0][0] = v; }
                     
-    Lib3MF_double get_Field_1_0() const { return value.m_Field[1][0]; }
-    void set_Field_1_0(Lib3MF_double v) { value.m_Field[1][0] = v; }
-                    
-    Lib3MF_double get_Field_2_0() const { return value.m_Field[2][0]; }
-    void set_Field_2_0(Lib3MF_double v) { value.m_Field[2][0] = v; }
-                    
-    Lib3MF_double get_Field_3_0() const { return value.m_Field[3][0]; }
-    void set_Field_3_0(Lib3MF_double v) { value.m_Field[3][0] = v; }
-                    
-                
-                    
     Lib3MF_double get_Field_0_1() const { return value.m_Field[0][1]; }
     void set_Field_0_1(Lib3MF_double v) { value.m_Field[0][1] = v; }
-                    
-    Lib3MF_double get_Field_1_1() const { return value.m_Field[1][1]; }
-    void set_Field_1_1(Lib3MF_double v) { value.m_Field[1][1] = v; }
-                    
-    Lib3MF_double get_Field_2_1() const { return value.m_Field[2][1]; }
-    void set_Field_2_1(Lib3MF_double v) { value.m_Field[2][1] = v; }
-                    
-    Lib3MF_double get_Field_3_1() const { return value.m_Field[3][1]; }
-    void set_Field_3_1(Lib3MF_double v) { value.m_Field[3][1] = v; }
-                    
-                
                     
     Lib3MF_double get_Field_0_2() const { return value.m_Field[0][2]; }
     void set_Field_0_2(Lib3MF_double v) { value.m_Field[0][2] = v; }
                     
-    Lib3MF_double get_Field_1_2() const { return value.m_Field[1][2]; }
-    void set_Field_1_2(Lib3MF_double v) { value.m_Field[1][2] = v; }
-                    
-    Lib3MF_double get_Field_2_2() const { return value.m_Field[2][2]; }
-    void set_Field_2_2(Lib3MF_double v) { value.m_Field[2][2] = v; }
-                    
-    Lib3MF_double get_Field_3_2() const { return value.m_Field[3][2]; }
-    void set_Field_3_2(Lib3MF_double v) { value.m_Field[3][2] = v; }
+    Lib3MF_double get_Field_0_3() const { return value.m_Field[0][3]; }
+    void set_Field_0_3(Lib3MF_double v) { value.m_Field[0][3] = v; }
                     
                 
                     
-    Lib3MF_double get_Field_0_3() const { return value.m_Field[0][3]; }
-    void set_Field_0_3(Lib3MF_double v) { value.m_Field[0][3] = v; }
+    Lib3MF_double get_Field_1_0() const { return value.m_Field[1][0]; }
+    void set_Field_1_0(Lib3MF_double v) { value.m_Field[1][0] = v; }
+                    
+    Lib3MF_double get_Field_1_1() const { return value.m_Field[1][1]; }
+    void set_Field_1_1(Lib3MF_double v) { value.m_Field[1][1] = v; }
+                    
+    Lib3MF_double get_Field_1_2() const { return value.m_Field[1][2]; }
+    void set_Field_1_2(Lib3MF_double v) { value.m_Field[1][2] = v; }
                     
     Lib3MF_double get_Field_1_3() const { return value.m_Field[1][3]; }
     void set_Field_1_3(Lib3MF_double v) { value.m_Field[1][3] = v; }
                     
+                
+                    
+    Lib3MF_double get_Field_2_0() const { return value.m_Field[2][0]; }
+    void set_Field_2_0(Lib3MF_double v) { value.m_Field[2][0] = v; }
+                    
+    Lib3MF_double get_Field_2_1() const { return value.m_Field[2][1]; }
+    void set_Field_2_1(Lib3MF_double v) { value.m_Field[2][1] = v; }
+                    
+    Lib3MF_double get_Field_2_2() const { return value.m_Field[2][2]; }
+    void set_Field_2_2(Lib3MF_double v) { value.m_Field[2][2] = v; }
+                    
     Lib3MF_double get_Field_2_3() const { return value.m_Field[2][3]; }
     void set_Field_2_3(Lib3MF_double v) { value.m_Field[2][3] = v; }
+                    
+                
+                    
+    Lib3MF_double get_Field_3_0() const { return value.m_Field[3][0]; }
+    void set_Field_3_0(Lib3MF_double v) { value.m_Field[3][0] = v; }
+                    
+    Lib3MF_double get_Field_3_1() const { return value.m_Field[3][1]; }
+    void set_Field_3_1(Lib3MF_double v) { value.m_Field[3][1] = v; }
+                    
+    Lib3MF_double get_Field_3_2() const { return value.m_Field[3][2]; }
+    void set_Field_3_2(Lib3MF_double v) { value.m_Field[3][2] = v; }
                     
     Lib3MF_double get_Field_3_3() const { return value.m_Field[3][3]; }
     void set_Field_3_3(Lib3MF_double v) { value.m_Field[3][3] = v; }
@@ -536,6 +697,7 @@ struct sMatrix4x4Wrapper {
             
         
     
+
     sMatrix4x4 toStruct() const { return value; }
 
     static sMatrix4x4Wrapper fromStruct(const emscripten::val &js) {
@@ -590,7 +752,6 @@ struct sMatrix4x4Wrapper {
         return wrapper;
     }
 };
-
 
 
 // ================== Emscripten Bindings ==================
@@ -767,135 +928,189 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
 
     // Structs as exposed JS classes
     
-    
     class_<sTriangleWrapper>("sTriangle")
         .constructor<>()
-        .function("toStruct", &sTriangleWrapper::toStruct)
         .class_function("fromStruct", &sTriangleWrapper::fromStruct)
         
             
                 
                     
-        .property("Indices0", &sTriangleWrapper::get_Indices0, &sTriangleWrapper::set_Indices0)
+        .function("get_Indices0", &sTriangleWrapper::get_Indices0)
+        .function("set_Indices0", &sTriangleWrapper::set_Indices0)
                     
-        .property("Indices1", &sTriangleWrapper::get_Indices1, &sTriangleWrapper::set_Indices1)
+        .function("get_Indices1", &sTriangleWrapper::get_Indices1)
+        .function("set_Indices1", &sTriangleWrapper::set_Indices1)
                     
-        .property("Indices2", &sTriangleWrapper::get_Indices2, &sTriangleWrapper::set_Indices2)
+        .function("get_Indices2", &sTriangleWrapper::get_Indices2)
+        .function("set_Indices2", &sTriangleWrapper::set_Indices2)
                     
                 
             
         
     ;
-    
-    
     
     class_<sTrianglePropertiesWrapper>("sTriangleProperties")
         .constructor<>()
-        .function("toStruct", &sTrianglePropertiesWrapper::toStruct)
         .class_function("fromStruct", &sTrianglePropertiesWrapper::fromStruct)
         
+            
+        .function("get_ResourceID", &sTrianglePropertiesWrapper::get_ResourceID)
+        .function("set_ResourceID", &sTrianglePropertiesWrapper::set_ResourceID)
             
         
             
                 
                     
-        .property("PropertyIDs0", &sTrianglePropertiesWrapper::get_PropertyIDs0, &sTrianglePropertiesWrapper::set_PropertyIDs0)
+        .function("get_PropertyIDs0", &sTrianglePropertiesWrapper::get_PropertyIDs0)
+        .function("set_PropertyIDs0", &sTrianglePropertiesWrapper::set_PropertyIDs0)
                     
-        .property("PropertyIDs1", &sTrianglePropertiesWrapper::get_PropertyIDs1, &sTrianglePropertiesWrapper::set_PropertyIDs1)
+        .function("get_PropertyIDs1", &sTrianglePropertiesWrapper::get_PropertyIDs1)
+        .function("set_PropertyIDs1", &sTrianglePropertiesWrapper::set_PropertyIDs1)
                     
-        .property("PropertyIDs2", &sTrianglePropertiesWrapper::get_PropertyIDs2, &sTrianglePropertiesWrapper::set_PropertyIDs2)
+        .function("get_PropertyIDs2", &sTrianglePropertiesWrapper::get_PropertyIDs2)
+        .function("set_PropertyIDs2", &sTrianglePropertiesWrapper::set_PropertyIDs2)
                     
                 
             
         
     ;
     
-    
-    
     class_<sPositionWrapper>("sPosition")
         .constructor<>()
-        .function("toStruct", &sPositionWrapper::toStruct)
         .class_function("fromStruct", &sPositionWrapper::fromStruct)
         
             
                 
                     
-        .property("Coordinates0", &sPositionWrapper::get_Coordinates0, &sPositionWrapper::set_Coordinates0)
+        .function("get_Coordinates0", &sPositionWrapper::get_Coordinates0)
+        .function("set_Coordinates0", &sPositionWrapper::set_Coordinates0)
                     
-        .property("Coordinates1", &sPositionWrapper::get_Coordinates1, &sPositionWrapper::set_Coordinates1)
+        .function("get_Coordinates1", &sPositionWrapper::get_Coordinates1)
+        .function("set_Coordinates1", &sPositionWrapper::set_Coordinates1)
                     
-        .property("Coordinates2", &sPositionWrapper::get_Coordinates2, &sPositionWrapper::set_Coordinates2)
+        .function("get_Coordinates2", &sPositionWrapper::get_Coordinates2)
+        .function("set_Coordinates2", &sPositionWrapper::set_Coordinates2)
                     
                 
             
         
     ;
     
-    
-    
     class_<sPosition2DWrapper>("sPosition2D")
         .constructor<>()
-        .function("toStruct", &sPosition2DWrapper::toStruct)
         .class_function("fromStruct", &sPosition2DWrapper::fromStruct)
         
             
                 
                     
-        .property("Coordinates0", &sPosition2DWrapper::get_Coordinates0, &sPosition2DWrapper::set_Coordinates0)
+        .function("get_Coordinates0", &sPosition2DWrapper::get_Coordinates0)
+        .function("set_Coordinates0", &sPosition2DWrapper::set_Coordinates0)
                     
-        .property("Coordinates1", &sPosition2DWrapper::get_Coordinates1, &sPosition2DWrapper::set_Coordinates1)
+        .function("get_Coordinates1", &sPosition2DWrapper::get_Coordinates1)
+        .function("set_Coordinates1", &sPosition2DWrapper::set_Coordinates1)
                     
                 
             
         
     ;
     
+    class_<sCompositeConstituentWrapper>("sCompositeConstituent")
+        .constructor<>()
+        .class_function("fromStruct", &sCompositeConstituentWrapper::fromStruct)
+        
+            
+        .function("get_PropertyID", &sCompositeConstituentWrapper::get_PropertyID)
+        .function("set_PropertyID", &sCompositeConstituentWrapper::set_PropertyID)
+            
+        
+            
+        .function("get_MixingRatio", &sCompositeConstituentWrapper::get_MixingRatio)
+        .function("set_MixingRatio", &sCompositeConstituentWrapper::set_MixingRatio)
+            
+        
+    ;
     
+    class_<sMultiPropertyLayerWrapper>("sMultiPropertyLayer")
+        .constructor<>()
+        .class_function("fromStruct", &sMultiPropertyLayerWrapper::fromStruct)
+        
+            
+        .function("get_ResourceID", &sMultiPropertyLayerWrapper::get_ResourceID)
+        .function("set_ResourceID", &sMultiPropertyLayerWrapper::set_ResourceID)
+            
+        
+            
+        .function("get_TheBlendMethod", &sMultiPropertyLayerWrapper::get_TheBlendMethod)
+        .function("set_TheBlendMethod", &sMultiPropertyLayerWrapper::set_TheBlendMethod)
+            
+        
+    ;
     
-    
-    
-    
-    
-    
+    class_<sTex2CoordWrapper>("sTex2Coord")
+        .constructor<>()
+        .class_function("fromStruct", &sTex2CoordWrapper::fromStruct)
+        
+            
+        .function("get_U", &sTex2CoordWrapper::get_U)
+        .function("set_U", &sTex2CoordWrapper::set_U)
+            
+        
+            
+        .function("get_V", &sTex2CoordWrapper::get_V)
+        .function("set_V", &sTex2CoordWrapper::set_V)
+            
+        
+    ;
     
     class_<sTransformWrapper>("sTransform")
         .constructor<>()
-        .function("toStruct", &sTransformWrapper::toStruct)
         .class_function("fromStruct", &sTransformWrapper::fromStruct)
         
             
                 
                     
                         
-        .property("Fields_0_0", &sTransformWrapper::get_Fields_0_0, &sTransformWrapper::set_Fields_0_0)
+        .function("get_Fields_0_0", &sTransformWrapper::get_Fields_0_0)
+        .function("set_Fields_0_0", &sTransformWrapper::set_Fields_0_0)
                         
-        .property("Fields_0_1", &sTransformWrapper::get_Fields_0_1, &sTransformWrapper::set_Fields_0_1)
+        .function("get_Fields_0_1", &sTransformWrapper::get_Fields_0_1)
+        .function("set_Fields_0_1", &sTransformWrapper::set_Fields_0_1)
                         
-        .property("Fields_0_2", &sTransformWrapper::get_Fields_0_2, &sTransformWrapper::set_Fields_0_2)
-                        
-                    
-                        
-        .property("Fields_1_0", &sTransformWrapper::get_Fields_1_0, &sTransformWrapper::set_Fields_1_0)
-                        
-        .property("Fields_1_1", &sTransformWrapper::get_Fields_1_1, &sTransformWrapper::set_Fields_1_1)
-                        
-        .property("Fields_1_2", &sTransformWrapper::get_Fields_1_2, &sTransformWrapper::set_Fields_1_2)
+        .function("get_Fields_0_2", &sTransformWrapper::get_Fields_0_2)
+        .function("set_Fields_0_2", &sTransformWrapper::set_Fields_0_2)
                         
                     
                         
-        .property("Fields_2_0", &sTransformWrapper::get_Fields_2_0, &sTransformWrapper::set_Fields_2_0)
+        .function("get_Fields_1_0", &sTransformWrapper::get_Fields_1_0)
+        .function("set_Fields_1_0", &sTransformWrapper::set_Fields_1_0)
                         
-        .property("Fields_2_1", &sTransformWrapper::get_Fields_2_1, &sTransformWrapper::set_Fields_2_1)
+        .function("get_Fields_1_1", &sTransformWrapper::get_Fields_1_1)
+        .function("set_Fields_1_1", &sTransformWrapper::set_Fields_1_1)
                         
-        .property("Fields_2_2", &sTransformWrapper::get_Fields_2_2, &sTransformWrapper::set_Fields_2_2)
+        .function("get_Fields_1_2", &sTransformWrapper::get_Fields_1_2)
+        .function("set_Fields_1_2", &sTransformWrapper::set_Fields_1_2)
                         
                     
                         
-        .property("Fields_3_0", &sTransformWrapper::get_Fields_3_0, &sTransformWrapper::set_Fields_3_0)
+        .function("get_Fields_2_0", &sTransformWrapper::get_Fields_2_0)
+        .function("set_Fields_2_0", &sTransformWrapper::set_Fields_2_0)
                         
-        .property("Fields_3_1", &sTransformWrapper::get_Fields_3_1, &sTransformWrapper::set_Fields_3_1)
+        .function("get_Fields_2_1", &sTransformWrapper::get_Fields_2_1)
+        .function("set_Fields_2_1", &sTransformWrapper::set_Fields_2_1)
                         
-        .property("Fields_3_2", &sTransformWrapper::get_Fields_3_2, &sTransformWrapper::set_Fields_3_2)
+        .function("get_Fields_2_2", &sTransformWrapper::get_Fields_2_2)
+        .function("set_Fields_2_2", &sTransformWrapper::set_Fields_2_2)
+                        
+                    
+                        
+        .function("get_Fields_3_0", &sTransformWrapper::get_Fields_3_0)
+        .function("set_Fields_3_0", &sTransformWrapper::set_Fields_3_0)
+                        
+        .function("get_Fields_3_1", &sTransformWrapper::get_Fields_3_1)
+        .function("set_Fields_3_1", &sTransformWrapper::set_Fields_3_1)
+                        
+        .function("get_Fields_3_2", &sTransformWrapper::get_Fields_3_2)
+        .function("set_Fields_3_2", &sTransformWrapper::set_Fields_3_2)
                         
                     
                 
@@ -903,21 +1118,21 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         
     ;
     
-    
-    
     class_<sBoxWrapper>("sBox")
         .constructor<>()
-        .function("toStruct", &sBoxWrapper::toStruct)
         .class_function("fromStruct", &sBoxWrapper::fromStruct)
         
             
                 
                     
-        .property("MinCoordinate0", &sBoxWrapper::get_MinCoordinate0, &sBoxWrapper::set_MinCoordinate0)
+        .function("get_MinCoordinate0", &sBoxWrapper::get_MinCoordinate0)
+        .function("set_MinCoordinate0", &sBoxWrapper::set_MinCoordinate0)
                     
-        .property("MinCoordinate1", &sBoxWrapper::get_MinCoordinate1, &sBoxWrapper::set_MinCoordinate1)
+        .function("get_MinCoordinate1", &sBoxWrapper::get_MinCoordinate1)
+        .function("set_MinCoordinate1", &sBoxWrapper::set_MinCoordinate1)
                     
-        .property("MinCoordinate2", &sBoxWrapper::get_MinCoordinate2, &sBoxWrapper::set_MinCoordinate2)
+        .function("get_MinCoordinate2", &sBoxWrapper::get_MinCoordinate2)
+        .function("set_MinCoordinate2", &sBoxWrapper::set_MinCoordinate2)
                     
                 
             
@@ -925,42 +1140,58 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
             
                 
                     
-        .property("MaxCoordinate0", &sBoxWrapper::get_MaxCoordinate0, &sBoxWrapper::set_MaxCoordinate0)
+        .function("get_MaxCoordinate0", &sBoxWrapper::get_MaxCoordinate0)
+        .function("set_MaxCoordinate0", &sBoxWrapper::set_MaxCoordinate0)
                     
-        .property("MaxCoordinate1", &sBoxWrapper::get_MaxCoordinate1, &sBoxWrapper::set_MaxCoordinate1)
+        .function("get_MaxCoordinate1", &sBoxWrapper::get_MaxCoordinate1)
+        .function("set_MaxCoordinate1", &sBoxWrapper::set_MaxCoordinate1)
                     
-        .property("MaxCoordinate2", &sBoxWrapper::get_MaxCoordinate2, &sBoxWrapper::set_MaxCoordinate2)
+        .function("get_MaxCoordinate2", &sBoxWrapper::get_MaxCoordinate2)
+        .function("set_MaxCoordinate2", &sBoxWrapper::set_MaxCoordinate2)
                     
                 
             
         
     ;
     
-    
-    
-    
+    class_<sColorWrapper>("sColor")
+        .constructor<>()
+        .class_function("fromStruct", &sColorWrapper::fromStruct)
+        
+            
+        .function("get_Red", &sColorWrapper::get_Red)
+        .function("set_Red", &sColorWrapper::set_Red)
+            
+        
+            
+        .function("get_Green", &sColorWrapper::get_Green)
+        .function("set_Green", &sColorWrapper::set_Green)
+            
+        
+            
+        .function("get_Blue", &sColorWrapper::get_Blue)
+        .function("set_Blue", &sColorWrapper::set_Blue)
+            
+        
+            
+        .function("get_Alpha", &sColorWrapper::get_Alpha)
+        .function("set_Alpha", &sColorWrapper::set_Alpha)
+            
+        
+    ;
     
     class_<sBeamWrapper>("sBeam")
         .constructor<>()
-        .function("toStruct", &sBeamWrapper::toStruct)
         .class_function("fromStruct", &sBeamWrapper::fromStruct)
         
             
                 
                     
-        .property("Indices0", &sBeamWrapper::get_Indices0, &sBeamWrapper::set_Indices0)
+        .function("get_Indices0", &sBeamWrapper::get_Indices0)
+        .function("set_Indices0", &sBeamWrapper::set_Indices0)
                     
-        .property("Indices1", &sBeamWrapper::get_Indices1, &sBeamWrapper::set_Indices1)
-                    
-                
-            
-        
-            
-                
-                    
-        .property("Radii0", &sBeamWrapper::get_Radii0, &sBeamWrapper::set_Radii0)
-                    
-        .property("Radii1", &sBeamWrapper::get_Radii1, &sBeamWrapper::set_Radii1)
+        .function("get_Indices1", &sBeamWrapper::get_Indices1)
+        .function("set_Indices1", &sBeamWrapper::set_Indices1)
                     
                 
             
@@ -968,93 +1199,133 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
             
                 
                     
-        .property("CapModes0", &sBeamWrapper::get_CapModes0, &sBeamWrapper::set_CapModes0)
+        .function("get_Radii0", &sBeamWrapper::get_Radii0)
+        .function("set_Radii0", &sBeamWrapper::set_Radii0)
                     
-        .property("CapModes1", &sBeamWrapper::get_CapModes1, &sBeamWrapper::set_CapModes1)
+        .function("get_Radii1", &sBeamWrapper::get_Radii1)
+        .function("set_Radii1", &sBeamWrapper::set_Radii1)
+                    
+                
+            
+        
+            
+                
+                    
+        .function("get_CapModes0", &sBeamWrapper::get_CapModes0)
+        .function("set_CapModes0", &sBeamWrapper::set_CapModes0)
+                    
+        .function("get_CapModes1", &sBeamWrapper::get_CapModes1)
+        .function("set_CapModes1", &sBeamWrapper::set_CapModes1)
                     
                 
             
         
     ;
     
-    
-    
-    
+    class_<sBallWrapper>("sBall")
+        .constructor<>()
+        .class_function("fromStruct", &sBallWrapper::fromStruct)
+        
+            
+        .function("get_Index", &sBallWrapper::get_Index)
+        .function("set_Index", &sBallWrapper::set_Index)
+            
+        
+            
+        .function("get_Radius", &sBallWrapper::get_Radius)
+        .function("set_Radius", &sBallWrapper::set_Radius)
+            
+        
+    ;
     
     class_<sVectorWrapper>("sVector")
         .constructor<>()
-        .function("toStruct", &sVectorWrapper::toStruct)
         .class_function("fromStruct", &sVectorWrapper::fromStruct)
         
             
                 
                     
-        .property("Coordinates0", &sVectorWrapper::get_Coordinates0, &sVectorWrapper::set_Coordinates0)
+        .function("get_Coordinates0", &sVectorWrapper::get_Coordinates0)
+        .function("set_Coordinates0", &sVectorWrapper::set_Coordinates0)
                     
-        .property("Coordinates1", &sVectorWrapper::get_Coordinates1, &sVectorWrapper::set_Coordinates1)
+        .function("get_Coordinates1", &sVectorWrapper::get_Coordinates1)
+        .function("set_Coordinates1", &sVectorWrapper::set_Coordinates1)
                     
-        .property("Coordinates2", &sVectorWrapper::get_Coordinates2, &sVectorWrapper::set_Coordinates2)
+        .function("get_Coordinates2", &sVectorWrapper::get_Coordinates2)
+        .function("set_Coordinates2", &sVectorWrapper::set_Coordinates2)
                     
                 
             
         
     ;
     
-    
-    
     class_<sMatrix4x4Wrapper>("sMatrix4x4")
         .constructor<>()
-        .function("toStruct", &sMatrix4x4Wrapper::toStruct)
         .class_function("fromStruct", &sMatrix4x4Wrapper::fromStruct)
         
             
                 
                     
                         
-        .property("Field_0_0", &sMatrix4x4Wrapper::get_Field_0_0, &sMatrix4x4Wrapper::set_Field_0_0)
+        .function("get_Field_0_0", &sMatrix4x4Wrapper::get_Field_0_0)
+        .function("set_Field_0_0", &sMatrix4x4Wrapper::set_Field_0_0)
                         
-        .property("Field_0_1", &sMatrix4x4Wrapper::get_Field_0_1, &sMatrix4x4Wrapper::set_Field_0_1)
+        .function("get_Field_0_1", &sMatrix4x4Wrapper::get_Field_0_1)
+        .function("set_Field_0_1", &sMatrix4x4Wrapper::set_Field_0_1)
                         
-        .property("Field_0_2", &sMatrix4x4Wrapper::get_Field_0_2, &sMatrix4x4Wrapper::set_Field_0_2)
+        .function("get_Field_0_2", &sMatrix4x4Wrapper::get_Field_0_2)
+        .function("set_Field_0_2", &sMatrix4x4Wrapper::set_Field_0_2)
                         
-        .property("Field_0_3", &sMatrix4x4Wrapper::get_Field_0_3, &sMatrix4x4Wrapper::set_Field_0_3)
-                        
-                    
-                        
-        .property("Field_1_0", &sMatrix4x4Wrapper::get_Field_1_0, &sMatrix4x4Wrapper::set_Field_1_0)
-                        
-        .property("Field_1_1", &sMatrix4x4Wrapper::get_Field_1_1, &sMatrix4x4Wrapper::set_Field_1_1)
-                        
-        .property("Field_1_2", &sMatrix4x4Wrapper::get_Field_1_2, &sMatrix4x4Wrapper::set_Field_1_2)
-                        
-        .property("Field_1_3", &sMatrix4x4Wrapper::get_Field_1_3, &sMatrix4x4Wrapper::set_Field_1_3)
+        .function("get_Field_0_3", &sMatrix4x4Wrapper::get_Field_0_3)
+        .function("set_Field_0_3", &sMatrix4x4Wrapper::set_Field_0_3)
                         
                     
                         
-        .property("Field_2_0", &sMatrix4x4Wrapper::get_Field_2_0, &sMatrix4x4Wrapper::set_Field_2_0)
+        .function("get_Field_1_0", &sMatrix4x4Wrapper::get_Field_1_0)
+        .function("set_Field_1_0", &sMatrix4x4Wrapper::set_Field_1_0)
                         
-        .property("Field_2_1", &sMatrix4x4Wrapper::get_Field_2_1, &sMatrix4x4Wrapper::set_Field_2_1)
+        .function("get_Field_1_1", &sMatrix4x4Wrapper::get_Field_1_1)
+        .function("set_Field_1_1", &sMatrix4x4Wrapper::set_Field_1_1)
                         
-        .property("Field_2_2", &sMatrix4x4Wrapper::get_Field_2_2, &sMatrix4x4Wrapper::set_Field_2_2)
+        .function("get_Field_1_2", &sMatrix4x4Wrapper::get_Field_1_2)
+        .function("set_Field_1_2", &sMatrix4x4Wrapper::set_Field_1_2)
                         
-        .property("Field_2_3", &sMatrix4x4Wrapper::get_Field_2_3, &sMatrix4x4Wrapper::set_Field_2_3)
+        .function("get_Field_1_3", &sMatrix4x4Wrapper::get_Field_1_3)
+        .function("set_Field_1_3", &sMatrix4x4Wrapper::set_Field_1_3)
                         
                     
                         
-        .property("Field_3_0", &sMatrix4x4Wrapper::get_Field_3_0, &sMatrix4x4Wrapper::set_Field_3_0)
+        .function("get_Field_2_0", &sMatrix4x4Wrapper::get_Field_2_0)
+        .function("set_Field_2_0", &sMatrix4x4Wrapper::set_Field_2_0)
                         
-        .property("Field_3_1", &sMatrix4x4Wrapper::get_Field_3_1, &sMatrix4x4Wrapper::set_Field_3_1)
+        .function("get_Field_2_1", &sMatrix4x4Wrapper::get_Field_2_1)
+        .function("set_Field_2_1", &sMatrix4x4Wrapper::set_Field_2_1)
                         
-        .property("Field_3_2", &sMatrix4x4Wrapper::get_Field_3_2, &sMatrix4x4Wrapper::set_Field_3_2)
+        .function("get_Field_2_2", &sMatrix4x4Wrapper::get_Field_2_2)
+        .function("set_Field_2_2", &sMatrix4x4Wrapper::set_Field_2_2)
                         
-        .property("Field_3_3", &sMatrix4x4Wrapper::get_Field_3_3, &sMatrix4x4Wrapper::set_Field_3_3)
+        .function("get_Field_2_3", &sMatrix4x4Wrapper::get_Field_2_3)
+        .function("set_Field_2_3", &sMatrix4x4Wrapper::set_Field_2_3)
+                        
+                    
+                        
+        .function("get_Field_3_0", &sMatrix4x4Wrapper::get_Field_3_0)
+        .function("set_Field_3_0", &sMatrix4x4Wrapper::set_Field_3_0)
+                        
+        .function("get_Field_3_1", &sMatrix4x4Wrapper::get_Field_3_1)
+        .function("set_Field_3_1", &sMatrix4x4Wrapper::set_Field_3_1)
+                        
+        .function("get_Field_3_2", &sMatrix4x4Wrapper::get_Field_3_2)
+        .function("set_Field_3_2", &sMatrix4x4Wrapper::set_Field_3_2)
+                        
+        .function("get_Field_3_3", &sMatrix4x4Wrapper::get_Field_3_3)
+        .function("set_Field_3_3", &sMatrix4x4Wrapper::set_Field_3_3)
                         
                     
                 
             
         
     ;
-    
     
 
     // Classes

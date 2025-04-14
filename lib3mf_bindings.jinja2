@@ -10,16 +10,15 @@ using namespace Lib3MF;
 
 // ================== Struct Wrappers ==================
 {% for struct in structs %}
-{% if struct.members | selectattr("is_array") | list | length > 0 %}
 struct s{{ struct.name }}Wrapper {
     s{{ struct.name }} value;
     {% for member in struct.members %}
         {% if member.is_array %}
             {% if member.is_2d_array %}
-                {% for i in range(member.rows) %}
-                    {% for j in range(member.cols) %}
-    {{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }} get_{{ member.name }}_{{ j }}_{{ i }}() const { return value.m_{{ member.name }}[{{ j }}][{{ i }}]; }
-    void set_{{ member.name }}_{{ j }}_{{ i }}({{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }} v) { value.m_{{ member.name }}[{{ j }}][{{ i }}] = v; }
+                {% for i in range(member.cols) %}
+                    {% for j in range(member.rows) %}
+    {{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }} get_{{ member.name }}_{{ i }}_{{ j }}() const { return value.m_{{ member.name }}[{{ i }}][{{ j }}]; }
+    void set_{{ member.name }}_{{ i }}_{{ j }}({{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }} v) { value.m_{{ member.name }}[{{ i }}][{{ j }}] = v; }
                     {% endfor %}
                 {% endfor %}
             {% else %}
@@ -28,8 +27,12 @@ struct s{{ struct.name }}Wrapper {
     void set_{{ member.name }}{{ i }}({{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }} v) { value.m_{{ member.name }}[{{ i }}] = v; }
                 {% endfor %}
             {% endif %}
+        {% else %}
+    {{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }} get_{{ member.name }}() const { return value.m_{{ member.name }}; }
+    void set_{{ member.name }}({{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }} v) { value.m_{{ member.name }} = v; }
         {% endif %}
     {% endfor %}
+
     s{{ struct.name }} toStruct() const { return value; }
 
     static s{{ struct.name }}Wrapper fromStruct(const emscripten::val &js) {
@@ -47,12 +50,13 @@ struct s{{ struct.name }}Wrapper {
         wrapper.value.m_{{ member.name }}[{{ i }}] = js["{{ member.name }}{{ i }}"].as<{{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }}>();
                     {% endfor %}
                 {% endif %}
+            {% else %}
+        wrapper.value.m_{{ member.name }} = js["{{ member.name }}"].as<{{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }}>();
             {% endif %}
         {% endfor %}
         return wrapper;
     }
 };
-{% endif %}
 {% endfor %}
 
 // ================== Emscripten Bindings ==================
@@ -67,28 +71,30 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
 
     // Structs as exposed JS classes
     {% for struct in structs %}
-    {% if struct.members | selectattr("is_array") | list | length > 0 %}
     class_<s{{ struct.name }}Wrapper>("s{{ struct.name }}")
         .constructor<>()
-        .function("toStruct", &s{{ struct.name }}Wrapper::toStruct)
         .class_function("fromStruct", &s{{ struct.name }}Wrapper::fromStruct)
         {% for member in struct.members %}
             {% if member.is_array %}
                 {% if member.is_2d_array %}
                     {% for i in range(member.cols) %}
                         {% for j in range(member.rows) %}
-        .property("{{ member.name }}_{{ i }}_{{ j }}", &s{{ struct.name }}Wrapper::get_{{ member.name }}_{{ i }}_{{ j }}, &s{{ struct.name }}Wrapper::set_{{ member.name }}_{{ i }}_{{ j }})
+        .function("get_{{ member.name }}_{{ i }}_{{ j }}", &s{{ struct.name }}Wrapper::get_{{ member.name }}_{{ i }}_{{ j }})
+        .function("set_{{ member.name }}_{{ i }}_{{ j }}", &s{{ struct.name }}Wrapper::set_{{ member.name }}_{{ i }}_{{ j }})
                         {% endfor %}
                     {% endfor %}
                 {% else %}
                     {% for i in range(member.rows or member.cols) %}
-        .property("{{ member.name }}{{ i }}", &s{{ struct.name }}Wrapper::get_{{ member.name }}{{ i }}, &s{{ struct.name }}Wrapper::set_{{ member.name }}{{ i }})
+        .function("get_{{ member.name }}{{ i }}", &s{{ struct.name }}Wrapper::get_{{ member.name }}{{ i }})
+        .function("set_{{ member.name }}{{ i }}", &s{{ struct.name }}Wrapper::set_{{ member.name }}{{ i }})
                     {% endfor %}
                 {% endif %}
+            {% else %}
+        .function("get_{{ member.name }}", &s{{ struct.name }}Wrapper::get_{{ member.name }})
+        .function("set_{{ member.name }}", &s{{ struct.name }}Wrapper::set_{{ member.name }})
             {% endif %}
         {% endfor %}
     ;
-    {% endif %}
     {% endfor %}
 
     // Classes
