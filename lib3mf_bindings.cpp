@@ -320,7 +320,6 @@ struct sMatrix4x4Wrapper {
         return wrapper;
     }
 };
-// ============ Static Method Wrappers ============
 // ================== Static Class Method Wrappers ==================
 static sBoxWrapper wrap_Object_GetOutbox(CObject &self) {
     auto result = self.GetOutbox();
@@ -334,11 +333,26 @@ static sPositionWrapper wrap_MeshObject_GetVertex(CMeshObject &self, Lib3MF_uint
     wrapper.value = result;
     return wrapper;
 }
+static void wrap_MeshObject_SetVertex(CMeshObject &self, Lib3MF_uint32 Index, const sPositionWrapper& Coordinates) {
+    self.SetVertex(Index, Coordinates.toStruct());
+}
+static Lib3MF_uint32 wrap_MeshObject_AddVertex(CMeshObject &self, const sPositionWrapper& Coordinates) {
+    return self.AddVertex(Coordinates.toStruct());
+}
 static sTriangleWrapper wrap_MeshObject_GetTriangle(CMeshObject &self, Lib3MF_uint32 Index) {
     auto result = self.GetTriangle(Index);
     sTriangleWrapper wrapper;
     wrapper.value = result;
     return wrapper;
+}
+static void wrap_MeshObject_SetTriangle(CMeshObject &self, Lib3MF_uint32 Index, const sTriangleWrapper& Indices) {
+    self.SetTriangle(Index, Indices.toStruct());
+}
+static Lib3MF_uint32 wrap_MeshObject_AddTriangle(CMeshObject &self, const sTriangleWrapper& Indices) {
+    return self.AddTriangle(Indices.toStruct());
+}
+static void wrap_MeshObject_SetTriangleProperties(CMeshObject &self, Lib3MF_uint32 Index, const sTrianglePropertiesWrapper& Properties) {
+    self.SetTriangleProperties(Index, Properties.toStruct());
 }
 static sTransformWrapper wrap_LevelSet_GetTransform(CLevelSet &self) {
     auto result = self.GetTransform();
@@ -346,11 +360,20 @@ static sTransformWrapper wrap_LevelSet_GetTransform(CLevelSet &self) {
     wrapper.value = result;
     return wrapper;
 }
+static void wrap_LevelSet_SetTransform(CLevelSet &self, const sTransformWrapper& Transform) {
+    self.SetTransform(Transform.toStruct());
+}
 static sBeamWrapper wrap_BeamLattice_GetBeam(CBeamLattice &self, Lib3MF_uint32 Index) {
     auto result = self.GetBeam(Index);
     sBeamWrapper wrapper;
     wrapper.value = result;
     return wrapper;
+}
+static Lib3MF_uint32 wrap_BeamLattice_AddBeam(CBeamLattice &self, const sBeamWrapper& BeamInfo) {
+    return self.AddBeam(BeamInfo.toStruct());
+}
+static void wrap_BeamLattice_SetBeam(CBeamLattice &self, Lib3MF_uint32 Index, const sBeamWrapper& BeamInfo) {
+    self.SetBeam(Index, BeamInfo.toStruct());
 }
 static sBallWrapper wrap_BeamLattice_GetBall(CBeamLattice &self, Lib3MF_uint32 Index) {
     auto result = self.GetBall(Index);
@@ -358,11 +381,23 @@ static sBallWrapper wrap_BeamLattice_GetBall(CBeamLattice &self, Lib3MF_uint32 I
     wrapper.value = result;
     return wrapper;
 }
+static Lib3MF_uint32 wrap_BeamLattice_AddBall(CBeamLattice &self, const sBallWrapper& BallInfo) {
+    return self.AddBall(BallInfo.toStruct());
+}
+static void wrap_BeamLattice_SetBall(CBeamLattice &self, Lib3MF_uint32 Index, const sBallWrapper& BallInfo) {
+    self.SetBall(Index, BallInfo.toStruct());
+}
 static sTransformWrapper wrap_FunctionReference_GetTransform(CFunctionReference &self) {
     auto result = self.GetTransform();
     sTransformWrapper wrapper;
     wrapper.value = result;
     return wrapper;
+}
+static void wrap_FunctionReference_SetTransform(CFunctionReference &self, const sTransformWrapper& Transform) {
+    self.SetTransform(Transform.toStruct());
+}
+static PMaterialMapping wrap_VolumeDataComposite_AddMaterialMapping(CVolumeDataComposite &self, const sTransformWrapper& Transform) {
+    return self.AddMaterialMapping(Transform.toStruct());
 }
 static sTransformWrapper wrap_Component_GetTransform(CComponent &self) {
     auto result = self.GetTransform();
@@ -370,11 +405,29 @@ static sTransformWrapper wrap_Component_GetTransform(CComponent &self) {
     wrapper.value = result;
     return wrapper;
 }
+static void wrap_Component_SetTransform(CComponent &self, const sTransformWrapper& Transform) {
+    self.SetTransform(Transform.toStruct());
+}
+static PComponent wrap_ComponentsObject_AddComponent(CComponentsObject &self, PObject ObjectResource, const sTransformWrapper& Transform) {
+    return self.AddComponent(ObjectResource, Transform.toStruct());
+}
+static Lib3MF_uint32 wrap_BaseMaterialGroup_AddMaterial(CBaseMaterialGroup &self, std::string Name, const sColorWrapper& DisplayColor) {
+    return self.AddMaterial(Name, DisplayColor.toStruct());
+}
+static void wrap_BaseMaterialGroup_SetDisplayColor(CBaseMaterialGroup &self, Lib3MF_uint32 PropertyID, const sColorWrapper& TheColor) {
+    self.SetDisplayColor(PropertyID, TheColor.toStruct());
+}
 static sColorWrapper wrap_BaseMaterialGroup_GetDisplayColor(CBaseMaterialGroup &self, Lib3MF_uint32 PropertyID) {
     auto result = self.GetDisplayColor(PropertyID);
     sColorWrapper wrapper;
     wrapper.value = result;
     return wrapper;
+}
+static Lib3MF_uint32 wrap_ColorGroup_AddColor(CColorGroup &self, const sColorWrapper& TheColor) {
+    return self.AddColor(TheColor.toStruct());
+}
+static void wrap_ColorGroup_SetColor(CColorGroup &self, Lib3MF_uint32 PropertyID, const sColorWrapper& TheColor) {
+    self.SetColor(PropertyID, TheColor.toStruct());
 }
 static sColorWrapper wrap_ColorGroup_GetColor(CColorGroup &self, Lib3MF_uint32 PropertyID) {
     auto result = self.GetColor(PropertyID);
@@ -382,11 +435,17 @@ static sColorWrapper wrap_ColorGroup_GetColor(CColorGroup &self, Lib3MF_uint32 P
     wrapper.value = result;
     return wrapper;
 }
+static Lib3MF_uint32 wrap_Texture2DGroup_AddTex2Coord(CTexture2DGroup &self, const sTex2CoordWrapper& UVCoordinate) {
+    return self.AddTex2Coord(UVCoordinate.toStruct());
+}
 static sTex2CoordWrapper wrap_Texture2DGroup_GetTex2Coord(CTexture2DGroup &self, Lib3MF_uint32 PropertyID) {
     auto result = self.GetTex2Coord(PropertyID);
     sTex2CoordWrapper wrapper;
     wrapper.value = result;
     return wrapper;
+}
+static Lib3MF_uint32 wrap_MultiPropertyGroup_AddLayer(CMultiPropertyGroup &self, const sMultiPropertyLayerWrapper& TheLayer) {
+    return self.AddLayer(TheLayer.toStruct());
 }
 static sMultiPropertyLayerWrapper wrap_MultiPropertyGroup_GetLayer(CMultiPropertyGroup &self, Lib3MF_uint32 LayerIndex) {
     auto result = self.GetLayer(LayerIndex);
@@ -394,11 +453,17 @@ static sMultiPropertyLayerWrapper wrap_MultiPropertyGroup_GetLayer(CMultiPropert
     wrapper.value = result;
     return wrapper;
 }
+static void wrap_ConstVecNode_SetVector(CConstVecNode &self, const sVectorWrapper& Value) {
+    self.SetVector(Value.toStruct());
+}
 static sVectorWrapper wrap_ConstVecNode_GetVector(CConstVecNode &self) {
     auto result = self.GetVector();
     sVectorWrapper wrapper;
     wrapper.value = result;
     return wrapper;
+}
+static void wrap_ConstMatNode_SetMatrix(CConstMatNode &self, const sMatrix4x4Wrapper& Value) {
+    self.SetMatrix(Value.toStruct());
 }
 static sMatrix4x4Wrapper wrap_ConstMatNode_GetMatrix(CConstMatNode &self) {
     auto result = self.GetMatrix();
@@ -412,6 +477,9 @@ static sTransformWrapper wrap_BuildItem_GetObjectTransform(CBuildItem &self) {
     wrapper.value = result;
     return wrapper;
 }
+static void wrap_BuildItem_SetObjectTransform(CBuildItem &self, const sTransformWrapper& Transform) {
+    self.SetObjectTransform(Transform.toStruct());
+}
 static sBoxWrapper wrap_BuildItem_GetOutbox(CBuildItem &self) {
     auto result = self.GetOutbox();
     sBoxWrapper wrapper;
@@ -421,6 +489,46 @@ static sBoxWrapper wrap_BuildItem_GetOutbox(CBuildItem &self) {
 static sBoxWrapper wrap_Model_GetOutbox(CModel &self) {
     auto result = self.GetOutbox();
     sBoxWrapper wrapper;
+    wrapper.value = result;
+    return wrapper;
+}
+static PBuildItem wrap_Model_AddBuildItem(CModel &self, PObject Object, const sTransformWrapper& Transform) {
+    return self.AddBuildItem(Object, Transform.toStruct());
+}
+// ================== Static Global Method Wrappers ==================
+static sColorWrapper wrap_CWrapper_RGBAToColor(CWrapper &self, Lib3MF_uint8 Red, Lib3MF_uint8 Green, Lib3MF_uint8 Blue, Lib3MF_uint8 Alpha) {
+    auto result = self.RGBAToColor(Red, Green, Blue, Alpha);
+    sColorWrapper wrapper;
+    wrapper.value = result;
+    return wrapper;
+}
+static sColorWrapper wrap_CWrapper_FloatRGBAToColor(CWrapper &self, Lib3MF_single Red, Lib3MF_single Green, Lib3MF_single Blue, Lib3MF_single Alpha) {
+    auto result = self.FloatRGBAToColor(Red, Green, Blue, Alpha);
+    sColorWrapper wrapper;
+    wrapper.value = result;
+    return wrapper;
+}
+static sTransformWrapper wrap_CWrapper_GetIdentityTransform(CWrapper &self) {
+    auto result = self.GetIdentityTransform();
+    sTransformWrapper wrapper;
+    wrapper.value = result;
+    return wrapper;
+}
+static sTransformWrapper wrap_CWrapper_GetUniformScaleTransform(CWrapper &self, Lib3MF_single Factor) {
+    auto result = self.GetUniformScaleTransform(Factor);
+    sTransformWrapper wrapper;
+    wrapper.value = result;
+    return wrapper;
+}
+static sTransformWrapper wrap_CWrapper_GetScaleTransform(CWrapper &self, Lib3MF_single FactorX, Lib3MF_single FactorY, Lib3MF_single FactorZ) {
+    auto result = self.GetScaleTransform(FactorX, FactorY, FactorZ);
+    sTransformWrapper wrapper;
+    wrapper.value = result;
+    return wrapper;
+}
+static sTransformWrapper wrap_CWrapper_GetTranslationTransform(CWrapper &self, Lib3MF_single VectorX, Lib3MF_single VectorY, Lib3MF_single VectorZ) {
+    auto result = self.GetTranslationTransform(VectorX, VectorY, VectorZ);
+    sTransformWrapper wrapper;
     wrapper.value = result;
     return wrapper;
 }
@@ -965,16 +1073,16 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetVertexCount", &CMeshObject::GetVertexCount)
         .function("GetTriangleCount", &CMeshObject::GetTriangleCount)
         .function("GetVertex", &wrap_MeshObject_GetVertex)
-        .function("SetVertex", &CMeshObject::SetVertex)
-        .function("AddVertex", &CMeshObject::AddVertex)
+        .function("SetVertex", &wrap_MeshObject_SetVertex)
+        .function("AddVertex", &wrap_MeshObject_AddVertex)
         // .function("GetVertices", &CMeshObject::GetVertices)
         .function("GetTriangle", &wrap_MeshObject_GetTriangle)
-        .function("SetTriangle", &CMeshObject::SetTriangle)
-        .function("AddTriangle", &CMeshObject::AddTriangle)
+        .function("SetTriangle", &wrap_MeshObject_SetTriangle)
+        .function("AddTriangle", &wrap_MeshObject_AddTriangle)
         // .function("GetTriangleIndices", &CMeshObject::GetTriangleIndices)
         .function("SetObjectLevelProperty", &CMeshObject::SetObjectLevelProperty)
         // .function("GetObjectLevelProperty", &CMeshObject::GetObjectLevelProperty)
-        .function("SetTriangleProperties", &CMeshObject::SetTriangleProperties)
+        .function("SetTriangleProperties", &wrap_MeshObject_SetTriangleProperties)
         // .function("GetTriangleProperties", &CMeshObject::GetTriangleProperties)
         .function("SetAllTriangleProperties", &CMeshObject::SetAllTriangleProperties)
         // .function("GetAllTriangleProperties", &CMeshObject::GetAllTriangleProperties)
@@ -995,7 +1103,7 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetFunction", &CLevelSet::GetFunction)
         .function("SetFunction", &CLevelSet::SetFunction)
         .function("GetTransform", &wrap_LevelSet_GetTransform)
-        .function("SetTransform", &CLevelSet::SetTransform)
+        .function("SetTransform", &wrap_LevelSet_SetTransform)
         .function("GetChannelName", &CLevelSet::GetChannelName)
         .function("SetChannelName", &CLevelSet::SetChannelName)
         .function("SetMinFeatureSize", &CLevelSet::SetMinFeatureSize)
@@ -1021,14 +1129,14 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("SetBallOptions", &CBeamLattice::SetBallOptions)
         .function("GetBeamCount", &CBeamLattice::GetBeamCount)
         .function("GetBeam", &wrap_BeamLattice_GetBeam)
-        .function("AddBeam", &CBeamLattice::AddBeam)
-        .function("SetBeam", &CBeamLattice::SetBeam)
+        .function("AddBeam", &wrap_BeamLattice_AddBeam)
+        .function("SetBeam", &wrap_BeamLattice_SetBeam)
         .function("SetBeams", &CBeamLattice::SetBeams)
         // .function("GetBeams", &CBeamLattice::GetBeams)
         .function("GetBallCount", &CBeamLattice::GetBallCount)
         .function("GetBall", &wrap_BeamLattice_GetBall)
-        .function("AddBall", &CBeamLattice::AddBall)
-        .function("SetBall", &CBeamLattice::SetBall)
+        .function("AddBall", &wrap_BeamLattice_AddBall)
+        .function("SetBall", &wrap_BeamLattice_SetBall)
         .function("SetBalls", &CBeamLattice::SetBalls)
         // .function("GetBalls", &CBeamLattice::GetBalls)
         .function("GetBeamSetCount", &CBeamLattice::GetBeamSetCount)
@@ -1040,7 +1148,7 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetFunctionResourceID", &CFunctionReference::GetFunctionResourceID)
         .function("SetFunctionResourceID", &CFunctionReference::SetFunctionResourceID)
         .function("GetTransform", &wrap_FunctionReference_GetTransform)
-        .function("SetTransform", &CFunctionReference::SetTransform)
+        .function("SetTransform", &wrap_FunctionReference_SetTransform)
         .function("GetChannelName", &CFunctionReference::GetChannelName)
         .function("SetChannelName", &CFunctionReference::SetChannelName)
         .function("SetMinFeatureSize", &CFunctionReference::SetMinFeatureSize)
@@ -1060,7 +1168,7 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("SetBaseMaterialGroup", &CVolumeDataComposite::SetBaseMaterialGroup)
         .function("GetMaterialMappingCount", &CVolumeDataComposite::GetMaterialMappingCount)
         .function("GetMaterialMapping", &CVolumeDataComposite::GetMaterialMapping)
-        .function("AddMaterialMapping", &CVolumeDataComposite::AddMaterialMapping)
+        .function("AddMaterialMapping", &wrap_VolumeDataComposite_AddMaterialMapping)
         .function("RemoveMaterialMapping", &CVolumeDataComposite::RemoveMaterialMapping)
     ;
     class_<CVolumeDataProperty, base<CFunctionReference>> ("CVolumeDataProperty")
@@ -1090,11 +1198,11 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("SetUUID", &CComponent::SetUUID)
         .function("HasTransform", &CComponent::HasTransform)
         .function("GetTransform", &wrap_Component_GetTransform)
-        .function("SetTransform", &CComponent::SetTransform)
+        .function("SetTransform", &wrap_Component_SetTransform)
     ;
     class_<CComponentsObject, base<CObject>> ("CComponentsObject")
         .smart_ptr<std::shared_ptr<CComponentsObject>>("shared_ptr<CComponentsObject>")
-        .function("AddComponent", &CComponentsObject::AddComponent)
+        .function("AddComponent", &wrap_ComponentsObject_AddComponent)
         .function("GetComponent", &CComponentsObject::GetComponent)
         .function("GetComponentCount", &CComponentsObject::GetComponentCount)
     ;
@@ -1115,27 +1223,27 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .smart_ptr<std::shared_ptr<CBaseMaterialGroup>>("shared_ptr<CBaseMaterialGroup>")
         .function("GetCount", &CBaseMaterialGroup::GetCount)
         // .function("GetAllPropertyIDs", &CBaseMaterialGroup::GetAllPropertyIDs)
-        .function("AddMaterial", &CBaseMaterialGroup::AddMaterial)
+        .function("AddMaterial", &wrap_BaseMaterialGroup_AddMaterial)
         .function("RemoveMaterial", &CBaseMaterialGroup::RemoveMaterial)
         .function("GetName", &CBaseMaterialGroup::GetName)
         .function("SetName", &CBaseMaterialGroup::SetName)
-        .function("SetDisplayColor", &CBaseMaterialGroup::SetDisplayColor)
+        .function("SetDisplayColor", &wrap_BaseMaterialGroup_SetDisplayColor)
         .function("GetDisplayColor", &wrap_BaseMaterialGroup_GetDisplayColor)
     ;
     class_<CColorGroup, base<CResource>> ("CColorGroup")
         .smart_ptr<std::shared_ptr<CColorGroup>>("shared_ptr<CColorGroup>")
         .function("GetCount", &CColorGroup::GetCount)
         // .function("GetAllPropertyIDs", &CColorGroup::GetAllPropertyIDs)
-        .function("AddColor", &CColorGroup::AddColor)
+        .function("AddColor", &wrap_ColorGroup_AddColor)
         .function("RemoveColor", &CColorGroup::RemoveColor)
-        .function("SetColor", &CColorGroup::SetColor)
+        .function("SetColor", &wrap_ColorGroup_SetColor)
         .function("GetColor", &wrap_ColorGroup_GetColor)
     ;
     class_<CTexture2DGroup, base<CResource>> ("CTexture2DGroup")
         .smart_ptr<std::shared_ptr<CTexture2DGroup>>("shared_ptr<CTexture2DGroup>")
         .function("GetCount", &CTexture2DGroup::GetCount)
         // .function("GetAllPropertyIDs", &CTexture2DGroup::GetAllPropertyIDs)
-        .function("AddTex2Coord", &CTexture2DGroup::AddTex2Coord)
+        .function("AddTex2Coord", &wrap_Texture2DGroup_AddTex2Coord)
         .function("GetTex2Coord", &wrap_Texture2DGroup_GetTex2Coord)
         .function("RemoveTex2Coord", &CTexture2DGroup::RemoveTex2Coord)
         .function("GetTexture2D", &CTexture2DGroup::GetTexture2D)
@@ -1158,7 +1266,7 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         // .function("GetMultiProperty", &CMultiPropertyGroup::GetMultiProperty)
         .function("RemoveMultiProperty", &CMultiPropertyGroup::RemoveMultiProperty)
         .function("GetLayerCount", &CMultiPropertyGroup::GetLayerCount)
-        .function("AddLayer", &CMultiPropertyGroup::AddLayer)
+        .function("AddLayer", &wrap_MultiPropertyGroup_AddLayer)
         .function("GetLayer", &wrap_MultiPropertyGroup_GetLayer)
         .function("RemoveLayer", &CMultiPropertyGroup::RemoveLayer)
     ;
@@ -1439,13 +1547,13 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
     ;
     class_<CConstVecNode, base<CImplicitNode>> ("CConstVecNode")
         .smart_ptr<std::shared_ptr<CConstVecNode>>("shared_ptr<CConstVecNode>")
-        .function("SetVector", &CConstVecNode::SetVector)
+        .function("SetVector", &wrap_ConstVecNode_SetVector)
         .function("GetVector", &wrap_ConstVecNode_GetVector)
         .function("GetOutputVector", &CConstVecNode::GetOutputVector)
     ;
     class_<CConstMatNode, base<CImplicitNode>> ("CConstMatNode")
         .smart_ptr<std::shared_ptr<CConstMatNode>>("shared_ptr<CConstMatNode>")
-        .function("SetMatrix", &CConstMatNode::SetMatrix)
+        .function("SetMatrix", &wrap_ConstMatNode_SetMatrix)
         .function("GetMatrix", &wrap_ConstMatNode_GetMatrix)
         .function("GetOutputMatrix", &CConstMatNode::GetOutputMatrix)
     ;
@@ -1564,7 +1672,7 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetObjectResourceID", &CBuildItem::GetObjectResourceID)
         .function("HasObjectTransform", &CBuildItem::HasObjectTransform)
         .function("GetObjectTransform", &wrap_BuildItem_GetObjectTransform)
-        .function("SetObjectTransform", &CBuildItem::SetObjectTransform)
+        .function("SetObjectTransform", &wrap_BuildItem_SetObjectTransform)
         .function("GetPartNumber", &CBuildItem::GetPartNumber)
         .function("SetPartNumber", &CBuildItem::SetPartNumber)
         .function("GetMetaDataGroup", &CBuildItem::GetMetaDataGroup)
@@ -1712,7 +1820,7 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("AddMultiPropertyGroup", &CModel::AddMultiPropertyGroup)
         .function("AddImageStack", &CModel::AddImageStack)
         .function("GetImageStackByID", &CModel::GetImageStackByID)
-        .function("AddBuildItem", &CModel::AddBuildItem)
+        .function("AddBuildItem", &wrap_Model_AddBuildItem)
         .function("RemoveBuildItem", &CModel::RemoveBuildItem)
         .function("GetMetaDataGroup", &CModel::GetMetaDataGroup)
         .function("AddAttachment", &CModel::AddAttachment)
@@ -1750,13 +1858,13 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         // .function("GetLastError", &CWrapper::GetLastError)
         // .function("GetSymbolLookupMethod", &CWrapper::GetSymbolLookupMethod)
         // .function("RetrieveProgressMessage", &CWrapper::RetrieveProgressMessage)
-        .function("RGBAToColor", &CWrapper::RGBAToColor)
-        .function("FloatRGBAToColor", &CWrapper::FloatRGBAToColor)
+        .function("RGBAToColor", &wrap_CWrapper_RGBAToColor)
+        .function("FloatRGBAToColor", &wrap_CWrapper_FloatRGBAToColor)
         // .function("ColorToRGBA", &CWrapper::ColorToRGBA)
         // .function("ColorToFloatRGBA", &CWrapper::ColorToFloatRGBA)
-        .function("GetIdentityTransform", &CWrapper::GetIdentityTransform)
-        .function("GetUniformScaleTransform", &CWrapper::GetUniformScaleTransform)
-        .function("GetScaleTransform", &CWrapper::GetScaleTransform)
-        .function("GetTranslationTransform", &CWrapper::GetTranslationTransform)
+        .function("GetIdentityTransform", &wrap_CWrapper_GetIdentityTransform)
+        .function("GetUniformScaleTransform", &wrap_CWrapper_GetUniformScaleTransform)
+        .function("GetScaleTransform", &wrap_CWrapper_GetScaleTransform)
+        .function("GetTranslationTransform", &wrap_CWrapper_GetTranslationTransform)
     ;
 }

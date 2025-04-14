@@ -75,20 +75,21 @@ def extract_classes(lib3mf_idl):
 
             param_objects = []
             has_out_param = False
-            has_callback_param = "Callback" in method_name  # heuristic
+            has_struct_param = False
+            has_callback_param = "Callback" in method_name
 
             for p in params_data:
-                param_obj = {
+                if p["@type"] == "struct":
+                    has_struct_param = True
+                if p["@pass"] == "out":
+                    has_out_param = True
+                param_objects.append({
                     "name": p["@name"],
                     "type": p["@type"],
                     "pass": p["@pass"],
                     "class": p.get("@class", None)
-                }
-                if p["@pass"] == "out":
-                    has_out_param = True
-                param_objects.append(param_obj)
+                })
 
-            # Check if return type is a struct
             returns_struct = False
             struct_class = None
             if param_objects and param_objects[-1]["pass"] == "return" and param_objects[-1]["type"] == "struct":
@@ -100,7 +101,8 @@ def extract_classes(lib3mf_idl):
                 "params": param_objects,
                 "comment_out": has_out_param or has_callback_param,
                 "returns_struct": returns_struct,
-                "struct_class": struct_class
+                "struct_class": struct_class,
+                "has_struct_param": has_struct_param
             })
 
         classes.append({
@@ -125,6 +127,7 @@ def extract_wrapper_methods(lib3mf_idl):
             params = [params]
 
         has_out_param = False
+        has_struct_param = False
         returns_struct = False
         struct_class = None
         parsed_params = []
@@ -136,6 +139,8 @@ def extract_wrapper_methods(lib3mf_idl):
 
             if param_pass == "out":
                 has_out_param = True
+            if param_type == "struct":
+                has_struct_param = True
 
             parsed_params.append({
                 "name": param["@name"],
@@ -153,7 +158,8 @@ def extract_wrapper_methods(lib3mf_idl):
             "params": parsed_params,
             "comment_out": has_out_param,
             "returns_struct": returns_struct,
-            "struct_class": struct_class
+            "struct_class": struct_class,
+            "has_struct_param": has_struct_param
         })
 
     return wrapper_methods
@@ -169,7 +175,6 @@ def generate_cpp(enums, structs, classes, wrapper_methods, template_file="lib3mf
     with open(output_file, "w", encoding="utf-8") as file:
         file.write(cleaned_code)
     print(f"✅ Generated {output_file} (empty lines removed)")
-
 
 # Entry point
 if __name__ == "__main__":

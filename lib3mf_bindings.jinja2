@@ -59,43 +59,133 @@ struct s{{ struct.name }}Wrapper {
 };
 {% endfor %}
 
-// ============ Static Method Wrappers ============
 // ================== Static Class Method Wrappers ==================
 {% for cls in classes %}
     {% for method in cls.methods %}
-        {%- if not method.comment_out %}
+        {%- set skip = false %}
+        {%- for p in method.params %}
+            {%- if p.type == "handle" and not p.class %}
+                {%- set skip = true %}
+            {%- endif %}
+            {%- if p.type == "pvoid" %}
+                {%- set skip = true %}
+            {%- endif %}
+        {%- endfor %}
+        {%- if not method.comment_out and not skip and (method.returns_struct or method.has_struct_param) %}
             {%- set param_decls = [] %}
             {%- set call_args = [] %}
-            {%- set has_struct_param = false %}
             {%- for p in method.params if p.pass != "return" %}
                 {%- if p.type == "struct" %}
                     {%- set _ = param_decls.append("const s" + p.class + "Wrapper& " + p.name) %}
                     {%- set _ = call_args.append(p.name + ".toStruct()") %}
-                    {%- set has_struct_param = true %}
+                {%- elif p.type == "handle" and p.class %}
+                    {%- set _ = param_decls.append("P" + p.class + " " + p.name) %}
+                    {%- set _ = call_args.append(p.name) %}
+                {%- elif p.type == "string" %}
+                    {%- set _ = param_decls.append("std::string " + p.name) %}
+                    {%- set _ = call_args.append(p.name) %}
                 {%- else %}
                     {%- set _ = param_decls.append("Lib3MF_" + p.type + " " + p.name) %}
                     {%- set _ = call_args.append(p.name) %}
                 {%- endif %}
             {%- endfor %}
-
-            {%- if method.returns_struct or has_struct_param %}
-static {{ "s" + method.struct_class + "Wrapper" if method.returns_struct else "Lib3MF_" + method.params | selectattr("pass", "equalto", "return") | first.type if method.params | selectattr("pass", "equalto", "return") | list else "void" }} wrap_{{ cls.name }}_{{ method.name }}(C{{ cls.name }} &self{% if param_decls %}, {{ param_decls | join(", ") }}{% endif %}) {
+            {%- set return_param = method.params | selectattr("pass", "equalto", "return") | list | first if method.params | selectattr("pass", "equalto", "return") | list else None %}
+            {%- if method.returns_struct %}
+                {%- set return_type = "s" + method.struct_class + "Wrapper" %}
+            {%- elif return_param %}
+                {%- if return_param.type == "class" %}
+                    {%- set return_type = "P" + return_param.class %}
+                {%- elif return_param.type == "handle" and return_param.class %}
+                    {%- set return_type = "P" + return_param.class %}
+                {%- elif return_param.type == "enum" %}
+                    {%- set return_type = "e" + return_param.class %}
+                {%- elif return_param.type == "string" %}
+                    {%- set return_type = "std::string" %}
+                {%- else %}
+                    {%- set return_type = "Lib3MF_" + return_param.type %}
+                {%- endif %}
+            {%- else %}
+                {%- set return_type = "void" %}
+            {%- endif %}
+static {{ return_type }} wrap_{{ cls.name }}_{{ method.name }}(C{{ cls.name }} &self{% if param_decls %}, {{ param_decls | join(", ") }}{% endif %}) {
     {%- if method.returns_struct %}
     auto result = self.{{ method.name }}({{ call_args | join(", ") }});
     s{{ method.struct_class }}Wrapper wrapper;
     wrapper.value = result;
     return wrapper;
-    {%- elif method.params | selectattr("pass", "equalto", "return") | list %}
-    {{ "Lib3MF_" + method.params | selectattr("pass", "equalto", "return") | first.type }} result = self.{{ method.name }}({{ call_args | join(", ") }});
-    return result;
+    {%- elif return_param %}
+    return self.{{ method.name }}({{ call_args | join(", ") }});
     {%- else %}
     self.{{ method.name }}({{ call_args | join(", ") }});
     {%- endif %}
 }
-            {%- endif %}
         {%- endif %}
     {% endfor %}
 {% endfor %}
+
+
+// ================== Static Global Method Wrappers ==================
+{% for method in wrapper_methods %}
+    {%- set skip = false %}
+    {%- for p in method.params %}
+        {%- if p.type == "handle" and not p.class %}
+            {%- set skip = true %}
+        {%- endif %}
+        {%- if p.type == "pvoid" %}
+            {%- set skip = true %}
+        {%- endif %}
+    {%- endfor %}
+    {%- if not method.comment_out and not skip and (method.returns_struct or method.has_struct_param) %}
+        {%- set param_decls = [] %}
+        {%- set call_args = [] %}
+        {%- for p in method.params if p.pass != "return" %}
+            {%- if p.type == "struct" %}
+                {%- set _ = param_decls.append("const s" + p.class + "Wrapper& " + p.name) %}
+                {%- set _ = call_args.append(p.name + ".toStruct()") %}
+            {%- elif p.type == "handle" and p.class %}
+                {%- set _ = param_decls.append("P" + p.class + " " + p.name) %}
+                {%- set _ = call_args.append(p.name) %}
+            {%- elif p.type == "string" %}
+                {%- set _ = param_decls.append("std::string " + p.name) %}
+                {%- set _ = call_args.append(p.name) %}
+            {%- else %}
+                {%- set _ = param_decls.append("Lib3MF_" + p.type + " " + p.name) %}
+                {%- set _ = call_args.append(p.name) %}
+            {%- endif %}
+        {%- endfor %}
+        {%- set return_param = method.params | selectattr("pass", "equalto", "return") | list | first if method.params | selectattr("pass", "equalto", "return") | list else None %}
+        {%- if method.returns_struct %}
+            {%- set return_type = "s" + method.struct_class + "Wrapper" %}
+        {%- elif return_param %}
+            {%- if return_param.type == "class" %}
+                {%- set return_type = "P" + return_param.class %}
+            {%- elif return_param.type == "handle" and return_param.class %}
+                {%- set return_type = "P" + return_param.class %}
+            {%- elif return_param.type == "enum" %}
+                {%- set return_type = "e" + return_param.class %}
+            {%- elif return_param.type == "string" %}
+                {%- set return_type = "std::string" %}
+            {%- else %}
+                {%- set return_type = "Lib3MF_" + return_param.type %}
+            {%- endif %}
+        {%- else %}
+            {%- set return_type = "void" %}
+        {%- endif %}
+static {{ return_type }} wrap_CWrapper_{{ method.name }}(CWrapper &self{% if param_decls %}, {{ param_decls | join(", ") }}{% endif %}) {
+    {%- if method.returns_struct %}
+    auto result = self.{{ method.name }}({{ call_args | join(", ") }});
+    s{{ method.struct_class }}Wrapper wrapper;
+    wrapper.value = result;
+    return wrapper;
+    {%- elif return_param %}
+    return self.{{ method.name }}({{ call_args | join(", ") }});
+    {%- else %}
+    self.{{ method.name }}({{ call_args | join(", ") }});
+    {%- endif %}
+}
+    {%- endif %}
+{% endfor %}
+
 
 // ================== Emscripten Bindings ==================
 EMSCRIPTEN_BINDINGS(lib3mf) {
@@ -142,26 +232,10 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         {%- for method in cls.methods %}
             {%- if method.comment_out %}
         // .function("{{ method.name }}", &C{{ cls.name }}::{{ method.name }})
-            {%- else %}
-                {%- set param_decls = [] %}
-                {%- set call_args = [] %}
-                {%- set has_struct_param = false %}
-                {%- for p in method.params if p.pass != "return" %}
-                    {%- if p.type == "struct" %}
-                        {%- set _ = param_decls.append("const s" + p.class + "Wrapper& " + p.name) %}
-                        {%- set _ = call_args.append(p.name + ".toStruct()") %}
-                        {%- set has_struct_param = true %}
-                    {%- else %}
-                        {%- set _ = param_decls.append("Lib3MF_" + p.type + " " + p.name) %}
-                        {%- set _ = call_args.append(p.name) %}
-                    {%- endif %}
-                {%- endfor %}
-
-                {%- if method.returns_struct or has_struct_param %}
+            {%- elif method.returns_struct or method.has_struct_param %}
         .function("{{ method.name }}", &wrap_{{ cls.name }}_{{ method.name }})
-                {%- else %}
+            {%- else %}
         .function("{{ method.name }}", &C{{ cls.name }}::{{ method.name }})
-                {%- endif %}
             {%- endif %}
         {%- endfor %}
     ;
@@ -169,15 +243,25 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
 
 
 
+
     // Globals
     class_<CWrapper>("CWrapper")
         .constructor<>()
         {%- for method in wrapper_methods %}
-            {%- if method.comment_out or method.name == "GetSymbolLookupMethod" %}
+            {%- set skip = false %}
+            {%- for p in method.params %}
+                {%- if p.type == "handle" or p.type == "pvoid" %}
+                    {%- set skip = true %}
+                {%- endif %}
+            {%- endfor %}
+            {%- if method.comment_out or method.name == "GetSymbolLookupMethod" or skip %}
         // .function("{{ method.name }}", &CWrapper::{{ method.name }})
+            {%- elif method.returns_struct or method.has_struct_param %}
+        .function("{{ method.name }}", &wrap_CWrapper_{{ method.name }})
             {%- else %}
         .function("{{ method.name }}", &CWrapper::{{ method.name }})
             {%- endif %}
         {%- endfor %}
     ;
+
 }
