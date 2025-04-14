@@ -163,9 +163,13 @@ def generate_cpp(enums, structs, classes, wrapper_methods, template_file="lib3mf
     with open(template_file, "r", encoding="utf-8") as file:
         template = jinja2.Template(file.read())
     cpp_code = template.render(enums=enums, structs=structs, classes=classes, wrapper_methods=wrapper_methods)
+
+    # Remove empty lines
+    cleaned_code = "\n".join([line for line in cpp_code.splitlines() if line.strip() != ""])
     with open(output_file, "w", encoding="utf-8") as file:
-        file.write(cpp_code)
-    print(f"✅ Generated {output_file}")
+        file.write(cleaned_code)
+    print(f"✅ Generated {output_file} (empty lines removed)")
+
 
 # Entry point
 if __name__ == "__main__":
