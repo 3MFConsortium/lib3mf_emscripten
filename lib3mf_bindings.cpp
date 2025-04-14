@@ -337,7 +337,8 @@ static void wrap_MeshObject_SetVertex(CMeshObject &self, Lib3MF_uint32 Index, co
     self.SetVertex(Index, Coordinates.toStruct());
 }
 static Lib3MF_uint32 wrap_MeshObject_AddVertex(CMeshObject &self, const sPositionWrapper& Coordinates) {
-    return self.AddVertex(Coordinates.toStruct());
+    auto result = self.AddVertex(Coordinates.toStruct());
+    return result;
 }
 static sTriangleWrapper wrap_MeshObject_GetTriangle(CMeshObject &self, Lib3MF_uint32 Index) {
     auto result = self.GetTriangle(Index);
@@ -349,10 +350,18 @@ static void wrap_MeshObject_SetTriangle(CMeshObject &self, Lib3MF_uint32 Index, 
     self.SetTriangle(Index, Indices.toStruct());
 }
 static Lib3MF_uint32 wrap_MeshObject_AddTriangle(CMeshObject &self, const sTriangleWrapper& Indices) {
-    return self.AddTriangle(Indices.toStruct());
+    auto result = self.AddTriangle(Indices.toStruct());
+    return result;
 }
 static void wrap_MeshObject_SetTriangleProperties(CMeshObject &self, Lib3MF_uint32 Index, const sTrianglePropertiesWrapper& Properties) {
     self.SetTriangleProperties(Index, Properties.toStruct());
+}
+static emscripten::val wrap_MeshObject_GetTriangleProperties(CMeshObject &self, Lib3MF_uint32 Index) {
+    sTrianglePropertiesWrapper Property;
+    self.GetTriangleProperties(Index, Property.value);
+    emscripten::val output = emscripten::val::object();
+    output.set("Property", Property);
+    return output;
 }
 static sTransformWrapper wrap_LevelSet_GetTransform(CLevelSet &self) {
     auto result = self.GetTransform();
@@ -370,7 +379,8 @@ static sBeamWrapper wrap_BeamLattice_GetBeam(CBeamLattice &self, Lib3MF_uint32 I
     return wrapper;
 }
 static Lib3MF_uint32 wrap_BeamLattice_AddBeam(CBeamLattice &self, const sBeamWrapper& BeamInfo) {
-    return self.AddBeam(BeamInfo.toStruct());
+    auto result = self.AddBeam(BeamInfo.toStruct());
+    return result;
 }
 static void wrap_BeamLattice_SetBeam(CBeamLattice &self, Lib3MF_uint32 Index, const sBeamWrapper& BeamInfo) {
     self.SetBeam(Index, BeamInfo.toStruct());
@@ -382,7 +392,8 @@ static sBallWrapper wrap_BeamLattice_GetBall(CBeamLattice &self, Lib3MF_uint32 I
     return wrapper;
 }
 static Lib3MF_uint32 wrap_BeamLattice_AddBall(CBeamLattice &self, const sBallWrapper& BallInfo) {
-    return self.AddBall(BallInfo.toStruct());
+    auto result = self.AddBall(BallInfo.toStruct());
+    return result;
 }
 static void wrap_BeamLattice_SetBall(CBeamLattice &self, Lib3MF_uint32 Index, const sBallWrapper& BallInfo) {
     self.SetBall(Index, BallInfo.toStruct());
@@ -397,7 +408,8 @@ static void wrap_FunctionReference_SetTransform(CFunctionReference &self, const 
     self.SetTransform(Transform.toStruct());
 }
 static PMaterialMapping wrap_VolumeDataComposite_AddMaterialMapping(CVolumeDataComposite &self, const sTransformWrapper& Transform) {
-    return self.AddMaterialMapping(Transform.toStruct());
+    auto result = self.AddMaterialMapping(Transform.toStruct());
+    return result;
 }
 static sTransformWrapper wrap_Component_GetTransform(CComponent &self) {
     auto result = self.GetTransform();
@@ -409,10 +421,12 @@ static void wrap_Component_SetTransform(CComponent &self, const sTransformWrappe
     self.SetTransform(Transform.toStruct());
 }
 static PComponent wrap_ComponentsObject_AddComponent(CComponentsObject &self, PObject ObjectResource, const sTransformWrapper& Transform) {
-    return self.AddComponent(ObjectResource, Transform.toStruct());
+    auto result = self.AddComponent(ObjectResource, Transform.toStruct());
+    return result;
 }
 static Lib3MF_uint32 wrap_BaseMaterialGroup_AddMaterial(CBaseMaterialGroup &self, std::string Name, const sColorWrapper& DisplayColor) {
-    return self.AddMaterial(Name, DisplayColor.toStruct());
+    auto result = self.AddMaterial(Name, DisplayColor.toStruct());
+    return result;
 }
 static void wrap_BaseMaterialGroup_SetDisplayColor(CBaseMaterialGroup &self, Lib3MF_uint32 PropertyID, const sColorWrapper& TheColor) {
     self.SetDisplayColor(PropertyID, TheColor.toStruct());
@@ -424,7 +438,8 @@ static sColorWrapper wrap_BaseMaterialGroup_GetDisplayColor(CBaseMaterialGroup &
     return wrapper;
 }
 static Lib3MF_uint32 wrap_ColorGroup_AddColor(CColorGroup &self, const sColorWrapper& TheColor) {
-    return self.AddColor(TheColor.toStruct());
+    auto result = self.AddColor(TheColor.toStruct());
+    return result;
 }
 static void wrap_ColorGroup_SetColor(CColorGroup &self, Lib3MF_uint32 PropertyID, const sColorWrapper& TheColor) {
     self.SetColor(PropertyID, TheColor.toStruct());
@@ -436,7 +451,8 @@ static sColorWrapper wrap_ColorGroup_GetColor(CColorGroup &self, Lib3MF_uint32 P
     return wrapper;
 }
 static Lib3MF_uint32 wrap_Texture2DGroup_AddTex2Coord(CTexture2DGroup &self, const sTex2CoordWrapper& UVCoordinate) {
-    return self.AddTex2Coord(UVCoordinate.toStruct());
+    auto result = self.AddTex2Coord(UVCoordinate.toStruct());
+    return result;
 }
 static sTex2CoordWrapper wrap_Texture2DGroup_GetTex2Coord(CTexture2DGroup &self, Lib3MF_uint32 PropertyID) {
     auto result = self.GetTex2Coord(PropertyID);
@@ -445,7 +461,8 @@ static sTex2CoordWrapper wrap_Texture2DGroup_GetTex2Coord(CTexture2DGroup &self,
     return wrapper;
 }
 static Lib3MF_uint32 wrap_MultiPropertyGroup_AddLayer(CMultiPropertyGroup &self, const sMultiPropertyLayerWrapper& TheLayer) {
-    return self.AddLayer(TheLayer.toStruct());
+    auto result = self.AddLayer(TheLayer.toStruct());
+    return result;
 }
 static sMultiPropertyLayerWrapper wrap_MultiPropertyGroup_GetLayer(CMultiPropertyGroup &self, Lib3MF_uint32 LayerIndex) {
     auto result = self.GetLayer(LayerIndex);
@@ -493,7 +510,8 @@ static sBoxWrapper wrap_Model_GetOutbox(CModel &self) {
     return wrapper;
 }
 static PBuildItem wrap_Model_AddBuildItem(CModel &self, PObject Object, const sTransformWrapper& Transform) {
-    return self.AddBuildItem(Object, Transform.toStruct());
+    auto result = self.AddBuildItem(Object, Transform.toStruct());
+    return result;
 }
 static sColorWrapper wrap_Wrapper_RGBAToColor(CWrapper &self, Lib3MF_uint8 Red, Lib3MF_uint8 Green, Lib3MF_uint8 Blue, Lib3MF_uint8 Alpha) {
     auto result = self.RGBAToColor(Red, Green, Blue, Alpha);
@@ -506,6 +524,32 @@ static sColorWrapper wrap_Wrapper_FloatRGBAToColor(CWrapper &self, Lib3MF_single
     sColorWrapper wrapper;
     wrapper.value = result;
     return wrapper;
+}
+static emscripten::val wrap_Wrapper_ColorToRGBA(CWrapper &self, const sColorWrapper& TheColor) {
+    Lib3MF_uint8 Red;
+    Lib3MF_uint8 Green;
+    Lib3MF_uint8 Blue;
+    Lib3MF_uint8 Alpha;
+    self.ColorToRGBA(TheColor.toStruct(), Red, Green, Blue, Alpha);
+    emscripten::val output = emscripten::val::object();
+    output.set("Red", Red);
+    output.set("Green", Green);
+    output.set("Blue", Blue);
+    output.set("Alpha", Alpha);
+    return output;
+}
+static emscripten::val wrap_Wrapper_ColorToFloatRGBA(CWrapper &self, const sColorWrapper& TheColor) {
+    Lib3MF_single Red;
+    Lib3MF_single Green;
+    Lib3MF_single Blue;
+    Lib3MF_single Alpha;
+    self.ColorToFloatRGBA(TheColor.toStruct(), Red, Green, Blue, Alpha);
+    emscripten::val output = emscripten::val::object();
+    output.set("Red", Red);
+    output.set("Green", Green);
+    output.set("Blue", Blue);
+    output.set("Alpha", Alpha);
+    return output;
 }
 static sTransformWrapper wrap_Wrapper_GetIdentityTransform(CWrapper &self) {
     auto result = self.GetIdentityTransform();
