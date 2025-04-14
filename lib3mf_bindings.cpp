@@ -8,9 +8,594 @@
 using namespace emscripten;
 using namespace Lib3MF;
 
+// ================== Struct Wrappers ==================
+
+
+struct sTriangleWrapper {
+    sTriangle value;
+    
+        
+            
+                
+    Lib3MF_uint32 get_Indices0() const { return value.m_Indices[0]; }
+    void set_Indices0(Lib3MF_uint32 v) { value.m_Indices[0] = v; }
+                
+    Lib3MF_uint32 get_Indices1() const { return value.m_Indices[1]; }
+    void set_Indices1(Lib3MF_uint32 v) { value.m_Indices[1] = v; }
+                
+    Lib3MF_uint32 get_Indices2() const { return value.m_Indices[2]; }
+    void set_Indices2(Lib3MF_uint32 v) { value.m_Indices[2] = v; }
+                
+            
+        
+    
+    sTriangle toStruct() const { return value; }
+
+    static sTriangleWrapper fromStruct(const emscripten::val &js) {
+        sTriangleWrapper wrapper;
+        
+            
+                
+                    
+        wrapper.value.m_Indices[0] = js["Indices0"].as<Lib3MF_uint32>();
+                    
+        wrapper.value.m_Indices[1] = js["Indices1"].as<Lib3MF_uint32>();
+                    
+        wrapper.value.m_Indices[2] = js["Indices2"].as<Lib3MF_uint32>();
+                    
+                
+            
+        
+        return wrapper;
+    }
+};
+
+
+
+struct sTrianglePropertiesWrapper {
+    sTriangleProperties value;
+    
+        
+    
+        
+            
+                
+    Lib3MF_uint32 get_PropertyIDs0() const { return value.m_PropertyIDs[0]; }
+    void set_PropertyIDs0(Lib3MF_uint32 v) { value.m_PropertyIDs[0] = v; }
+                
+    Lib3MF_uint32 get_PropertyIDs1() const { return value.m_PropertyIDs[1]; }
+    void set_PropertyIDs1(Lib3MF_uint32 v) { value.m_PropertyIDs[1] = v; }
+                
+    Lib3MF_uint32 get_PropertyIDs2() const { return value.m_PropertyIDs[2]; }
+    void set_PropertyIDs2(Lib3MF_uint32 v) { value.m_PropertyIDs[2] = v; }
+                
+            
+        
+    
+    sTriangleProperties toStruct() const { return value; }
+
+    static sTrianglePropertiesWrapper fromStruct(const emscripten::val &js) {
+        sTrianglePropertiesWrapper wrapper;
+        
+            
+        
+            
+                
+                    
+        wrapper.value.m_PropertyIDs[0] = js["PropertyIDs0"].as<Lib3MF_uint32>();
+                    
+        wrapper.value.m_PropertyIDs[1] = js["PropertyIDs1"].as<Lib3MF_uint32>();
+                    
+        wrapper.value.m_PropertyIDs[2] = js["PropertyIDs2"].as<Lib3MF_uint32>();
+                    
+                
+            
+        
+        return wrapper;
+    }
+};
+
+
+
+struct sPositionWrapper {
+    sPosition value;
+    
+        
+            
+                
+    Lib3MF_single get_Coordinates0() const { return value.m_Coordinates[0]; }
+    void set_Coordinates0(Lib3MF_single v) { value.m_Coordinates[0] = v; }
+                
+    Lib3MF_single get_Coordinates1() const { return value.m_Coordinates[1]; }
+    void set_Coordinates1(Lib3MF_single v) { value.m_Coordinates[1] = v; }
+                
+    Lib3MF_single get_Coordinates2() const { return value.m_Coordinates[2]; }
+    void set_Coordinates2(Lib3MF_single v) { value.m_Coordinates[2] = v; }
+                
+            
+        
+    
+    sPosition toStruct() const { return value; }
+
+    static sPositionWrapper fromStruct(const emscripten::val &js) {
+        sPositionWrapper wrapper;
+        
+            
+                
+                    
+        wrapper.value.m_Coordinates[0] = js["Coordinates0"].as<Lib3MF_single>();
+                    
+        wrapper.value.m_Coordinates[1] = js["Coordinates1"].as<Lib3MF_single>();
+                    
+        wrapper.value.m_Coordinates[2] = js["Coordinates2"].as<Lib3MF_single>();
+                    
+                
+            
+        
+        return wrapper;
+    }
+};
+
+
+
+struct sPosition2DWrapper {
+    sPosition2D value;
+    
+        
+            
+                
+    Lib3MF_single get_Coordinates0() const { return value.m_Coordinates[0]; }
+    void set_Coordinates0(Lib3MF_single v) { value.m_Coordinates[0] = v; }
+                
+    Lib3MF_single get_Coordinates1() const { return value.m_Coordinates[1]; }
+    void set_Coordinates1(Lib3MF_single v) { value.m_Coordinates[1] = v; }
+                
+            
+        
+    
+    sPosition2D toStruct() const { return value; }
+
+    static sPosition2DWrapper fromStruct(const emscripten::val &js) {
+        sPosition2DWrapper wrapper;
+        
+            
+                
+                    
+        wrapper.value.m_Coordinates[0] = js["Coordinates0"].as<Lib3MF_single>();
+                    
+        wrapper.value.m_Coordinates[1] = js["Coordinates1"].as<Lib3MF_single>();
+                    
+                
+            
+        
+        return wrapper;
+    }
+};
+
+
+
+
+
+
+
+
+
+struct sTransformWrapper {
+    sTransform value;
+    
+        
+            
+                
+                    
+    Lib3MF_single get_Fields_0_0() const { return value.m_Fields[0][0]; }
+    void set_Fields_0_0(Lib3MF_single v) { value.m_Fields[0][0] = v; }
+                    
+    Lib3MF_single get_Fields_1_0() const { return value.m_Fields[1][0]; }
+    void set_Fields_1_0(Lib3MF_single v) { value.m_Fields[1][0] = v; }
+                    
+    Lib3MF_single get_Fields_2_0() const { return value.m_Fields[2][0]; }
+    void set_Fields_2_0(Lib3MF_single v) { value.m_Fields[2][0] = v; }
+                    
+    Lib3MF_single get_Fields_3_0() const { return value.m_Fields[3][0]; }
+    void set_Fields_3_0(Lib3MF_single v) { value.m_Fields[3][0] = v; }
+                    
+                
+                    
+    Lib3MF_single get_Fields_0_1() const { return value.m_Fields[0][1]; }
+    void set_Fields_0_1(Lib3MF_single v) { value.m_Fields[0][1] = v; }
+                    
+    Lib3MF_single get_Fields_1_1() const { return value.m_Fields[1][1]; }
+    void set_Fields_1_1(Lib3MF_single v) { value.m_Fields[1][1] = v; }
+                    
+    Lib3MF_single get_Fields_2_1() const { return value.m_Fields[2][1]; }
+    void set_Fields_2_1(Lib3MF_single v) { value.m_Fields[2][1] = v; }
+                    
+    Lib3MF_single get_Fields_3_1() const { return value.m_Fields[3][1]; }
+    void set_Fields_3_1(Lib3MF_single v) { value.m_Fields[3][1] = v; }
+                    
+                
+                    
+    Lib3MF_single get_Fields_0_2() const { return value.m_Fields[0][2]; }
+    void set_Fields_0_2(Lib3MF_single v) { value.m_Fields[0][2] = v; }
+                    
+    Lib3MF_single get_Fields_1_2() const { return value.m_Fields[1][2]; }
+    void set_Fields_1_2(Lib3MF_single v) { value.m_Fields[1][2] = v; }
+                    
+    Lib3MF_single get_Fields_2_2() const { return value.m_Fields[2][2]; }
+    void set_Fields_2_2(Lib3MF_single v) { value.m_Fields[2][2] = v; }
+                    
+    Lib3MF_single get_Fields_3_2() const { return value.m_Fields[3][2]; }
+    void set_Fields_3_2(Lib3MF_single v) { value.m_Fields[3][2] = v; }
+                    
+                
+            
+        
+    
+    sTransform toStruct() const { return value; }
+
+    static sTransformWrapper fromStruct(const emscripten::val &js) {
+        sTransformWrapper wrapper;
+        
+            
+                
+                    
+                        
+        wrapper.value.m_Fields[0][0] = js["Fields_0_0"].as<Lib3MF_single>();
+                        
+        wrapper.value.m_Fields[1][0] = js["Fields_0_1"].as<Lib3MF_single>();
+                        
+        wrapper.value.m_Fields[2][0] = js["Fields_0_2"].as<Lib3MF_single>();
+                        
+        wrapper.value.m_Fields[3][0] = js["Fields_0_3"].as<Lib3MF_single>();
+                        
+                    
+                        
+        wrapper.value.m_Fields[0][1] = js["Fields_1_0"].as<Lib3MF_single>();
+                        
+        wrapper.value.m_Fields[1][1] = js["Fields_1_1"].as<Lib3MF_single>();
+                        
+        wrapper.value.m_Fields[2][1] = js["Fields_1_2"].as<Lib3MF_single>();
+                        
+        wrapper.value.m_Fields[3][1] = js["Fields_1_3"].as<Lib3MF_single>();
+                        
+                    
+                        
+        wrapper.value.m_Fields[0][2] = js["Fields_2_0"].as<Lib3MF_single>();
+                        
+        wrapper.value.m_Fields[1][2] = js["Fields_2_1"].as<Lib3MF_single>();
+                        
+        wrapper.value.m_Fields[2][2] = js["Fields_2_2"].as<Lib3MF_single>();
+                        
+        wrapper.value.m_Fields[3][2] = js["Fields_2_3"].as<Lib3MF_single>();
+                        
+                    
+                
+            
+        
+        return wrapper;
+    }
+};
+
+
+
+struct sBoxWrapper {
+    sBox value;
+    
+        
+            
+                
+    Lib3MF_single get_MinCoordinate0() const { return value.m_MinCoordinate[0]; }
+    void set_MinCoordinate0(Lib3MF_single v) { value.m_MinCoordinate[0] = v; }
+                
+    Lib3MF_single get_MinCoordinate1() const { return value.m_MinCoordinate[1]; }
+    void set_MinCoordinate1(Lib3MF_single v) { value.m_MinCoordinate[1] = v; }
+                
+    Lib3MF_single get_MinCoordinate2() const { return value.m_MinCoordinate[2]; }
+    void set_MinCoordinate2(Lib3MF_single v) { value.m_MinCoordinate[2] = v; }
+                
+            
+        
+    
+        
+            
+                
+    Lib3MF_single get_MaxCoordinate0() const { return value.m_MaxCoordinate[0]; }
+    void set_MaxCoordinate0(Lib3MF_single v) { value.m_MaxCoordinate[0] = v; }
+                
+    Lib3MF_single get_MaxCoordinate1() const { return value.m_MaxCoordinate[1]; }
+    void set_MaxCoordinate1(Lib3MF_single v) { value.m_MaxCoordinate[1] = v; }
+                
+    Lib3MF_single get_MaxCoordinate2() const { return value.m_MaxCoordinate[2]; }
+    void set_MaxCoordinate2(Lib3MF_single v) { value.m_MaxCoordinate[2] = v; }
+                
+            
+        
+    
+    sBox toStruct() const { return value; }
+
+    static sBoxWrapper fromStruct(const emscripten::val &js) {
+        sBoxWrapper wrapper;
+        
+            
+                
+                    
+        wrapper.value.m_MinCoordinate[0] = js["MinCoordinate0"].as<Lib3MF_single>();
+                    
+        wrapper.value.m_MinCoordinate[1] = js["MinCoordinate1"].as<Lib3MF_single>();
+                    
+        wrapper.value.m_MinCoordinate[2] = js["MinCoordinate2"].as<Lib3MF_single>();
+                    
+                
+            
+        
+            
+                
+                    
+        wrapper.value.m_MaxCoordinate[0] = js["MaxCoordinate0"].as<Lib3MF_single>();
+                    
+        wrapper.value.m_MaxCoordinate[1] = js["MaxCoordinate1"].as<Lib3MF_single>();
+                    
+        wrapper.value.m_MaxCoordinate[2] = js["MaxCoordinate2"].as<Lib3MF_single>();
+                    
+                
+            
+        
+        return wrapper;
+    }
+};
+
+
+
+
+
+struct sBeamWrapper {
+    sBeam value;
+    
+        
+            
+                
+    Lib3MF_uint32 get_Indices0() const { return value.m_Indices[0]; }
+    void set_Indices0(Lib3MF_uint32 v) { value.m_Indices[0] = v; }
+                
+    Lib3MF_uint32 get_Indices1() const { return value.m_Indices[1]; }
+    void set_Indices1(Lib3MF_uint32 v) { value.m_Indices[1] = v; }
+                
+            
+        
+    
+        
+            
+                
+    Lib3MF_double get_Radii0() const { return value.m_Radii[0]; }
+    void set_Radii0(Lib3MF_double v) { value.m_Radii[0] = v; }
+                
+    Lib3MF_double get_Radii1() const { return value.m_Radii[1]; }
+    void set_Radii1(Lib3MF_double v) { value.m_Radii[1] = v; }
+                
+            
+        
+    
+        
+            
+                
+    eBeamLatticeCapMode get_CapModes0() const { return value.m_CapModes[0]; }
+    void set_CapModes0(eBeamLatticeCapMode v) { value.m_CapModes[0] = v; }
+                
+    eBeamLatticeCapMode get_CapModes1() const { return value.m_CapModes[1]; }
+    void set_CapModes1(eBeamLatticeCapMode v) { value.m_CapModes[1] = v; }
+                
+            
+        
+    
+    sBeam toStruct() const { return value; }
+
+    static sBeamWrapper fromStruct(const emscripten::val &js) {
+        sBeamWrapper wrapper;
+        
+            
+                
+                    
+        wrapper.value.m_Indices[0] = js["Indices0"].as<Lib3MF_uint32>();
+                    
+        wrapper.value.m_Indices[1] = js["Indices1"].as<Lib3MF_uint32>();
+                    
+                
+            
+        
+            
+                
+                    
+        wrapper.value.m_Radii[0] = js["Radii0"].as<Lib3MF_double>();
+                    
+        wrapper.value.m_Radii[1] = js["Radii1"].as<Lib3MF_double>();
+                    
+                
+            
+        
+            
+                
+                    
+        wrapper.value.m_CapModes[0] = js["CapModes0"].as<eBeamLatticeCapMode>();
+                    
+        wrapper.value.m_CapModes[1] = js["CapModes1"].as<eBeamLatticeCapMode>();
+                    
+                
+            
+        
+        return wrapper;
+    }
+};
+
+
+
+
+
+struct sVectorWrapper {
+    sVector value;
+    
+        
+            
+                
+    Lib3MF_double get_Coordinates0() const { return value.m_Coordinates[0]; }
+    void set_Coordinates0(Lib3MF_double v) { value.m_Coordinates[0] = v; }
+                
+    Lib3MF_double get_Coordinates1() const { return value.m_Coordinates[1]; }
+    void set_Coordinates1(Lib3MF_double v) { value.m_Coordinates[1] = v; }
+                
+    Lib3MF_double get_Coordinates2() const { return value.m_Coordinates[2]; }
+    void set_Coordinates2(Lib3MF_double v) { value.m_Coordinates[2] = v; }
+                
+            
+        
+    
+    sVector toStruct() const { return value; }
+
+    static sVectorWrapper fromStruct(const emscripten::val &js) {
+        sVectorWrapper wrapper;
+        
+            
+                
+                    
+        wrapper.value.m_Coordinates[0] = js["Coordinates0"].as<Lib3MF_double>();
+                    
+        wrapper.value.m_Coordinates[1] = js["Coordinates1"].as<Lib3MF_double>();
+                    
+        wrapper.value.m_Coordinates[2] = js["Coordinates2"].as<Lib3MF_double>();
+                    
+                
+            
+        
+        return wrapper;
+    }
+};
+
+
+
+struct sMatrix4x4Wrapper {
+    sMatrix4x4 value;
+    
+        
+            
+                
+                    
+    Lib3MF_double get_Field_0_0() const { return value.m_Field[0][0]; }
+    void set_Field_0_0(Lib3MF_double v) { value.m_Field[0][0] = v; }
+                    
+    Lib3MF_double get_Field_1_0() const { return value.m_Field[1][0]; }
+    void set_Field_1_0(Lib3MF_double v) { value.m_Field[1][0] = v; }
+                    
+    Lib3MF_double get_Field_2_0() const { return value.m_Field[2][0]; }
+    void set_Field_2_0(Lib3MF_double v) { value.m_Field[2][0] = v; }
+                    
+    Lib3MF_double get_Field_3_0() const { return value.m_Field[3][0]; }
+    void set_Field_3_0(Lib3MF_double v) { value.m_Field[3][0] = v; }
+                    
+                
+                    
+    Lib3MF_double get_Field_0_1() const { return value.m_Field[0][1]; }
+    void set_Field_0_1(Lib3MF_double v) { value.m_Field[0][1] = v; }
+                    
+    Lib3MF_double get_Field_1_1() const { return value.m_Field[1][1]; }
+    void set_Field_1_1(Lib3MF_double v) { value.m_Field[1][1] = v; }
+                    
+    Lib3MF_double get_Field_2_1() const { return value.m_Field[2][1]; }
+    void set_Field_2_1(Lib3MF_double v) { value.m_Field[2][1] = v; }
+                    
+    Lib3MF_double get_Field_3_1() const { return value.m_Field[3][1]; }
+    void set_Field_3_1(Lib3MF_double v) { value.m_Field[3][1] = v; }
+                    
+                
+                    
+    Lib3MF_double get_Field_0_2() const { return value.m_Field[0][2]; }
+    void set_Field_0_2(Lib3MF_double v) { value.m_Field[0][2] = v; }
+                    
+    Lib3MF_double get_Field_1_2() const { return value.m_Field[1][2]; }
+    void set_Field_1_2(Lib3MF_double v) { value.m_Field[1][2] = v; }
+                    
+    Lib3MF_double get_Field_2_2() const { return value.m_Field[2][2]; }
+    void set_Field_2_2(Lib3MF_double v) { value.m_Field[2][2] = v; }
+                    
+    Lib3MF_double get_Field_3_2() const { return value.m_Field[3][2]; }
+    void set_Field_3_2(Lib3MF_double v) { value.m_Field[3][2] = v; }
+                    
+                
+                    
+    Lib3MF_double get_Field_0_3() const { return value.m_Field[0][3]; }
+    void set_Field_0_3(Lib3MF_double v) { value.m_Field[0][3] = v; }
+                    
+    Lib3MF_double get_Field_1_3() const { return value.m_Field[1][3]; }
+    void set_Field_1_3(Lib3MF_double v) { value.m_Field[1][3] = v; }
+                    
+    Lib3MF_double get_Field_2_3() const { return value.m_Field[2][3]; }
+    void set_Field_2_3(Lib3MF_double v) { value.m_Field[2][3] = v; }
+                    
+    Lib3MF_double get_Field_3_3() const { return value.m_Field[3][3]; }
+    void set_Field_3_3(Lib3MF_double v) { value.m_Field[3][3] = v; }
+                    
+                
+            
+        
+    
+    sMatrix4x4 toStruct() const { return value; }
+
+    static sMatrix4x4Wrapper fromStruct(const emscripten::val &js) {
+        sMatrix4x4Wrapper wrapper;
+        
+            
+                
+                    
+                        
+        wrapper.value.m_Field[0][0] = js["Field_0_0"].as<Lib3MF_double>();
+                        
+        wrapper.value.m_Field[1][0] = js["Field_0_1"].as<Lib3MF_double>();
+                        
+        wrapper.value.m_Field[2][0] = js["Field_0_2"].as<Lib3MF_double>();
+                        
+        wrapper.value.m_Field[3][0] = js["Field_0_3"].as<Lib3MF_double>();
+                        
+                    
+                        
+        wrapper.value.m_Field[0][1] = js["Field_1_0"].as<Lib3MF_double>();
+                        
+        wrapper.value.m_Field[1][1] = js["Field_1_1"].as<Lib3MF_double>();
+                        
+        wrapper.value.m_Field[2][1] = js["Field_1_2"].as<Lib3MF_double>();
+                        
+        wrapper.value.m_Field[3][1] = js["Field_1_3"].as<Lib3MF_double>();
+                        
+                    
+                        
+        wrapper.value.m_Field[0][2] = js["Field_2_0"].as<Lib3MF_double>();
+                        
+        wrapper.value.m_Field[1][2] = js["Field_2_1"].as<Lib3MF_double>();
+                        
+        wrapper.value.m_Field[2][2] = js["Field_2_2"].as<Lib3MF_double>();
+                        
+        wrapper.value.m_Field[3][2] = js["Field_2_3"].as<Lib3MF_double>();
+                        
+                    
+                        
+        wrapper.value.m_Field[0][3] = js["Field_3_0"].as<Lib3MF_double>();
+                        
+        wrapper.value.m_Field[1][3] = js["Field_3_1"].as<Lib3MF_double>();
+                        
+        wrapper.value.m_Field[2][3] = js["Field_3_2"].as<Lib3MF_double>();
+                        
+        wrapper.value.m_Field[3][3] = js["Field_3_3"].as<Lib3MF_double>();
+                        
+                    
+                
+            
+        
+        return wrapper;
+    }
+};
+
+
+
+// ================== Emscripten Bindings ==================
 EMSCRIPTEN_BINDINGS(lib3mf) {
     // Enums
-
     enum_<ePropertyType>("ePropertyType")
         .value("NoPropertyType", ePropertyType::NoPropertyType)
         .value("BaseMaterial", ePropertyType::BaseMaterial)
@@ -18,11 +603,9 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .value("Colors", ePropertyType::Colors)
         .value("Composite", ePropertyType::Composite)
         .value("Multi", ePropertyType::Multi);
-
     enum_<eSlicesMeshResolution>("eSlicesMeshResolution")
         .value("Fullres", eSlicesMeshResolution::Fullres)
         .value("Lowres", eSlicesMeshResolution::Lowres);
-
     enum_<eModelUnit>("eModelUnit")
         .value("MicroMeter", eModelUnit::MicroMeter)
         .value("MilliMeter", eModelUnit::MilliMeter)
@@ -30,44 +613,36 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .value("Inch", eModelUnit::Inch)
         .value("Foot", eModelUnit::Foot)
         .value("Meter", eModelUnit::Meter);
-
     enum_<eObjectType>("eObjectType")
         .value("Other", eObjectType::Other)
         .value("Model", eObjectType::Model)
         .value("Support", eObjectType::Support)
         .value("SolidSupport", eObjectType::SolidSupport);
-
     enum_<eTextureType>("eTextureType")
         .value("Unknown", eTextureType::Unknown)
         .value("PNG", eTextureType::PNG)
         .value("JPEG", eTextureType::JPEG);
-
     enum_<eTextureTileStyle>("eTextureTileStyle")
         .value("Wrap", eTextureTileStyle::Wrap)
         .value("Mirror", eTextureTileStyle::Mirror)
         .value("Clamp", eTextureTileStyle::Clamp)
         .value("NoTileStyle", eTextureTileStyle::NoTileStyle);
-
     enum_<eTextureFilter>("eTextureFilter")
         .value("Auto", eTextureFilter::Auto)
         .value("Linear", eTextureFilter::Linear)
         .value("Nearest", eTextureFilter::Nearest);
-
     enum_<eBeamLatticeCapMode>("eBeamLatticeCapMode")
         .value("Sphere", eBeamLatticeCapMode::Sphere)
         .value("HemiSphere", eBeamLatticeCapMode::HemiSphere)
         .value("Butt", eBeamLatticeCapMode::Butt);
-
     enum_<eBeamLatticeClipMode>("eBeamLatticeClipMode")
         .value("NoClipMode", eBeamLatticeClipMode::NoClipMode)
         .value("Inside", eBeamLatticeClipMode::Inside)
         .value("Outside", eBeamLatticeClipMode::Outside);
-
     enum_<eBeamLatticeBallMode>("eBeamLatticeBallMode")
         .value("BeamLatticeBallModeNone", eBeamLatticeBallMode::BeamLatticeBallModeNone)
         .value("Mixed", eBeamLatticeBallMode::Mixed)
         .value("All", eBeamLatticeBallMode::All);
-
     enum_<eProgressIdentifier>("eProgressIdentifier")
         .value("QUERYCANCELED", eProgressIdentifier::QUERYCANCELED)
         .value("DONE", eProgressIdentifier::DONE)
@@ -93,29 +668,24 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .value("WRITETRIANGLES", eProgressIdentifier::WRITETRIANGLES)
         .value("WRITESLICES", eProgressIdentifier::WRITESLICES)
         .value("WRITEKEYSTORE", eProgressIdentifier::WRITEKEYSTORE);
-
     enum_<eBlendMethod>("eBlendMethod")
         .value("NoBlendMethod", eBlendMethod::NoBlendMethod)
         .value("Mix", eBlendMethod::Mix)
         .value("Multiply", eBlendMethod::Multiply);
-
     enum_<eChannelName>("eChannelName")
         .value("Red", eChannelName::Red)
         .value("Green", eChannelName::Green)
         .value("Blue", eChannelName::Blue)
         .value("Alpha", eChannelName::Alpha);
-
     enum_<eCompositionMethod>("eCompositionMethod")
         .value("WeightedSum", eCompositionMethod::WeightedSum)
         .value("Multiply", eCompositionMethod::Multiply)
         .value("Min", eCompositionMethod::Min)
         .value("Max", eCompositionMethod::Max)
         .value("Mask", eCompositionMethod::Mask);
-
     enum_<eCompositionSpace>("eCompositionSpace")
         .value("Raw", eCompositionSpace::Raw)
         .value("LinearColor", eCompositionSpace::LinearColor);
-
     enum_<eImplicitNodeType>("eImplicitNodeType")
         .value("Addition", eImplicitNodeType::Addition)
         .value("Subtraction", eImplicitNodeType::Subtraction)
@@ -168,107 +738,332 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .value("VectorFromScalar", eImplicitNodeType::VectorFromScalar)
         .value("UnsignedMesh", eImplicitNodeType::UnsignedMesh)
         .value("Mod", eImplicitNodeType::Mod);
-
     enum_<eImplicitPortType>("eImplicitPortType")
         .value("Scalar", eImplicitPortType::Scalar)
         .value("Vector", eImplicitPortType::Vector)
         .value("Matrix", eImplicitPortType::Matrix)
         .value("ResourceID", eImplicitPortType::ResourceID);
-
     enum_<eImplicitNodeConfiguration>("eImplicitNodeConfiguration")
         .value("Default", eImplicitNodeConfiguration::Default)
         .value("ScalarToScalar", eImplicitNodeConfiguration::ScalarToScalar)
         .value("VectorToVector", eImplicitNodeConfiguration::VectorToVector)
         .value("MatrixToMatrix", eImplicitNodeConfiguration::MatrixToMatrix);
-
     enum_<eEncryptionAlgorithm>("eEncryptionAlgorithm")
         .value("AES256_GCM", eEncryptionAlgorithm::AES256_GCM);
-
     enum_<eWrappingAlgorithm>("eWrappingAlgorithm")
         .value("RSA_OAEP", eWrappingAlgorithm::RSA_OAEP);
-
     enum_<eMgfAlgorithm>("eMgfAlgorithm")
         .value("MGF1_SHA1", eMgfAlgorithm::MGF1_SHA1)
         .value("MGF1_SHA224", eMgfAlgorithm::MGF1_SHA224)
         .value("MGF1_SHA256", eMgfAlgorithm::MGF1_SHA256)
         .value("MGF1_SHA384", eMgfAlgorithm::MGF1_SHA384)
         .value("MGF1_SHA512", eMgfAlgorithm::MGF1_SHA512);
-
     enum_<eDigestMethod>("eDigestMethod")
         .value("SHA1", eDigestMethod::SHA1)
         .value("SHA256", eDigestMethod::SHA256);
-
     enum_<eCompression>("eCompression")
         .value("NoCompression", eCompression::NoCompression)
         .value("Deflate", eCompression::Deflate);
 
-    // Structs
-
-    value_object<sTriangle> ("sTriangle")
-        .field("Indices", &sTriangle::m_Indices);
-
-    value_object<sTriangleProperties> ("sTriangleProperties")
-        .field("ResourceID", &sTriangleProperties::m_ResourceID)
-        .field("PropertyIDs", &sTriangleProperties::m_PropertyIDs);
-
-    value_object<sPosition> ("sPosition")
-        .field("Coordinates", &sPosition::m_Coordinates);
-
-    value_object<sPosition2D> ("sPosition2D")
-        .field("Coordinates", &sPosition2D::m_Coordinates);
-
-    value_object<sCompositeConstituent> ("sCompositeConstituent")
-        .field("PropertyID", &sCompositeConstituent::m_PropertyID)
-        .field("MixingRatio", &sCompositeConstituent::m_MixingRatio);
-
-    value_object<sMultiPropertyLayer> ("sMultiPropertyLayer")
-        .field("ResourceID", &sMultiPropertyLayer::m_ResourceID)
-        .field("TheBlendMethod", &sMultiPropertyLayer::m_TheBlendMethod);
-
-    value_object<sTex2Coord> ("sTex2Coord")
-        .field("U", &sTex2Coord::m_U)
-        .field("V", &sTex2Coord::m_V);
-
-    value_object<sTransform> ("sTransform")
-        .field("Fields", &sTransform::m_Fields);
-
-    value_object<sBox> ("sBox")
-        .field("MinCoordinate", &sBox::m_MinCoordinate)
-        .field("MaxCoordinate", &sBox::m_MaxCoordinate);
-
-    value_object<sColor> ("sColor")
-        .field("Red", &sColor::m_Red)
-        .field("Green", &sColor::m_Green)
-        .field("Blue", &sColor::m_Blue)
-        .field("Alpha", &sColor::m_Alpha);
-
-    value_object<sBeam> ("sBeam")
-        .field("Indices", &sBeam::m_Indices)
-        .field("Radii", &sBeam::m_Radii)
-        .field("CapModes", &sBeam::m_CapModes);
-
-    value_object<sBall> ("sBall")
-        .field("Index", &sBall::m_Index)
-        .field("Radius", &sBall::m_Radius);
-
-    value_object<sVector> ("sVector")
-        .field("Coordinates", &sVector::m_Coordinates);
-
-    value_object<sMatrix4x4> ("sMatrix4x4")
-        .field("Field", &sMatrix4x4::m_Field);
-
-    // Value arrays for struct fields that are arrays
+    // Structs as exposed JS classes
+    
+    
+    class_<sTriangleWrapper>("sTriangle")
+        .constructor<>()
+        .function("toStruct", &sTriangleWrapper::toStruct)
+        .class_function("fromStruct", &sTriangleWrapper::fromStruct)
+        
+            
+                
+                    
+        .property("Indices0", &sTriangleWrapper::get_Indices0, &sTriangleWrapper::set_Indices0)
+                    
+        .property("Indices1", &sTriangleWrapper::get_Indices1, &sTriangleWrapper::set_Indices1)
+                    
+        .property("Indices2", &sTriangleWrapper::get_Indices2, &sTriangleWrapper::set_Indices2)
+                    
+                
+            
+        
+    ;
+    
+    
+    
+    class_<sTrianglePropertiesWrapper>("sTriangleProperties")
+        .constructor<>()
+        .function("toStruct", &sTrianglePropertiesWrapper::toStruct)
+        .class_function("fromStruct", &sTrianglePropertiesWrapper::fromStruct)
+        
+            
+        
+            
+                
+                    
+        .property("PropertyIDs0", &sTrianglePropertiesWrapper::get_PropertyIDs0, &sTrianglePropertiesWrapper::set_PropertyIDs0)
+                    
+        .property("PropertyIDs1", &sTrianglePropertiesWrapper::get_PropertyIDs1, &sTrianglePropertiesWrapper::set_PropertyIDs1)
+                    
+        .property("PropertyIDs2", &sTrianglePropertiesWrapper::get_PropertyIDs2, &sTrianglePropertiesWrapper::set_PropertyIDs2)
+                    
+                
+            
+        
+    ;
+    
+    
+    
+    class_<sPositionWrapper>("sPosition")
+        .constructor<>()
+        .function("toStruct", &sPositionWrapper::toStruct)
+        .class_function("fromStruct", &sPositionWrapper::fromStruct)
+        
+            
+                
+                    
+        .property("Coordinates0", &sPositionWrapper::get_Coordinates0, &sPositionWrapper::set_Coordinates0)
+                    
+        .property("Coordinates1", &sPositionWrapper::get_Coordinates1, &sPositionWrapper::set_Coordinates1)
+                    
+        .property("Coordinates2", &sPositionWrapper::get_Coordinates2, &sPositionWrapper::set_Coordinates2)
+                    
+                
+            
+        
+    ;
+    
+    
+    
+    class_<sPosition2DWrapper>("sPosition2D")
+        .constructor<>()
+        .function("toStruct", &sPosition2DWrapper::toStruct)
+        .class_function("fromStruct", &sPosition2DWrapper::fromStruct)
+        
+            
+                
+                    
+        .property("Coordinates0", &sPosition2DWrapper::get_Coordinates0, &sPosition2DWrapper::set_Coordinates0)
+                    
+        .property("Coordinates1", &sPosition2DWrapper::get_Coordinates1, &sPosition2DWrapper::set_Coordinates1)
+                    
+                
+            
+        
+    ;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    class_<sTransformWrapper>("sTransform")
+        .constructor<>()
+        .function("toStruct", &sTransformWrapper::toStruct)
+        .class_function("fromStruct", &sTransformWrapper::fromStruct)
+        
+            
+                
+                    
+                        
+        .property("Fields_0_0", &sTransformWrapper::get_Fields_0_0, &sTransformWrapper::set_Fields_0_0)
+                        
+        .property("Fields_0_1", &sTransformWrapper::get_Fields_0_1, &sTransformWrapper::set_Fields_0_1)
+                        
+        .property("Fields_0_2", &sTransformWrapper::get_Fields_0_2, &sTransformWrapper::set_Fields_0_2)
+                        
+                    
+                        
+        .property("Fields_1_0", &sTransformWrapper::get_Fields_1_0, &sTransformWrapper::set_Fields_1_0)
+                        
+        .property("Fields_1_1", &sTransformWrapper::get_Fields_1_1, &sTransformWrapper::set_Fields_1_1)
+                        
+        .property("Fields_1_2", &sTransformWrapper::get_Fields_1_2, &sTransformWrapper::set_Fields_1_2)
+                        
+                    
+                        
+        .property("Fields_2_0", &sTransformWrapper::get_Fields_2_0, &sTransformWrapper::set_Fields_2_0)
+                        
+        .property("Fields_2_1", &sTransformWrapper::get_Fields_2_1, &sTransformWrapper::set_Fields_2_1)
+                        
+        .property("Fields_2_2", &sTransformWrapper::get_Fields_2_2, &sTransformWrapper::set_Fields_2_2)
+                        
+                    
+                        
+        .property("Fields_3_0", &sTransformWrapper::get_Fields_3_0, &sTransformWrapper::set_Fields_3_0)
+                        
+        .property("Fields_3_1", &sTransformWrapper::get_Fields_3_1, &sTransformWrapper::set_Fields_3_1)
+                        
+        .property("Fields_3_2", &sTransformWrapper::get_Fields_3_2, &sTransformWrapper::set_Fields_3_2)
+                        
+                    
+                
+            
+        
+    ;
+    
+    
+    
+    class_<sBoxWrapper>("sBox")
+        .constructor<>()
+        .function("toStruct", &sBoxWrapper::toStruct)
+        .class_function("fromStruct", &sBoxWrapper::fromStruct)
+        
+            
+                
+                    
+        .property("MinCoordinate0", &sBoxWrapper::get_MinCoordinate0, &sBoxWrapper::set_MinCoordinate0)
+                    
+        .property("MinCoordinate1", &sBoxWrapper::get_MinCoordinate1, &sBoxWrapper::set_MinCoordinate1)
+                    
+        .property("MinCoordinate2", &sBoxWrapper::get_MinCoordinate2, &sBoxWrapper::set_MinCoordinate2)
+                    
+                
+            
+        
+            
+                
+                    
+        .property("MaxCoordinate0", &sBoxWrapper::get_MaxCoordinate0, &sBoxWrapper::set_MaxCoordinate0)
+                    
+        .property("MaxCoordinate1", &sBoxWrapper::get_MaxCoordinate1, &sBoxWrapper::set_MaxCoordinate1)
+                    
+        .property("MaxCoordinate2", &sBoxWrapper::get_MaxCoordinate2, &sBoxWrapper::set_MaxCoordinate2)
+                    
+                
+            
+        
+    ;
+    
+    
+    
+    
+    
+    class_<sBeamWrapper>("sBeam")
+        .constructor<>()
+        .function("toStruct", &sBeamWrapper::toStruct)
+        .class_function("fromStruct", &sBeamWrapper::fromStruct)
+        
+            
+                
+                    
+        .property("Indices0", &sBeamWrapper::get_Indices0, &sBeamWrapper::set_Indices0)
+                    
+        .property("Indices1", &sBeamWrapper::get_Indices1, &sBeamWrapper::set_Indices1)
+                    
+                
+            
+        
+            
+                
+                    
+        .property("Radii0", &sBeamWrapper::get_Radii0, &sBeamWrapper::set_Radii0)
+                    
+        .property("Radii1", &sBeamWrapper::get_Radii1, &sBeamWrapper::set_Radii1)
+                    
+                
+            
+        
+            
+                
+                    
+        .property("CapModes0", &sBeamWrapper::get_CapModes0, &sBeamWrapper::set_CapModes0)
+                    
+        .property("CapModes1", &sBeamWrapper::get_CapModes1, &sBeamWrapper::set_CapModes1)
+                    
+                
+            
+        
+    ;
+    
+    
+    
+    
+    
+    class_<sVectorWrapper>("sVector")
+        .constructor<>()
+        .function("toStruct", &sVectorWrapper::toStruct)
+        .class_function("fromStruct", &sVectorWrapper::fromStruct)
+        
+            
+                
+                    
+        .property("Coordinates0", &sVectorWrapper::get_Coordinates0, &sVectorWrapper::set_Coordinates0)
+                    
+        .property("Coordinates1", &sVectorWrapper::get_Coordinates1, &sVectorWrapper::set_Coordinates1)
+                    
+        .property("Coordinates2", &sVectorWrapper::get_Coordinates2, &sVectorWrapper::set_Coordinates2)
+                    
+                
+            
+        
+    ;
+    
+    
+    
+    class_<sMatrix4x4Wrapper>("sMatrix4x4")
+        .constructor<>()
+        .function("toStruct", &sMatrix4x4Wrapper::toStruct)
+        .class_function("fromStruct", &sMatrix4x4Wrapper::fromStruct)
+        
+            
+                
+                    
+                        
+        .property("Field_0_0", &sMatrix4x4Wrapper::get_Field_0_0, &sMatrix4x4Wrapper::set_Field_0_0)
+                        
+        .property("Field_0_1", &sMatrix4x4Wrapper::get_Field_0_1, &sMatrix4x4Wrapper::set_Field_0_1)
+                        
+        .property("Field_0_2", &sMatrix4x4Wrapper::get_Field_0_2, &sMatrix4x4Wrapper::set_Field_0_2)
+                        
+        .property("Field_0_3", &sMatrix4x4Wrapper::get_Field_0_3, &sMatrix4x4Wrapper::set_Field_0_3)
+                        
+                    
+                        
+        .property("Field_1_0", &sMatrix4x4Wrapper::get_Field_1_0, &sMatrix4x4Wrapper::set_Field_1_0)
+                        
+        .property("Field_1_1", &sMatrix4x4Wrapper::get_Field_1_1, &sMatrix4x4Wrapper::set_Field_1_1)
+                        
+        .property("Field_1_2", &sMatrix4x4Wrapper::get_Field_1_2, &sMatrix4x4Wrapper::set_Field_1_2)
+                        
+        .property("Field_1_3", &sMatrix4x4Wrapper::get_Field_1_3, &sMatrix4x4Wrapper::set_Field_1_3)
+                        
+                    
+                        
+        .property("Field_2_0", &sMatrix4x4Wrapper::get_Field_2_0, &sMatrix4x4Wrapper::set_Field_2_0)
+                        
+        .property("Field_2_1", &sMatrix4x4Wrapper::get_Field_2_1, &sMatrix4x4Wrapper::set_Field_2_1)
+                        
+        .property("Field_2_2", &sMatrix4x4Wrapper::get_Field_2_2, &sMatrix4x4Wrapper::set_Field_2_2)
+                        
+        .property("Field_2_3", &sMatrix4x4Wrapper::get_Field_2_3, &sMatrix4x4Wrapper::set_Field_2_3)
+                        
+                    
+                        
+        .property("Field_3_0", &sMatrix4x4Wrapper::get_Field_3_0, &sMatrix4x4Wrapper::set_Field_3_0)
+                        
+        .property("Field_3_1", &sMatrix4x4Wrapper::get_Field_3_1, &sMatrix4x4Wrapper::set_Field_3_1)
+                        
+        .property("Field_3_2", &sMatrix4x4Wrapper::get_Field_3_2, &sMatrix4x4Wrapper::set_Field_3_2)
+                        
+        .property("Field_3_3", &sMatrix4x4Wrapper::get_Field_3_3, &sMatrix4x4Wrapper::set_Field_3_3)
+                        
+                    
+                
+            
+        
+    ;
+    
     
 
     // Classes
-
     class_<CBase> ("CBase")
-    .smart_ptr<std::shared_ptr<CBase>>("shared_ptr<CBase>")
+        .smart_ptr<std::shared_ptr<CBase>>("shared_ptr<CBase>")
         .function("ClassTypeId", &CBase::ClassTypeId)
     ;
-
     class_<CWriter, base<CBase>> ("CWriter")
-    .smart_ptr<std::shared_ptr<CWriter>>("shared_ptr<CWriter>")
+        .smart_ptr<std::shared_ptr<CWriter>>("shared_ptr<CWriter>")
         .function("WriteToFile", &CWriter::WriteToFile)
         .function("GetStreamSize", &CWriter::GetStreamSize)
         // .function("WriteToBuffer", &CWriter::WriteToBuffer)
@@ -283,9 +1078,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         // .function("AddKeyWrappingCallback", &CWriter::AddKeyWrappingCallback)
         // .function("SetContentEncryptionCallback", &CWriter::SetContentEncryptionCallback)
     ;
-
     class_<CReader, base<CBase>> ("CReader")
-    .smart_ptr<std::shared_ptr<CReader>>("shared_ptr<CReader>")
+        .smart_ptr<std::shared_ptr<CReader>>("shared_ptr<CReader>")
         .function("ReadFromFile", &CReader::ReadFromFile)
         .function("ReadFromBuffer", &CReader::ReadFromBuffer)
         // .function("ReadFromCallback", &CReader::ReadFromCallback)
@@ -299,98 +1093,81 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         // .function("AddKeyWrappingCallback", &CReader::AddKeyWrappingCallback)
         // .function("SetContentEncryptionCallback", &CReader::SetContentEncryptionCallback)
     ;
-
     class_<CPackagePart, base<CBase>> ("CPackagePart")
-    .smart_ptr<std::shared_ptr<CPackagePart>>("shared_ptr<CPackagePart>")
+        .smart_ptr<std::shared_ptr<CPackagePart>>("shared_ptr<CPackagePart>")
         .function("GetPath", &CPackagePart::GetPath)
         .function("SetPath", &CPackagePart::SetPath)
     ;
-
     class_<CResource, base<CBase>> ("CResource")
-    .smart_ptr<std::shared_ptr<CResource>>("shared_ptr<CResource>")
+        .smart_ptr<std::shared_ptr<CResource>>("shared_ptr<CResource>")
         .function("GetResourceID", &CResource::GetResourceID)
         .function("GetUniqueResourceID", &CResource::GetUniqueResourceID)
         .function("PackagePart", &CResource::PackagePart)
         .function("SetPackagePart", &CResource::SetPackagePart)
         .function("GetModelResourceID", &CResource::GetModelResourceID)
     ;
-
     class_<CResourceIterator, base<CBase>> ("CResourceIterator")
-    .smart_ptr<std::shared_ptr<CResourceIterator>>("shared_ptr<CResourceIterator>")
+        .smart_ptr<std::shared_ptr<CResourceIterator>>("shared_ptr<CResourceIterator>")
         .function("MoveNext", &CResourceIterator::MoveNext)
         .function("MovePrevious", &CResourceIterator::MovePrevious)
         .function("GetCurrent", &CResourceIterator::GetCurrent)
         .function("Clone", &CResourceIterator::Clone)
         .function("Count", &CResourceIterator::Count)
     ;
-
     class_<CSliceStackIterator, base<CResourceIterator>> ("CSliceStackIterator")
-    .smart_ptr<std::shared_ptr<CSliceStackIterator>>("shared_ptr<CSliceStackIterator>")
+        .smart_ptr<std::shared_ptr<CSliceStackIterator>>("shared_ptr<CSliceStackIterator>")
         .function("GetCurrentSliceStack", &CSliceStackIterator::GetCurrentSliceStack)
     ;
-
     class_<CObjectIterator, base<CResourceIterator>> ("CObjectIterator")
-    .smart_ptr<std::shared_ptr<CObjectIterator>>("shared_ptr<CObjectIterator>")
+        .smart_ptr<std::shared_ptr<CObjectIterator>>("shared_ptr<CObjectIterator>")
         .function("GetCurrentObject", &CObjectIterator::GetCurrentObject)
     ;
-
     class_<CMeshObjectIterator, base<CResourceIterator>> ("CMeshObjectIterator")
-    .smart_ptr<std::shared_ptr<CMeshObjectIterator>>("shared_ptr<CMeshObjectIterator>")
+        .smart_ptr<std::shared_ptr<CMeshObjectIterator>>("shared_ptr<CMeshObjectIterator>")
         .function("GetCurrentMeshObject", &CMeshObjectIterator::GetCurrentMeshObject)
     ;
-
     class_<CComponentsObjectIterator, base<CResourceIterator>> ("CComponentsObjectIterator")
-    .smart_ptr<std::shared_ptr<CComponentsObjectIterator>>("shared_ptr<CComponentsObjectIterator>")
+        .smart_ptr<std::shared_ptr<CComponentsObjectIterator>>("shared_ptr<CComponentsObjectIterator>")
         .function("GetCurrentComponentsObject", &CComponentsObjectIterator::GetCurrentComponentsObject)
     ;
-
     class_<CTexture2DIterator, base<CResourceIterator>> ("CTexture2DIterator")
-    .smart_ptr<std::shared_ptr<CTexture2DIterator>>("shared_ptr<CTexture2DIterator>")
+        .smart_ptr<std::shared_ptr<CTexture2DIterator>>("shared_ptr<CTexture2DIterator>")
         .function("GetCurrentTexture2D", &CTexture2DIterator::GetCurrentTexture2D)
     ;
-
     class_<CBaseMaterialGroupIterator, base<CResourceIterator>> ("CBaseMaterialGroupIterator")
-    .smart_ptr<std::shared_ptr<CBaseMaterialGroupIterator>>("shared_ptr<CBaseMaterialGroupIterator>")
+        .smart_ptr<std::shared_ptr<CBaseMaterialGroupIterator>>("shared_ptr<CBaseMaterialGroupIterator>")
         .function("GetCurrentBaseMaterialGroup", &CBaseMaterialGroupIterator::GetCurrentBaseMaterialGroup)
     ;
-
     class_<CColorGroupIterator, base<CResourceIterator>> ("CColorGroupIterator")
-    .smart_ptr<std::shared_ptr<CColorGroupIterator>>("shared_ptr<CColorGroupIterator>")
+        .smart_ptr<std::shared_ptr<CColorGroupIterator>>("shared_ptr<CColorGroupIterator>")
         .function("GetCurrentColorGroup", &CColorGroupIterator::GetCurrentColorGroup)
     ;
-
     class_<CTexture2DGroupIterator, base<CResourceIterator>> ("CTexture2DGroupIterator")
-    .smart_ptr<std::shared_ptr<CTexture2DGroupIterator>>("shared_ptr<CTexture2DGroupIterator>")
+        .smart_ptr<std::shared_ptr<CTexture2DGroupIterator>>("shared_ptr<CTexture2DGroupIterator>")
         .function("GetCurrentTexture2DGroup", &CTexture2DGroupIterator::GetCurrentTexture2DGroup)
     ;
-
     class_<CCompositeMaterialsIterator, base<CResourceIterator>> ("CCompositeMaterialsIterator")
-    .smart_ptr<std::shared_ptr<CCompositeMaterialsIterator>>("shared_ptr<CCompositeMaterialsIterator>")
+        .smart_ptr<std::shared_ptr<CCompositeMaterialsIterator>>("shared_ptr<CCompositeMaterialsIterator>")
         .function("GetCurrentCompositeMaterials", &CCompositeMaterialsIterator::GetCurrentCompositeMaterials)
     ;
-
     class_<CMultiPropertyGroupIterator, base<CResourceIterator>> ("CMultiPropertyGroupIterator")
-    .smart_ptr<std::shared_ptr<CMultiPropertyGroupIterator>>("shared_ptr<CMultiPropertyGroupIterator>")
+        .smart_ptr<std::shared_ptr<CMultiPropertyGroupIterator>>("shared_ptr<CMultiPropertyGroupIterator>")
         .function("GetCurrentMultiPropertyGroup", &CMultiPropertyGroupIterator::GetCurrentMultiPropertyGroup)
     ;
-
     class_<CImage3DIterator, base<CResourceIterator>> ("CImage3DIterator")
-    .smart_ptr<std::shared_ptr<CImage3DIterator>>("shared_ptr<CImage3DIterator>")
+        .smart_ptr<std::shared_ptr<CImage3DIterator>>("shared_ptr<CImage3DIterator>")
         .function("GetCurrentImage3D", &CImage3DIterator::GetCurrentImage3D)
     ;
-
     class_<CFunctionIterator, base<CResourceIterator>> ("CFunctionIterator")
-    .smart_ptr<std::shared_ptr<CFunctionIterator>>("shared_ptr<CFunctionIterator>")
+        .smart_ptr<std::shared_ptr<CFunctionIterator>>("shared_ptr<CFunctionIterator>")
         .function("GetCurrentFunction", &CFunctionIterator::GetCurrentFunction)
     ;
-
     class_<CLevelSetIterator, base<CResourceIterator>> ("CLevelSetIterator")
-    .smart_ptr<std::shared_ptr<CLevelSetIterator>>("shared_ptr<CLevelSetIterator>")
+        .smart_ptr<std::shared_ptr<CLevelSetIterator>>("shared_ptr<CLevelSetIterator>")
         .function("GetCurrentLevelSet", &CLevelSetIterator::GetCurrentLevelSet)
     ;
-
     class_<CMetaData, base<CBase>> ("CMetaData")
-    .smart_ptr<std::shared_ptr<CMetaData>>("shared_ptr<CMetaData>")
+        .smart_ptr<std::shared_ptr<CMetaData>>("shared_ptr<CMetaData>")
         .function("GetNameSpace", &CMetaData::GetNameSpace)
         .function("SetNameSpace", &CMetaData::SetNameSpace)
         .function("GetName", &CMetaData::GetName)
@@ -403,9 +1180,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetValue", &CMetaData::GetValue)
         .function("SetValue", &CMetaData::SetValue)
     ;
-
     class_<CMetaDataGroup, base<CBase>> ("CMetaDataGroup")
-    .smart_ptr<std::shared_ptr<CMetaDataGroup>>("shared_ptr<CMetaDataGroup>")
+        .smart_ptr<std::shared_ptr<CMetaDataGroup>>("shared_ptr<CMetaDataGroup>")
         .function("GetMetaDataCount", &CMetaDataGroup::GetMetaDataCount)
         .function("GetMetaData", &CMetaDataGroup::GetMetaData)
         .function("GetMetaDataByKey", &CMetaDataGroup::GetMetaDataByKey)
@@ -413,9 +1189,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("RemoveMetaData", &CMetaDataGroup::RemoveMetaData)
         .function("AddMetaData", &CMetaDataGroup::AddMetaData)
     ;
-
     class_<CTriangleSet> ("CTriangleSet")
-    .smart_ptr<std::shared_ptr<CTriangleSet>>("shared_ptr<CTriangleSet>")
+        .smart_ptr<std::shared_ptr<CTriangleSet>>("shared_ptr<CTriangleSet>")
         .function("SetName", &CTriangleSet::SetName)
         .function("GetName", &CTriangleSet::GetName)
         .function("SetIdentifier", &CTriangleSet::SetIdentifier)
@@ -430,9 +1205,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("DeleteSet", &CTriangleSet::DeleteSet)
         .function("Duplicate", &CTriangleSet::Duplicate)
     ;
-
     class_<CObject, base<CResource>> ("CObject")
-    .smart_ptr<std::shared_ptr<CObject>>("shared_ptr<CObject>")
+        .smart_ptr<std::shared_ptr<CObject>>("shared_ptr<CObject>")
         .function("GetType", &CObject::GetType)
         .function("SetType", &CObject::SetType)
         .function("GetName", &CObject::GetName)
@@ -457,9 +1231,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetSliceStack", &CObject::GetSliceStack)
         .function("AssignSliceStack", &CObject::AssignSliceStack)
     ;
-
     class_<CMeshObject, base<CObject>> ("CMeshObject")
-    .smart_ptr<std::shared_ptr<CMeshObject>>("shared_ptr<CMeshObject>")
+        .smart_ptr<std::shared_ptr<CMeshObject>>("shared_ptr<CMeshObject>")
         .function("GetVertexCount", &CMeshObject::GetVertexCount)
         .function("GetTriangleCount", &CMeshObject::GetTriangleCount)
         .function("GetVertex", &CMeshObject::GetVertex)
@@ -488,9 +1261,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetTriangleSetCount", &CMeshObject::GetTriangleSetCount)
         .function("GetTriangleSet", &CMeshObject::GetTriangleSet)
     ;
-
     class_<CLevelSet, base<CObject>> ("CLevelSet")
-    .smart_ptr<std::shared_ptr<CLevelSet>>("shared_ptr<CLevelSet>")
+        .smart_ptr<std::shared_ptr<CLevelSet>>("shared_ptr<CLevelSet>")
         .function("GetFunction", &CLevelSet::GetFunction)
         .function("SetFunction", &CLevelSet::SetFunction)
         .function("GetTransform", &CLevelSet::GetTransform)
@@ -508,9 +1280,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetVolumeData", &CLevelSet::GetVolumeData)
         .function("SetVolumeData", &CLevelSet::SetVolumeData)
     ;
-
     class_<CBeamLattice, base<CBase>> ("CBeamLattice")
-    .smart_ptr<std::shared_ptr<CBeamLattice>>("shared_ptr<CBeamLattice>")
+        .smart_ptr<std::shared_ptr<CBeamLattice>>("shared_ptr<CBeamLattice>")
         .function("GetMinLength", &CBeamLattice::GetMinLength)
         .function("SetMinLength", &CBeamLattice::SetMinLength)
         // .function("GetClipping", &CBeamLattice::GetClipping)
@@ -535,9 +1306,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("AddBeamSet", &CBeamLattice::AddBeamSet)
         .function("GetBeamSet", &CBeamLattice::GetBeamSet)
     ;
-
     class_<CFunctionReference> ("CFunctionReference")
-    .smart_ptr<std::shared_ptr<CFunctionReference>>("shared_ptr<CFunctionReference>")
+        .smart_ptr<std::shared_ptr<CFunctionReference>>("shared_ptr<CFunctionReference>")
         .function("GetFunctionResourceID", &CFunctionReference::GetFunctionResourceID)
         .function("SetFunctionResourceID", &CFunctionReference::SetFunctionResourceID)
         .function("GetTransform", &CFunctionReference::GetTransform)
@@ -549,17 +1319,14 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("SetFallBackValue", &CFunctionReference::SetFallBackValue)
         .function("GetFallBackValue", &CFunctionReference::GetFallBackValue)
     ;
-
     class_<CVolumeDataColor, base<CFunctionReference>> ("CVolumeDataColor")
-    .smart_ptr<std::shared_ptr<CVolumeDataColor>>("shared_ptr<CVolumeDataColor>")
+        .smart_ptr<std::shared_ptr<CVolumeDataColor>>("shared_ptr<CVolumeDataColor>")
     ;
-
     class_<CMaterialMapping, base<CFunctionReference>> ("CMaterialMapping")
-    .smart_ptr<std::shared_ptr<CMaterialMapping>>("shared_ptr<CMaterialMapping>")
+        .smart_ptr<std::shared_ptr<CMaterialMapping>>("shared_ptr<CMaterialMapping>")
     ;
-
     class_<CVolumeDataComposite> ("CVolumeDataComposite")
-    .smart_ptr<std::shared_ptr<CVolumeDataComposite>>("shared_ptr<CVolumeDataComposite>")
+        .smart_ptr<std::shared_ptr<CVolumeDataComposite>>("shared_ptr<CVolumeDataComposite>")
         .function("GetBaseMaterialGroup", &CVolumeDataComposite::GetBaseMaterialGroup)
         .function("SetBaseMaterialGroup", &CVolumeDataComposite::SetBaseMaterialGroup)
         .function("GetMaterialMappingCount", &CVolumeDataComposite::GetMaterialMappingCount)
@@ -567,16 +1334,14 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("AddMaterialMapping", &CVolumeDataComposite::AddMaterialMapping)
         .function("RemoveMaterialMapping", &CVolumeDataComposite::RemoveMaterialMapping)
     ;
-
     class_<CVolumeDataProperty, base<CFunctionReference>> ("CVolumeDataProperty")
-    .smart_ptr<std::shared_ptr<CVolumeDataProperty>>("shared_ptr<CVolumeDataProperty>")
+        .smart_ptr<std::shared_ptr<CVolumeDataProperty>>("shared_ptr<CVolumeDataProperty>")
         .function("GetName", &CVolumeDataProperty::GetName)
         .function("SetIsRequired", &CVolumeDataProperty::SetIsRequired)
         .function("IsRequired", &CVolumeDataProperty::IsRequired)
     ;
-
     class_<CVolumeData, base<CResource>> ("CVolumeData")
-    .smart_ptr<std::shared_ptr<CVolumeData>>("shared_ptr<CVolumeData>")
+        .smart_ptr<std::shared_ptr<CVolumeData>>("shared_ptr<CVolumeData>")
         .function("GetComposite", &CVolumeData::GetComposite)
         .function("CreateNewComposite", &CVolumeData::CreateNewComposite)
         .function("RemoveComposite", &CVolumeData::RemoveComposite)
@@ -588,9 +1353,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("AddPropertyFromFunction", &CVolumeData::AddPropertyFromFunction)
         .function("RemoveProperty", &CVolumeData::RemoveProperty)
     ;
-
     class_<CComponent, base<CBase>> ("CComponent")
-    .smart_ptr<std::shared_ptr<CComponent>>("shared_ptr<CComponent>")
+        .smart_ptr<std::shared_ptr<CComponent>>("shared_ptr<CComponent>")
         .function("GetObjectResource", &CComponent::GetObjectResource)
         .function("GetObjectResourceID", &CComponent::GetObjectResourceID)
         // .function("GetUUID", &CComponent::GetUUID)
@@ -599,16 +1363,14 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetTransform", &CComponent::GetTransform)
         .function("SetTransform", &CComponent::SetTransform)
     ;
-
     class_<CComponentsObject, base<CObject>> ("CComponentsObject")
-    .smart_ptr<std::shared_ptr<CComponentsObject>>("shared_ptr<CComponentsObject>")
+        .smart_ptr<std::shared_ptr<CComponentsObject>>("shared_ptr<CComponentsObject>")
         .function("AddComponent", &CComponentsObject::AddComponent)
         .function("GetComponent", &CComponentsObject::GetComponent)
         .function("GetComponentCount", &CComponentsObject::GetComponentCount)
     ;
-
     class_<CBeamSet, base<CBase>> ("CBeamSet")
-    .smart_ptr<std::shared_ptr<CBeamSet>>("shared_ptr<CBeamSet>")
+        .smart_ptr<std::shared_ptr<CBeamSet>>("shared_ptr<CBeamSet>")
         .function("SetName", &CBeamSet::SetName)
         .function("GetName", &CBeamSet::GetName)
         .function("SetIdentifier", &CBeamSet::SetIdentifier)
@@ -620,9 +1382,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("SetBallReferences", &CBeamSet::SetBallReferences)
         // .function("GetBallReferences", &CBeamSet::GetBallReferences)
     ;
-
     class_<CBaseMaterialGroup, base<CResource>> ("CBaseMaterialGroup")
-    .smart_ptr<std::shared_ptr<CBaseMaterialGroup>>("shared_ptr<CBaseMaterialGroup>")
+        .smart_ptr<std::shared_ptr<CBaseMaterialGroup>>("shared_ptr<CBaseMaterialGroup>")
         .function("GetCount", &CBaseMaterialGroup::GetCount)
         // .function("GetAllPropertyIDs", &CBaseMaterialGroup::GetAllPropertyIDs)
         .function("AddMaterial", &CBaseMaterialGroup::AddMaterial)
@@ -632,9 +1393,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("SetDisplayColor", &CBaseMaterialGroup::SetDisplayColor)
         .function("GetDisplayColor", &CBaseMaterialGroup::GetDisplayColor)
     ;
-
     class_<CColorGroup, base<CResource>> ("CColorGroup")
-    .smart_ptr<std::shared_ptr<CColorGroup>>("shared_ptr<CColorGroup>")
+        .smart_ptr<std::shared_ptr<CColorGroup>>("shared_ptr<CColorGroup>")
         .function("GetCount", &CColorGroup::GetCount)
         // .function("GetAllPropertyIDs", &CColorGroup::GetAllPropertyIDs)
         .function("AddColor", &CColorGroup::AddColor)
@@ -642,9 +1402,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("SetColor", &CColorGroup::SetColor)
         .function("GetColor", &CColorGroup::GetColor)
     ;
-
     class_<CTexture2DGroup, base<CResource>> ("CTexture2DGroup")
-    .smart_ptr<std::shared_ptr<CTexture2DGroup>>("shared_ptr<CTexture2DGroup>")
+        .smart_ptr<std::shared_ptr<CTexture2DGroup>>("shared_ptr<CTexture2DGroup>")
         .function("GetCount", &CTexture2DGroup::GetCount)
         // .function("GetAllPropertyIDs", &CTexture2DGroup::GetAllPropertyIDs)
         .function("AddTex2Coord", &CTexture2DGroup::AddTex2Coord)
@@ -652,9 +1411,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("RemoveTex2Coord", &CTexture2DGroup::RemoveTex2Coord)
         .function("GetTexture2D", &CTexture2DGroup::GetTexture2D)
     ;
-
     class_<CCompositeMaterials, base<CResource>> ("CCompositeMaterials")
-    .smart_ptr<std::shared_ptr<CCompositeMaterials>>("shared_ptr<CCompositeMaterials>")
+        .smart_ptr<std::shared_ptr<CCompositeMaterials>>("shared_ptr<CCompositeMaterials>")
         .function("GetCount", &CCompositeMaterials::GetCount)
         // .function("GetAllPropertyIDs", &CCompositeMaterials::GetAllPropertyIDs)
         .function("GetBaseMaterialGroup", &CCompositeMaterials::GetBaseMaterialGroup)
@@ -662,9 +1420,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("RemoveComposite", &CCompositeMaterials::RemoveComposite)
         // .function("GetComposite", &CCompositeMaterials::GetComposite)
     ;
-
     class_<CMultiPropertyGroup, base<CResource>> ("CMultiPropertyGroup")
-    .smart_ptr<std::shared_ptr<CMultiPropertyGroup>>("shared_ptr<CMultiPropertyGroup>")
+        .smart_ptr<std::shared_ptr<CMultiPropertyGroup>>("shared_ptr<CMultiPropertyGroup>")
         .function("GetCount", &CMultiPropertyGroup::GetCount)
         // .function("GetAllPropertyIDs", &CMultiPropertyGroup::GetAllPropertyIDs)
         .function("AddMultiProperty", &CMultiPropertyGroup::AddMultiProperty)
@@ -676,16 +1433,14 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetLayer", &CMultiPropertyGroup::GetLayer)
         .function("RemoveLayer", &CMultiPropertyGroup::RemoveLayer)
     ;
-
     class_<CImage3D, base<CResource>> ("CImage3D")
-    .smart_ptr<std::shared_ptr<CImage3D>>("shared_ptr<CImage3D>")
+        .smart_ptr<std::shared_ptr<CImage3D>>("shared_ptr<CImage3D>")
         .function("GetName", &CImage3D::GetName)
         .function("SetName", &CImage3D::SetName)
         .function("IsImageStack", &CImage3D::IsImageStack)
     ;
-
     class_<CImageStack, base<CImage3D>> ("CImageStack")
-    .smart_ptr<std::shared_ptr<CImageStack>>("shared_ptr<CImageStack>")
+        .smart_ptr<std::shared_ptr<CImageStack>>("shared_ptr<CImageStack>")
         .function("GetRowCount", &CImageStack::GetRowCount)
         .function("SetRowCount", &CImageStack::SetRowCount)
         .function("GetColumnCount", &CImageStack::GetColumnCount)
@@ -697,9 +1452,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("CreateSheetFromBuffer", &CImageStack::CreateSheetFromBuffer)
         .function("CreateSheetFromFile", &CImageStack::CreateSheetFromFile)
     ;
-
     class_<CAttachment, base<CBase>> ("CAttachment")
-    .smart_ptr<std::shared_ptr<CAttachment>>("shared_ptr<CAttachment>")
+        .smart_ptr<std::shared_ptr<CAttachment>>("shared_ptr<CAttachment>")
         .function("GetPath", &CAttachment::GetPath)
         .function("SetPath", &CAttachment::SetPath)
         .function("PackagePart", &CAttachment::PackagePart)
@@ -712,9 +1466,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         // .function("WriteToBuffer", &CAttachment::WriteToBuffer)
         .function("ReadFromBuffer", &CAttachment::ReadFromBuffer)
     ;
-
     class_<CTexture2D, base<CResource>> ("CTexture2D")
-    .smart_ptr<std::shared_ptr<CTexture2D>>("shared_ptr<CTexture2D>")
+        .smart_ptr<std::shared_ptr<CTexture2D>>("shared_ptr<CTexture2D>")
         .function("GetAttachment", &CTexture2D::GetAttachment)
         .function("SetAttachment", &CTexture2D::SetAttachment)
         .function("GetContentType", &CTexture2D::GetContentType)
@@ -724,9 +1477,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetFilter", &CTexture2D::GetFilter)
         .function("SetFilter", &CTexture2D::SetFilter)
     ;
-
     class_<CImplicitPort> ("CImplicitPort")
-    .smart_ptr<std::shared_ptr<CImplicitPort>>("shared_ptr<CImplicitPort>")
+        .smart_ptr<std::shared_ptr<CImplicitPort>>("shared_ptr<CImplicitPort>")
         .function("GetIdentifier", &CImplicitPort::GetIdentifier)
         .function("SetIdentifier", &CImplicitPort::SetIdentifier)
         .function("GetDisplayName", &CImplicitPort::GetDisplayName)
@@ -736,21 +1488,18 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetReference", &CImplicitPort::GetReference)
         .function("SetReference", &CImplicitPort::SetReference)
     ;
-
     class_<CIterator, base<CBase>> ("CIterator")
-    .smart_ptr<std::shared_ptr<CIterator>>("shared_ptr<CIterator>")
+        .smart_ptr<std::shared_ptr<CIterator>>("shared_ptr<CIterator>")
         .function("MoveNext", &CIterator::MoveNext)
         .function("MovePrevious", &CIterator::MovePrevious)
         .function("Count", &CIterator::Count)
     ;
-
     class_<CImplicitPortIterator, base<CIterator>> ("CImplicitPortIterator")
-    .smart_ptr<std::shared_ptr<CImplicitPortIterator>>("shared_ptr<CImplicitPortIterator>")
+        .smart_ptr<std::shared_ptr<CImplicitPortIterator>>("shared_ptr<CImplicitPortIterator>")
         .function("GetCurrent", &CImplicitPortIterator::GetCurrent)
     ;
-
     class_<CImplicitNode> ("CImplicitNode")
-    .smart_ptr<std::shared_ptr<CImplicitNode>>("shared_ptr<CImplicitNode>")
+        .smart_ptr<std::shared_ptr<CImplicitNode>>("shared_ptr<CImplicitNode>")
         .function("GetIdentifier", &CImplicitNode::GetIdentifier)
         .function("SetIdentifier", &CImplicitNode::SetIdentifier)
         .function("GetDisplayName", &CImplicitNode::GetDisplayName)
@@ -766,204 +1515,159 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("FindOutput", &CImplicitNode::FindOutput)
         .function("AreTypesValid", &CImplicitNode::AreTypesValid)
     ;
-
     class_<COneInputNode, base<CImplicitNode>> ("COneInputNode")
-    .smart_ptr<std::shared_ptr<COneInputNode>>("shared_ptr<COneInputNode>")
+        .smart_ptr<std::shared_ptr<COneInputNode>>("shared_ptr<COneInputNode>")
         .function("GetInputA", &COneInputNode::GetInputA)
         .function("GetOutputResult", &COneInputNode::GetOutputResult)
     ;
-
     class_<CSinNode, base<COneInputNode>> ("CSinNode")
-    .smart_ptr<std::shared_ptr<CSinNode>>("shared_ptr<CSinNode>")
+        .smart_ptr<std::shared_ptr<CSinNode>>("shared_ptr<CSinNode>")
     ;
-
     class_<CCosNode, base<COneInputNode>> ("CCosNode")
-    .smart_ptr<std::shared_ptr<CCosNode>>("shared_ptr<CCosNode>")
+        .smart_ptr<std::shared_ptr<CCosNode>>("shared_ptr<CCosNode>")
     ;
-
     class_<CTanNode, base<COneInputNode>> ("CTanNode")
-    .smart_ptr<std::shared_ptr<CTanNode>>("shared_ptr<CTanNode>")
+        .smart_ptr<std::shared_ptr<CTanNode>>("shared_ptr<CTanNode>")
     ;
-
     class_<CArcSinNode, base<COneInputNode>> ("CArcSinNode")
-    .smart_ptr<std::shared_ptr<CArcSinNode>>("shared_ptr<CArcSinNode>")
+        .smart_ptr<std::shared_ptr<CArcSinNode>>("shared_ptr<CArcSinNode>")
     ;
-
     class_<CArcCosNode, base<COneInputNode>> ("CArcCosNode")
-    .smart_ptr<std::shared_ptr<CArcCosNode>>("shared_ptr<CArcCosNode>")
+        .smart_ptr<std::shared_ptr<CArcCosNode>>("shared_ptr<CArcCosNode>")
     ;
-
     class_<CArcTanNode, base<COneInputNode>> ("CArcTanNode")
-    .smart_ptr<std::shared_ptr<CArcTanNode>>("shared_ptr<CArcTanNode>")
+        .smart_ptr<std::shared_ptr<CArcTanNode>>("shared_ptr<CArcTanNode>")
     ;
-
     class_<CSinhNode, base<COneInputNode>> ("CSinhNode")
-    .smart_ptr<std::shared_ptr<CSinhNode>>("shared_ptr<CSinhNode>")
+        .smart_ptr<std::shared_ptr<CSinhNode>>("shared_ptr<CSinhNode>")
     ;
-
     class_<CCoshNode, base<COneInputNode>> ("CCoshNode")
-    .smart_ptr<std::shared_ptr<CCoshNode>>("shared_ptr<CCoshNode>")
+        .smart_ptr<std::shared_ptr<CCoshNode>>("shared_ptr<CCoshNode>")
     ;
-
     class_<CTanhNode, base<COneInputNode>> ("CTanhNode")
-    .smart_ptr<std::shared_ptr<CTanhNode>>("shared_ptr<CTanhNode>")
+        .smart_ptr<std::shared_ptr<CTanhNode>>("shared_ptr<CTanhNode>")
     ;
-
     class_<CRoundNode, base<COneInputNode>> ("CRoundNode")
-    .smart_ptr<std::shared_ptr<CRoundNode>>("shared_ptr<CRoundNode>")
+        .smart_ptr<std::shared_ptr<CRoundNode>>("shared_ptr<CRoundNode>")
     ;
-
     class_<CCeilNode, base<COneInputNode>> ("CCeilNode")
-    .smart_ptr<std::shared_ptr<CCeilNode>>("shared_ptr<CCeilNode>")
+        .smart_ptr<std::shared_ptr<CCeilNode>>("shared_ptr<CCeilNode>")
     ;
-
     class_<CFloorNode, base<COneInputNode>> ("CFloorNode")
-    .smart_ptr<std::shared_ptr<CFloorNode>>("shared_ptr<CFloorNode>")
+        .smart_ptr<std::shared_ptr<CFloorNode>>("shared_ptr<CFloorNode>")
     ;
-
     class_<CSignNode, base<COneInputNode>> ("CSignNode")
-    .smart_ptr<std::shared_ptr<CSignNode>>("shared_ptr<CSignNode>")
+        .smart_ptr<std::shared_ptr<CSignNode>>("shared_ptr<CSignNode>")
     ;
-
     class_<CFractNode, base<COneInputNode>> ("CFractNode")
-    .smart_ptr<std::shared_ptr<CFractNode>>("shared_ptr<CFractNode>")
+        .smart_ptr<std::shared_ptr<CFractNode>>("shared_ptr<CFractNode>")
     ;
-
     class_<CAbsNode, base<COneInputNode>> ("CAbsNode")
-    .smart_ptr<std::shared_ptr<CAbsNode>>("shared_ptr<CAbsNode>")
+        .smart_ptr<std::shared_ptr<CAbsNode>>("shared_ptr<CAbsNode>")
     ;
-
     class_<CExpNode, base<COneInputNode>> ("CExpNode")
-    .smart_ptr<std::shared_ptr<CExpNode>>("shared_ptr<CExpNode>")
+        .smart_ptr<std::shared_ptr<CExpNode>>("shared_ptr<CExpNode>")
     ;
-
     class_<CLogNode, base<COneInputNode>> ("CLogNode")
-    .smart_ptr<std::shared_ptr<CLogNode>>("shared_ptr<CLogNode>")
+        .smart_ptr<std::shared_ptr<CLogNode>>("shared_ptr<CLogNode>")
     ;
-
     class_<CLog2Node, base<COneInputNode>> ("CLog2Node")
-    .smart_ptr<std::shared_ptr<CLog2Node>>("shared_ptr<CLog2Node>")
+        .smart_ptr<std::shared_ptr<CLog2Node>>("shared_ptr<CLog2Node>")
     ;
-
     class_<CLog10Node, base<COneInputNode>> ("CLog10Node")
-    .smart_ptr<std::shared_ptr<CLog10Node>>("shared_ptr<CLog10Node>")
+        .smart_ptr<std::shared_ptr<CLog10Node>>("shared_ptr<CLog10Node>")
     ;
-
     class_<CLengthNode, base<COneInputNode>> ("CLengthNode")
-    .smart_ptr<std::shared_ptr<CLengthNode>>("shared_ptr<CLengthNode>")
+        .smart_ptr<std::shared_ptr<CLengthNode>>("shared_ptr<CLengthNode>")
     ;
-
     class_<CTransposeNode, base<COneInputNode>> ("CTransposeNode")
-    .smart_ptr<std::shared_ptr<CTransposeNode>>("shared_ptr<CTransposeNode>")
+        .smart_ptr<std::shared_ptr<CTransposeNode>>("shared_ptr<CTransposeNode>")
     ;
-
     class_<CInverseNode, base<COneInputNode>> ("CInverseNode")
-    .smart_ptr<std::shared_ptr<CInverseNode>>("shared_ptr<CInverseNode>")
+        .smart_ptr<std::shared_ptr<CInverseNode>>("shared_ptr<CInverseNode>")
     ;
-
     class_<CSqrtNode, base<COneInputNode>> ("CSqrtNode")
-    .smart_ptr<std::shared_ptr<CSqrtNode>>("shared_ptr<CSqrtNode>")
+        .smart_ptr<std::shared_ptr<CSqrtNode>>("shared_ptr<CSqrtNode>")
     ;
-
     class_<CResourceIdNode, base<CImplicitNode>> ("CResourceIdNode")
-    .smart_ptr<std::shared_ptr<CResourceIdNode>>("shared_ptr<CResourceIdNode>")
+        .smart_ptr<std::shared_ptr<CResourceIdNode>>("shared_ptr<CResourceIdNode>")
         .function("SetResource", &CResourceIdNode::SetResource)
         .function("GetResource", &CResourceIdNode::GetResource)
         .function("GetOutputValue", &CResourceIdNode::GetOutputValue)
     ;
-
     class_<CTwoInputNode, base<COneInputNode>> ("CTwoInputNode")
-    .smart_ptr<std::shared_ptr<CTwoInputNode>>("shared_ptr<CTwoInputNode>")
+        .smart_ptr<std::shared_ptr<CTwoInputNode>>("shared_ptr<CTwoInputNode>")
         .function("GetInputB", &CTwoInputNode::GetInputB)
     ;
-
     class_<CAdditionNode, base<CTwoInputNode>> ("CAdditionNode")
-    .smart_ptr<std::shared_ptr<CAdditionNode>>("shared_ptr<CAdditionNode>")
+        .smart_ptr<std::shared_ptr<CAdditionNode>>("shared_ptr<CAdditionNode>")
     ;
-
     class_<CSubtractionNode, base<CTwoInputNode>> ("CSubtractionNode")
-    .smart_ptr<std::shared_ptr<CSubtractionNode>>("shared_ptr<CSubtractionNode>")
+        .smart_ptr<std::shared_ptr<CSubtractionNode>>("shared_ptr<CSubtractionNode>")
     ;
-
     class_<CMultiplicationNode, base<CTwoInputNode>> ("CMultiplicationNode")
-    .smart_ptr<std::shared_ptr<CMultiplicationNode>>("shared_ptr<CMultiplicationNode>")
+        .smart_ptr<std::shared_ptr<CMultiplicationNode>>("shared_ptr<CMultiplicationNode>")
     ;
-
     class_<CDivisionNode, base<CTwoInputNode>> ("CDivisionNode")
-    .smart_ptr<std::shared_ptr<CDivisionNode>>("shared_ptr<CDivisionNode>")
+        .smart_ptr<std::shared_ptr<CDivisionNode>>("shared_ptr<CDivisionNode>")
     ;
-
     class_<CDotNode, base<CTwoInputNode>> ("CDotNode")
-    .smart_ptr<std::shared_ptr<CDotNode>>("shared_ptr<CDotNode>")
+        .smart_ptr<std::shared_ptr<CDotNode>>("shared_ptr<CDotNode>")
     ;
-
     class_<CCrossNode, base<CTwoInputNode>> ("CCrossNode")
-    .smart_ptr<std::shared_ptr<CCrossNode>>("shared_ptr<CCrossNode>")
+        .smart_ptr<std::shared_ptr<CCrossNode>>("shared_ptr<CCrossNode>")
     ;
-
     class_<CArcTan2Node, base<CTwoInputNode>> ("CArcTan2Node")
-    .smart_ptr<std::shared_ptr<CArcTan2Node>>("shared_ptr<CArcTan2Node>")
+        .smart_ptr<std::shared_ptr<CArcTan2Node>>("shared_ptr<CArcTan2Node>")
     ;
-
     class_<CMatVecMultiplicationNode, base<CTwoInputNode>> ("CMatVecMultiplicationNode")
-    .smart_ptr<std::shared_ptr<CMatVecMultiplicationNode>>("shared_ptr<CMatVecMultiplicationNode>")
+        .smart_ptr<std::shared_ptr<CMatVecMultiplicationNode>>("shared_ptr<CMatVecMultiplicationNode>")
     ;
-
     class_<CMinNode, base<CTwoInputNode>> ("CMinNode")
-    .smart_ptr<std::shared_ptr<CMinNode>>("shared_ptr<CMinNode>")
+        .smart_ptr<std::shared_ptr<CMinNode>>("shared_ptr<CMinNode>")
     ;
-
     class_<CMaxNode, base<CTwoInputNode>> ("CMaxNode")
-    .smart_ptr<std::shared_ptr<CMaxNode>>("shared_ptr<CMaxNode>")
+        .smart_ptr<std::shared_ptr<CMaxNode>>("shared_ptr<CMaxNode>")
     ;
-
     class_<CFmodNode, base<CTwoInputNode>> ("CFmodNode")
-    .smart_ptr<std::shared_ptr<CFmodNode>>("shared_ptr<CFmodNode>")
+        .smart_ptr<std::shared_ptr<CFmodNode>>("shared_ptr<CFmodNode>")
     ;
-
     class_<CModNode, base<CTwoInputNode>> ("CModNode")
-    .smart_ptr<std::shared_ptr<CModNode>>("shared_ptr<CModNode>")
+        .smart_ptr<std::shared_ptr<CModNode>>("shared_ptr<CModNode>")
     ;
-
     class_<CPowNode, base<CTwoInputNode>> ("CPowNode")
-    .smart_ptr<std::shared_ptr<CPowNode>>("shared_ptr<CPowNode>")
+        .smart_ptr<std::shared_ptr<CPowNode>>("shared_ptr<CPowNode>")
     ;
-
     class_<CSelectNode, base<COneInputNode>> ("CSelectNode")
-    .smart_ptr<std::shared_ptr<CSelectNode>>("shared_ptr<CSelectNode>")
+        .smart_ptr<std::shared_ptr<CSelectNode>>("shared_ptr<CSelectNode>")
         .function("GetInputB", &CSelectNode::GetInputB)
         .function("GetInputC", &CSelectNode::GetInputC)
         .function("GetInputD", &CSelectNode::GetInputD)
     ;
-
     class_<CClampNode, base<COneInputNode>> ("CClampNode")
-    .smart_ptr<std::shared_ptr<CClampNode>>("shared_ptr<CClampNode>")
+        .smart_ptr<std::shared_ptr<CClampNode>>("shared_ptr<CClampNode>")
         .function("GetInputMin", &CClampNode::GetInputMin)
         .function("GetInputMax", &CClampNode::GetInputMax)
     ;
-
     class_<CComposeVectorNode, base<CImplicitNode>> ("CComposeVectorNode")
-    .smart_ptr<std::shared_ptr<CComposeVectorNode>>("shared_ptr<CComposeVectorNode>")
+        .smart_ptr<std::shared_ptr<CComposeVectorNode>>("shared_ptr<CComposeVectorNode>")
         .function("GetInputX", &CComposeVectorNode::GetInputX)
         .function("GetInputY", &CComposeVectorNode::GetInputY)
         .function("GetInputZ", &CComposeVectorNode::GetInputZ)
         .function("GetOutputResult", &CComposeVectorNode::GetOutputResult)
     ;
-
     class_<CVectorFromScalarNode, base<COneInputNode>> ("CVectorFromScalarNode")
-    .smart_ptr<std::shared_ptr<CVectorFromScalarNode>>("shared_ptr<CVectorFromScalarNode>")
+        .smart_ptr<std::shared_ptr<CVectorFromScalarNode>>("shared_ptr<CVectorFromScalarNode>")
     ;
-
     class_<CDecomposeVectorNode, base<CImplicitNode>> ("CDecomposeVectorNode")
-    .smart_ptr<std::shared_ptr<CDecomposeVectorNode>>("shared_ptr<CDecomposeVectorNode>")
+        .smart_ptr<std::shared_ptr<CDecomposeVectorNode>>("shared_ptr<CDecomposeVectorNode>")
         .function("GetInputA", &CDecomposeVectorNode::GetInputA)
         .function("GetOutputX", &CDecomposeVectorNode::GetOutputX)
         .function("GetOutputY", &CDecomposeVectorNode::GetOutputY)
         .function("GetOutputZ", &CDecomposeVectorNode::GetOutputZ)
     ;
-
     class_<CComposeMatrixNode, base<CImplicitNode>> ("CComposeMatrixNode")
-    .smart_ptr<std::shared_ptr<CComposeMatrixNode>>("shared_ptr<CComposeMatrixNode>")
+        .smart_ptr<std::shared_ptr<CComposeMatrixNode>>("shared_ptr<CComposeMatrixNode>")
         .function("GetInputM00", &CComposeMatrixNode::GetInputM00)
         .function("GetInputM01", &CComposeMatrixNode::GetInputM01)
         .function("GetInputM02", &CComposeMatrixNode::GetInputM02)
@@ -982,72 +1686,62 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetInputM33", &CComposeMatrixNode::GetInputM33)
         .function("GetOutputResult", &CComposeMatrixNode::GetOutputResult)
     ;
-
     class_<CMatrixFromRowsNode, base<CImplicitNode>> ("CMatrixFromRowsNode")
-    .smart_ptr<std::shared_ptr<CMatrixFromRowsNode>>("shared_ptr<CMatrixFromRowsNode>")
+        .smart_ptr<std::shared_ptr<CMatrixFromRowsNode>>("shared_ptr<CMatrixFromRowsNode>")
         .function("GetInputA", &CMatrixFromRowsNode::GetInputA)
         .function("GetInputB", &CMatrixFromRowsNode::GetInputB)
         .function("GetInputC", &CMatrixFromRowsNode::GetInputC)
         .function("GetInputD", &CMatrixFromRowsNode::GetInputD)
         .function("GetOutputResult", &CMatrixFromRowsNode::GetOutputResult)
     ;
-
     class_<CMatrixFromColumnsNode, base<CImplicitNode>> ("CMatrixFromColumnsNode")
-    .smart_ptr<std::shared_ptr<CMatrixFromColumnsNode>>("shared_ptr<CMatrixFromColumnsNode>")
+        .smart_ptr<std::shared_ptr<CMatrixFromColumnsNode>>("shared_ptr<CMatrixFromColumnsNode>")
         .function("GetInputA", &CMatrixFromColumnsNode::GetInputA)
         .function("GetInputB", &CMatrixFromColumnsNode::GetInputB)
         .function("GetInputC", &CMatrixFromColumnsNode::GetInputC)
         .function("GetInputD", &CMatrixFromColumnsNode::GetInputD)
         .function("GetOutputResult", &CMatrixFromColumnsNode::GetOutputResult)
     ;
-
     class_<CConstantNode, base<CImplicitNode>> ("CConstantNode")
-    .smart_ptr<std::shared_ptr<CConstantNode>>("shared_ptr<CConstantNode>")
+        .smart_ptr<std::shared_ptr<CConstantNode>>("shared_ptr<CConstantNode>")
         .function("SetConstant", &CConstantNode::SetConstant)
         .function("GetConstant", &CConstantNode::GetConstant)
         .function("GetOutputValue", &CConstantNode::GetOutputValue)
     ;
-
     class_<CConstVecNode, base<CImplicitNode>> ("CConstVecNode")
-    .smart_ptr<std::shared_ptr<CConstVecNode>>("shared_ptr<CConstVecNode>")
+        .smart_ptr<std::shared_ptr<CConstVecNode>>("shared_ptr<CConstVecNode>")
         .function("SetVector", &CConstVecNode::SetVector)
         .function("GetVector", &CConstVecNode::GetVector)
         .function("GetOutputVector", &CConstVecNode::GetOutputVector)
     ;
-
     class_<CConstMatNode, base<CImplicitNode>> ("CConstMatNode")
-    .smart_ptr<std::shared_ptr<CConstMatNode>>("shared_ptr<CConstMatNode>")
+        .smart_ptr<std::shared_ptr<CConstMatNode>>("shared_ptr<CConstMatNode>")
         .function("SetMatrix", &CConstMatNode::SetMatrix)
         .function("GetMatrix", &CConstMatNode::GetMatrix)
         .function("GetOutputMatrix", &CConstMatNode::GetOutputMatrix)
     ;
-
     class_<CMeshNode, base<CImplicitNode>> ("CMeshNode")
-    .smart_ptr<std::shared_ptr<CMeshNode>>("shared_ptr<CMeshNode>")
+        .smart_ptr<std::shared_ptr<CMeshNode>>("shared_ptr<CMeshNode>")
         .function("GetInputMesh", &CMeshNode::GetInputMesh)
         .function("GetInputPos", &CMeshNode::GetInputPos)
         .function("GetOutputDistance", &CMeshNode::GetOutputDistance)
     ;
-
     class_<CUnsignedMeshNode, base<CImplicitNode>> ("CUnsignedMeshNode")
-    .smart_ptr<std::shared_ptr<CUnsignedMeshNode>>("shared_ptr<CUnsignedMeshNode>")
+        .smart_ptr<std::shared_ptr<CUnsignedMeshNode>>("shared_ptr<CUnsignedMeshNode>")
         .function("GetInputMesh", &CUnsignedMeshNode::GetInputMesh)
         .function("GetInputPos", &CUnsignedMeshNode::GetInputPos)
         .function("GetOutputDistance", &CUnsignedMeshNode::GetOutputDistance)
     ;
-
     class_<CFunctionCallNode, base<CImplicitNode>> ("CFunctionCallNode")
-    .smart_ptr<std::shared_ptr<CFunctionCallNode>>("shared_ptr<CFunctionCallNode>")
+        .smart_ptr<std::shared_ptr<CFunctionCallNode>>("shared_ptr<CFunctionCallNode>")
         .function("GetInputFunctionID", &CFunctionCallNode::GetInputFunctionID)
     ;
-
     class_<CNodeIterator, base<CIterator>> ("CNodeIterator")
-    .smart_ptr<std::shared_ptr<CNodeIterator>>("shared_ptr<CNodeIterator>")
+        .smart_ptr<std::shared_ptr<CNodeIterator>>("shared_ptr<CNodeIterator>")
         .function("GetCurrent", &CNodeIterator::GetCurrent)
     ;
-
     class_<CFunction, base<CResource>> ("CFunction")
-    .smart_ptr<std::shared_ptr<CFunction>>("shared_ptr<CFunction>")
+        .smart_ptr<std::shared_ptr<CFunction>>("shared_ptr<CFunction>")
         .function("GetDisplayName", &CFunction::GetDisplayName)
         .function("SetDisplayName", &CFunction::SetDisplayName)
         .function("AddInput", &CFunction::AddInput)
@@ -1059,9 +1753,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("FindInput", &CFunction::FindInput)
         .function("FindOutput", &CFunction::FindOutput)
     ;
-
     class_<CImplicitFunction, base<CFunction>> ("CImplicitFunction")
-    .smart_ptr<std::shared_ptr<CImplicitFunction>>("shared_ptr<CImplicitFunction>")
+        .smart_ptr<std::shared_ptr<CImplicitFunction>>("shared_ptr<CImplicitFunction>")
         .function("GetIdentifier", &CImplicitFunction::GetIdentifier)
         .function("SetIdentifier", &CImplicitFunction::SetIdentifier)
         .function("AddNode", &CImplicitFunction::AddNode)
@@ -1121,9 +1814,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("Clear", &CImplicitFunction::Clear)
         .function("SortNodesTopologically", &CImplicitFunction::SortNodesTopologically)
     ;
-
     class_<CFunctionFromImage3D, base<CFunction>> ("CFunctionFromImage3D")
-    .smart_ptr<std::shared_ptr<CFunctionFromImage3D>>("shared_ptr<CFunctionFromImage3D>")
+        .smart_ptr<std::shared_ptr<CFunctionFromImage3D>>("shared_ptr<CFunctionFromImage3D>")
         .function("GetImage3D", &CFunctionFromImage3D::GetImage3D)
         .function("SetImage3D", &CFunctionFromImage3D::SetImage3D)
         .function("SetFilter", &CFunctionFromImage3D::SetFilter)
@@ -1135,9 +1827,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetScale", &CFunctionFromImage3D::GetScale)
         .function("SetScale", &CFunctionFromImage3D::SetScale)
     ;
-
     class_<CBuildItem, base<CBase>> ("CBuildItem")
-    .smart_ptr<std::shared_ptr<CBuildItem>>("shared_ptr<CBuildItem>")
+        .smart_ptr<std::shared_ptr<CBuildItem>>("shared_ptr<CBuildItem>")
         .function("GetObjectResource", &CBuildItem::GetObjectResource)
         // .function("GetUUID", &CBuildItem::GetUUID)
         .function("SetUUID", &CBuildItem::SetUUID)
@@ -1150,18 +1841,16 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetMetaDataGroup", &CBuildItem::GetMetaDataGroup)
         .function("GetOutbox", &CBuildItem::GetOutbox)
     ;
-
     class_<CBuildItemIterator, base<CBase>> ("CBuildItemIterator")
-    .smart_ptr<std::shared_ptr<CBuildItemIterator>>("shared_ptr<CBuildItemIterator>")
+        .smart_ptr<std::shared_ptr<CBuildItemIterator>>("shared_ptr<CBuildItemIterator>")
         .function("MoveNext", &CBuildItemIterator::MoveNext)
         .function("MovePrevious", &CBuildItemIterator::MovePrevious)
         .function("GetCurrent", &CBuildItemIterator::GetCurrent)
         .function("Clone", &CBuildItemIterator::Clone)
         .function("Count", &CBuildItemIterator::Count)
     ;
-
     class_<CSlice, base<CBase>> ("CSlice")
-    .smart_ptr<std::shared_ptr<CSlice>>("shared_ptr<CSlice>")
+        .smart_ptr<std::shared_ptr<CSlice>>("shared_ptr<CSlice>")
         .function("SetVertices", &CSlice::SetVertices)
         // .function("GetVertices", &CSlice::GetVertices)
         .function("GetVertexCount", &CSlice::GetVertexCount)
@@ -1172,9 +1861,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetPolygonIndexCount", &CSlice::GetPolygonIndexCount)
         .function("GetZTop", &CSlice::GetZTop)
     ;
-
     class_<CSliceStack, base<CResource>> ("CSliceStack")
-    .smart_ptr<std::shared_ptr<CSliceStack>>("shared_ptr<CSliceStack>")
+        .smart_ptr<std::shared_ptr<CSliceStack>>("shared_ptr<CSliceStack>")
         .function("GetBottomZ", &CSliceStack::GetBottomZ)
         .function("GetSliceCount", &CSliceStack::GetSliceCount)
         .function("GetSlice", &CSliceStack::GetSlice)
@@ -1186,24 +1874,21 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("SetOwnPath", &CSliceStack::SetOwnPath)
         .function("GetOwnPath", &CSliceStack::GetOwnPath)
     ;
-
     class_<CConsumer, base<CBase>> ("CConsumer")
-    .smart_ptr<std::shared_ptr<CConsumer>>("shared_ptr<CConsumer>")
+        .smart_ptr<std::shared_ptr<CConsumer>>("shared_ptr<CConsumer>")
         .function("GetConsumerID", &CConsumer::GetConsumerID)
         .function("GetKeyID", &CConsumer::GetKeyID)
         .function("GetKeyValue", &CConsumer::GetKeyValue)
     ;
-
     class_<CAccessRight, base<CBase>> ("CAccessRight")
-    .smart_ptr<std::shared_ptr<CAccessRight>>("shared_ptr<CAccessRight>")
+        .smart_ptr<std::shared_ptr<CAccessRight>>("shared_ptr<CAccessRight>")
         .function("GetConsumer", &CAccessRight::GetConsumer)
         .function("GetWrappingAlgorithm", &CAccessRight::GetWrappingAlgorithm)
         .function("GetMgfAlgorithm", &CAccessRight::GetMgfAlgorithm)
         .function("GetDigestMethod", &CAccessRight::GetDigestMethod)
     ;
-
     class_<CContentEncryptionParams, base<CBase>> ("CContentEncryptionParams")
-    .smart_ptr<std::shared_ptr<CContentEncryptionParams>>("shared_ptr<CContentEncryptionParams>")
+        .smart_ptr<std::shared_ptr<CContentEncryptionParams>>("shared_ptr<CContentEncryptionParams>")
         .function("GetEncryptionAlgorithm", &CContentEncryptionParams::GetEncryptionAlgorithm)
         // .function("GetKey", &CContentEncryptionParams::GetKey)
         // .function("GetInitializationVector", &CContentEncryptionParams::GetInitializationVector)
@@ -1213,25 +1898,22 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         .function("GetDescriptor", &CContentEncryptionParams::GetDescriptor)
         .function("GetKeyUUID", &CContentEncryptionParams::GetKeyUUID)
     ;
-
     class_<CResourceData, base<CBase>> ("CResourceData")
-    .smart_ptr<std::shared_ptr<CResourceData>>("shared_ptr<CResourceData>")
+        .smart_ptr<std::shared_ptr<CResourceData>>("shared_ptr<CResourceData>")
         .function("GetPath", &CResourceData::GetPath)
         .function("GetEncryptionAlgorithm", &CResourceData::GetEncryptionAlgorithm)
         .function("GetCompression", &CResourceData::GetCompression)
         // .function("GetAdditionalAuthenticationData", &CResourceData::GetAdditionalAuthenticationData)
     ;
-
     class_<CResourceDataGroup, base<CBase>> ("CResourceDataGroup")
-    .smart_ptr<std::shared_ptr<CResourceDataGroup>>("shared_ptr<CResourceDataGroup>")
+        .smart_ptr<std::shared_ptr<CResourceDataGroup>>("shared_ptr<CResourceDataGroup>")
         .function("GetKeyUUID", &CResourceDataGroup::GetKeyUUID)
         .function("AddAccessRight", &CResourceDataGroup::AddAccessRight)
         .function("FindAccessRightByConsumer", &CResourceDataGroup::FindAccessRightByConsumer)
         .function("RemoveAccessRight", &CResourceDataGroup::RemoveAccessRight)
     ;
-
     class_<CKeyStore, base<CBase>> ("CKeyStore")
-    .smart_ptr<std::shared_ptr<CKeyStore>>("shared_ptr<CKeyStore>")
+        .smart_ptr<std::shared_ptr<CKeyStore>>("shared_ptr<CKeyStore>")
         .function("AddConsumer", &CKeyStore::AddConsumer)
         .function("GetConsumerCount", &CKeyStore::GetConsumerCount)
         .function("GetConsumer", &CKeyStore::GetConsumer)
@@ -1250,9 +1932,8 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
         // .function("GetUUID", &CKeyStore::GetUUID)
         .function("SetUUID", &CKeyStore::SetUUID)
     ;
-
     class_<CModel, base<CBase>> ("CModel")
-    .smart_ptr<std::shared_ptr<CModel>>("shared_ptr<CModel>")
+        .smart_ptr<std::shared_ptr<CModel>>("shared_ptr<CModel>")
         .function("RootModelPart", &CModel::RootModelPart)
         .function("FindOrCreatePackagePart", &CModel::FindOrCreatePackagePart)
         .function("SetUnit", &CModel::SetUnit)

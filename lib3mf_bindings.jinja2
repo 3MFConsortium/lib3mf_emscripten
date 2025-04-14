@@ -8,64 +8,112 @@
 using namespace emscripten;
 using namespace Lib3MF;
 
+// ================== Struct Wrappers ==================
+{% for struct in structs %}
+{% if struct.members | selectattr("is_array") | list | length > 0 %}
+struct s{{ struct.name }}Wrapper {
+    s{{ struct.name }} value;
+    {% for member in struct.members %}
+        {% if member.is_array %}
+            {% if member.is_2d_array %}
+                {% for i in range(member.rows) %}
+                    {% for j in range(member.cols) %}
+    {{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }} get_{{ member.name }}_{{ j }}_{{ i }}() const { return value.m_{{ member.name }}[{{ j }}][{{ i }}]; }
+    void set_{{ member.name }}_{{ j }}_{{ i }}({{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }} v) { value.m_{{ member.name }}[{{ j }}][{{ i }}] = v; }
+                    {% endfor %}
+                {% endfor %}
+            {% else %}
+                {% for i in range(member.rows or member.cols) %}
+    {{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }} get_{{ member.name }}{{ i }}() const { return value.m_{{ member.name }}[{{ i }}]; }
+    void set_{{ member.name }}{{ i }}({{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }} v) { value.m_{{ member.name }}[{{ i }}] = v; }
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    s{{ struct.name }} toStruct() const { return value; }
+
+    static s{{ struct.name }}Wrapper fromStruct(const emscripten::val &js) {
+        s{{ struct.name }}Wrapper wrapper;
+        {% for member in struct.members %}
+            {% if member.is_array %}
+                {% if member.is_2d_array %}
+                    {% for i in range(member.rows) %}
+                        {% for j in range(member.cols) %}
+        wrapper.value.m_{{ member.name }}[{{ j }}][{{ i }}] = js["{{ member.name }}_{{ i }}_{{ j }}"].as<{{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }}>();
+                        {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    {% for i in range(member.rows or member.cols) %}
+        wrapper.value.m_{{ member.name }}[{{ i }}] = js["{{ member.name }}{{ i }}"].as<{{ "e" + member.enum_class if member.is_enum else "Lib3MF_" + member.type }}>();
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        return wrapper;
+    }
+};
+{% endif %}
+{% endfor %}
+
+// ================== Emscripten Bindings ==================
 EMSCRIPTEN_BINDINGS(lib3mf) {
     // Enums
     {%- for enum in enums %}
-
     enum_<e{{ enum.name }}>("e{{ enum.name }}")
     {%- for option in enum.options %}
         .value("{{ option.name }}", e{{ enum.name }}::{{ option.name }})
     {%- endfor %};
-
     {%- endfor %}
 
-    // Structs
-    {%- for struct in structs %}
-
-    value_object<s{{ struct.name }}> ("s{{ struct.name }}")
-    {%- for member in struct.members %}
-        .field("{{ member.name }}", &s{{ struct.name }}::m_{{ member.name }})
-    {%- endfor %};
-
-    {%- endfor %}
-
-    // Value arrays for struct fields that are arrays
-    {# {%- for struct in structs %}
-    {%- for member in struct.members %}
-    {%- if member.rows and not member.cols %}
-    value_array<std::array<Lib3MF_{{ member.type }}, {{ member.rows }}>>("array_{{ member.type }}_{{ member.rows }}")
-        {%- for i in range(member.rows) %}
-        .element(index<{{ i }}>())
-        {%- endfor %};
-    {%- endif %}
-    {%- endfor %}
-    {%- endfor %} #}
+    // Structs as exposed JS classes
+    {% for struct in structs %}
+    {% if struct.members | selectattr("is_array") | list | length > 0 %}
+    class_<s{{ struct.name }}Wrapper>("s{{ struct.name }}")
+        .constructor<>()
+        .function("toStruct", &s{{ struct.name }}Wrapper::toStruct)
+        .class_function("fromStruct", &s{{ struct.name }}Wrapper::fromStruct)
+        {% for member in struct.members %}
+            {% if member.is_array %}
+                {% if member.is_2d_array %}
+                    {% for i in range(member.cols) %}
+                        {% for j in range(member.rows) %}
+        .property("{{ member.name }}_{{ i }}_{{ j }}", &s{{ struct.name }}Wrapper::get_{{ member.name }}_{{ i }}_{{ j }}, &s{{ struct.name }}Wrapper::set_{{ member.name }}_{{ i }}_{{ j }})
+                        {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    {% for i in range(member.rows or member.cols) %}
+        .property("{{ member.name }}{{ i }}", &s{{ struct.name }}Wrapper::get_{{ member.name }}{{ i }}, &s{{ struct.name }}Wrapper::set_{{ member.name }}{{ i }})
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    ;
+    {% endif %}
+    {% endfor %}
 
     // Classes
     {%- for cls in classes %}
-
     class_<C{{ cls.name }}{% if cls.parent %}, base<C{{ cls.parent }}>{% endif %}> ("C{{ cls.name }}")
-    .smart_ptr<std::shared_ptr<C{{ cls.name }}>>("shared_ptr<C{{ cls.name }}>")
-    {%- for method in cls.methods %}
-        {%- if method.comment_out %}
+        .smart_ptr<std::shared_ptr<C{{ cls.name }}>>("shared_ptr<C{{ cls.name }}>")
+        {%- for method in cls.methods %}
+            {%- if method.comment_out %}
         // .function("{{ method.name }}", &C{{ cls.name }}::{{ method.name }})
-        {%- else %}
+            {%- else %}
         .function("{{ method.name }}", &C{{ cls.name }}::{{ method.name }})
-        {%- endif %}
-    {%- endfor %}
+            {%- endif %}
+        {%- endfor %}
     ;
     {%- endfor %}
 
     // Globals
     class_<CWrapper>("CWrapper")
         .constructor<>()
-    {%- for method in wrapper_methods %}
-        {%- if method.comment_out %}
+        {%- for method in wrapper_methods %}
+            {%- if method.comment_out or method.name == "GetSymbolLookupMethod" %}
         // .function("{{ method.name }}", &CWrapper::{{ method.name }})
-        {%- else %}
+            {%- else %}
         .function("{{ method.name }}", &CWrapper::{{ method.name }})
-        {%- endif %}
-    {%- endfor %}
+            {%- endif %}
+        {%- endfor %}
     ;
 }
-

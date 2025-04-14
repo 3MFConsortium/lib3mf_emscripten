@@ -23,7 +23,7 @@ def extract_enums(lib3mf_idl):
         enums.append({"name": name, "options": options})
     return enums
 
-# Extract Structs (handles arrays)
+# Extract Structs (handles arrays and types)
 def extract_structs(lib3mf_idl):
     structs = []
     all_structs = lib3mf_idl["component"]["struct"]
@@ -35,15 +35,21 @@ def extract_structs(lib3mf_idl):
         if not isinstance(members_data, list):
             members_data = [members_data]
         for member in members_data:
-            member_info = {
+            rows = int(member["@rows"]) if "@rows" in member else None
+            cols = int(member["@columns"]) if "@columns" in member else None
+            is_array = rows is not None or cols is not None
+            is_2d_array = rows is not None and cols is not None
+
+            members.append({
                 "name": member["@name"],
                 "type": member["@type"],
-                "rows": int(member["@rows"]) if "@rows" in member else None,
-                "cols": int(member["@columns"]) if "@columns" in member else None,
+                "rows": rows,
+                "cols": cols,
                 "is_enum": "@class" in member and member["@type"] == "enum",
-                "enum_class": member["@class"] if "@class" in member else None
-            }
-            members.append(member_info)
+                "enum_class": member["@class"] if "@class" in member else None,
+                "is_array": is_array,
+                "is_2d_array": is_2d_array
+            })
         structs.append({"name": name, "members": members})
     return structs
 
@@ -69,7 +75,7 @@ def extract_classes(lib3mf_idl):
 
             param_objects = []
             has_out_param = False
-            has_callback_param = "Callback" in method_name  # heuristic based on method name
+            has_callback_param = "Callback" in method_name  # heuristic
 
             for p in params_data:
                 param_obj = {
@@ -82,10 +88,19 @@ def extract_classes(lib3mf_idl):
                     has_out_param = True
                 param_objects.append(param_obj)
 
+            # Check if return type is a struct
+            returns_struct = False
+            struct_class = None
+            if param_objects and param_objects[-1]["pass"] == "return" and param_objects[-1]["type"] == "struct":
+                returns_struct = True
+                struct_class = param_objects[-1]["class"]
+
             methods.append({
                 "name": method_name,
                 "params": param_objects,
-                "comment_out": has_out_param or has_callback_param
+                "comment_out": has_out_param or has_callback_param,
+                "returns_struct": returns_struct,
+                "struct_class": struct_class
             })
 
         classes.append({
@@ -96,10 +111,10 @@ def extract_classes(lib3mf_idl):
 
     return classes
 
+# Extract global methods for CWrapper
 def extract_wrapper_methods(lib3mf_idl):
     wrapper_methods = []
     all_methods = lib3mf_idl["component"]["global"]["method"]
-
     if not isinstance(all_methods, list):
         all_methods = [all_methods]
 
@@ -110,6 +125,8 @@ def extract_wrapper_methods(lib3mf_idl):
             params = [params]
 
         has_out_param = False
+        returns_struct = False
+        struct_class = None
         parsed_params = []
 
         for param in params:
@@ -127,16 +144,21 @@ def extract_wrapper_methods(lib3mf_idl):
                 "class": param_class
             })
 
+        if parsed_params and parsed_params[-1]["pass"] == "return" and parsed_params[-1]["type"] == "struct":
+            returns_struct = True
+            struct_class = parsed_params[-1]["class"]
+
         wrapper_methods.append({
             "name": method_name,
             "params": parsed_params,
-            "comment_out": has_out_param
+            "comment_out": has_out_param,
+            "returns_struct": returns_struct,
+            "struct_class": struct_class
         })
 
     return wrapper_methods
 
-
-# Generate C++ file using Jinja
+# Generate C++ bindings using Jinja2
 def generate_cpp(enums, structs, classes, wrapper_methods, template_file="lib3mf_bindings.jinja2", output_file="lib3mf_bindings.cpp"):
     with open(template_file, "r", encoding="utf-8") as file:
         template = jinja2.Template(file.read())
@@ -145,12 +167,12 @@ def generate_cpp(enums, structs, classes, wrapper_methods, template_file="lib3mf
         file.write(cpp_code)
     print(f"✅ Generated {output_file}")
 
-
+# Entry point
 if __name__ == "__main__":
-    xml_file = "lib3mf.xml"  # Update this if needed
+    xml_file = "lib3mf.xml"  # Replace if needed
     lib3mf_idl = load_xml_as_json(xml_file)
     enums = extract_enums(lib3mf_idl)
     structs = extract_structs(lib3mf_idl)
     classes = extract_classes(lib3mf_idl)
     wrapper_methods = extract_wrapper_methods(lib3mf_idl)
-    generate_cpp(enums, structs, classes,wrapper_methods)
+    generate_cpp(enums, structs, classes, wrapper_methods)
