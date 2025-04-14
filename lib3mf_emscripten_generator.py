@@ -166,9 +166,33 @@ def extract_wrapper_methods(lib3mf_idl):
 
 # Generate C++ bindings using Jinja2
 def generate_cpp(enums, structs, classes, wrapper_methods, template_file="lib3mf_bindings.jinja2", output_file="lib3mf_bindings.cpp"):
+    all_methods = []
+
+    for cls in classes:
+        for method in cls["methods"]:
+            all_methods.append({
+                "is_global": False,
+                "class": cls["name"],
+                "parent": cls.get("parent"),
+                "method": method
+            })
+
+    for method in wrapper_methods:
+        all_methods.append({
+            "is_global": True,
+            "class": "Wrapper",
+            "method": method
+        })
+
     with open(template_file, "r", encoding="utf-8") as file:
         template = jinja2.Template(file.read())
-    cpp_code = template.render(enums=enums, structs=structs, classes=classes, wrapper_methods=wrapper_methods)
+    cpp_code = template.render(
+        enums=enums,
+        structs=structs,
+        classes=classes,
+        wrapper_methods=wrapper_methods,
+        all_methods=all_methods
+    )
 
     # Remove empty lines
     cleaned_code = "\n".join([line for line in cpp_code.splitlines() if line.strip() != ""])
