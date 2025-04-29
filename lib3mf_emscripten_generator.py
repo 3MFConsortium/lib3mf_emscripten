@@ -309,6 +309,9 @@ def generate_cpp(enums, structs, classes, wrapper_methods, template_file="lib3mf
     static_wrappers = generate_static_wrapper_entries(classes, wrapper_methods)
     out_param_wrappers = generate_out_param_wrappers(classes, wrapper_methods)
 
+    # 🔧 NEW: collect all wrapper function names for lookup in template
+    wrapper_names = [f"wrap_{w['class']}_{w['name']}" for w in static_wrappers + out_param_wrappers]
+
     with open(template_file, "r", encoding="utf-8") as file:
         template = jinja2.Template(file.read())
 
@@ -319,7 +322,8 @@ def generate_cpp(enums, structs, classes, wrapper_methods, template_file="lib3mf
         wrapper_methods=wrapper_methods,
         all_methods=all_methods,
         static_wrappers=static_wrappers,
-        out_param_wrappers=out_param_wrappers
+        out_param_wrappers=out_param_wrappers,
+        wrapper_names=wrapper_names  # ✅ Added to context
     )
 
     Path(output_file).write_text("\n".join([line for line in cpp_code.splitlines() if line.strip() != ""]), encoding="utf-8")

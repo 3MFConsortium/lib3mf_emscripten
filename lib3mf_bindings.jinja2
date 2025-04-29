@@ -149,20 +149,21 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
        .smart_ptr<std::shared_ptr<C{{ cls.name }}>>("shared_ptr<C{{ cls.name }}>")
        {% for ctx in all_methods if not ctx.is_global and ctx.class == cls.name %}
            {% set m = ctx.method %}
+           {% set wrapper_name = "wrap_" + cls.name + "_" + m.name %}
            {% set skip = false %}
            {% for p in m.params %}
                {% if p.type == "pvoid" or (p.type == "handle" and not p.class) %}
                    {% set skip = true %}
                {% endif %}
            {% endfor %}
-           {% if m.comment_out %}
-       // .function("{{ m.name }}", &C{{ cls.name }}::{{ m.name }})
-           {% elif skip %}
-       // .function("{{ m.name }}", &C{{ cls.name }}::{{ m.name }})
+           {% if wrapper_name in wrapper_names %}
+           .function("{{ m.name }}", &{{ wrapper_name }})
+           {% elif m.comment_out or skip %}
+           // .function("{{ m.name }}", &C{{ cls.name }}::{{ m.name }})
            {% elif m.returns_struct or m.has_struct_param %}
-       .function("{{ m.name }}", &wrap_{{ cls.name }}_{{ m.name }})
+           .function("{{ m.name }}", &wrap_{{ cls.name }}_{{ m.name }})
            {% else %}
-       .function("{{ m.name }}", &C{{ cls.name }}::{{ m.name }})
+           .function("{{ m.name }}", &C{{ cls.name }}::{{ m.name }})
            {% endif %}
        {% endfor %}
    ;
@@ -173,20 +174,21 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
        .constructor<>()
        {% for ctx in all_methods if ctx.is_global %}
            {% set m = ctx.method %}
+           {% set wrapper_name = "wrap_" + ctx.class + "_" + m.name %}
            {% set skip = false %}
            {% for p in m.params %}
                {% if p.type == "pvoid" or (p.type == "handle" and not p.class) %}
                    {% set skip = true %}
                {% endif %}
            {% endfor %}
-           {% if m.comment_out or m.name == "GetSymbolLookupMethod" %}
-       // .function("{{ m.name }}", &CWrapper::{{ m.name }})
-           {% elif skip %}
-       // .function("{{ m.name }}", &CWrapper::{{ m.name }})
+           {% if wrapper_name in wrapper_names %}
+           .function("{{ m.name }}", &{{ wrapper_name }})
+           {% elif m.comment_out or m.name == "GetSymbolLookupMethod" or skip %}
+           // .function("{{ m.name }}", &CWrapper::{{ m.name }})
            {% elif m.returns_struct or m.has_struct_param %}
-       .function("{{ m.name }}", &wrap_Wrapper_{{ m.name }})
+           .function("{{ m.name }}", &wrap_Wrapper_{{ m.name }})
            {% else %}
-       .function("{{ m.name }}", &CWrapper::{{ m.name }})
+           .function("{{ m.name }}", &CWrapper::{{ m.name }})
            {% endif %}
        {% endfor %}
    ;
