@@ -147,17 +147,17 @@ struct sTransformWrapper {
     static sTransformWrapper fromStruct(const emscripten::val &js) {
         sTransformWrapper wrapper;
         wrapper.value.m_Fields[0][0] = js["Fields_0_0"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[1][0] = js["Fields_0_1"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[2][0] = js["Fields_0_2"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[3][0] = js["Fields_0_3"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[0][1] = js["Fields_1_0"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[0][1] = js["Fields_0_1"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[0][2] = js["Fields_0_2"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[1][0] = js["Fields_1_0"].as<Lib3MF_single>();
         wrapper.value.m_Fields[1][1] = js["Fields_1_1"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[2][1] = js["Fields_1_2"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[3][1] = js["Fields_1_3"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[0][2] = js["Fields_2_0"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[1][2] = js["Fields_2_1"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[1][2] = js["Fields_1_2"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[2][0] = js["Fields_2_0"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[2][1] = js["Fields_2_1"].as<Lib3MF_single>();
         wrapper.value.m_Fields[2][2] = js["Fields_2_2"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[3][2] = js["Fields_2_3"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[3][0] = js["Fields_3_0"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[3][1] = js["Fields_3_1"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[3][2] = js["Fields_3_2"].as<Lib3MF_single>();
         return wrapper;
     }
 };
