@@ -147,17 +147,17 @@ struct sTransformWrapper {
     static sTransformWrapper fromStruct(const emscripten::val &js) {
         sTransformWrapper wrapper;
         wrapper.value.m_Fields[0][0] = js["Fields_0_0"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[0][1] = js["Fields_0_1"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[0][2] = js["Fields_0_2"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[1][0] = js["Fields_1_0"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[1][0] = js["Fields_0_1"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[2][0] = js["Fields_0_2"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[3][0] = js["Fields_0_3"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[0][1] = js["Fields_1_0"].as<Lib3MF_single>();
         wrapper.value.m_Fields[1][1] = js["Fields_1_1"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[1][2] = js["Fields_1_2"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[2][0] = js["Fields_2_0"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[2][1] = js["Fields_2_1"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[2][1] = js["Fields_1_2"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[3][1] = js["Fields_1_3"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[0][2] = js["Fields_2_0"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[1][2] = js["Fields_2_1"].as<Lib3MF_single>();
         wrapper.value.m_Fields[2][2] = js["Fields_2_2"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[3][0] = js["Fields_3_0"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[3][1] = js["Fields_3_1"].as<Lib3MF_single>();
-        wrapper.value.m_Fields[3][2] = js["Fields_3_2"].as<Lib3MF_single>();
+        wrapper.value.m_Fields[3][2] = js["Fields_2_3"].as<Lib3MF_single>();
         return wrapper;
     }
 };
@@ -356,6 +356,21 @@ static Lib3MF_uint32 wrap_MeshObject_AddTriangle(CMeshObject &self, const sTrian
 static void wrap_MeshObject_SetTriangleProperties(CMeshObject &self, Lib3MF_uint32 Index, const sTrianglePropertiesWrapper& Properties) {
     self.SetTriangleProperties(Index, Properties.toStruct());
 }
+static void wrap_MeshObject_SetAllTriangleProperties(CMeshObject &self, const std::vector<sTrianglePropertiesWrapper>& PropertiesArray) {
+    std::vector<sTriangleProperties> converted_PropertiesArray;
+converted_PropertiesArray.reserve(PropertiesArray.size());
+for (const auto& w : PropertiesArray) converted_PropertiesArray.push_back(w.toStruct());
+    self.SetAllTriangleProperties(converted_PropertiesArray);
+}
+static void wrap_MeshObject_SetGeometry(CMeshObject &self, const std::vector<sPositionWrapper>& Vertices, const std::vector<sTriangleWrapper>& Indices) {
+    std::vector<sPosition> converted_Vertices;
+converted_Vertices.reserve(Vertices.size());
+for (const auto& w : Vertices) converted_Vertices.push_back(w.toStruct());
+    std::vector<sTriangle> converted_Indices;
+converted_Indices.reserve(Indices.size());
+for (const auto& w : Indices) converted_Indices.push_back(w.toStruct());
+    self.SetGeometry(converted_Vertices, converted_Indices);
+}
 static sTransformWrapper wrap_LevelSet_GetTransform(CLevelSet &self) {
     auto result = self.GetTransform();
     sTransformWrapper wrapper;
@@ -378,6 +393,12 @@ static Lib3MF_uint32 wrap_BeamLattice_AddBeam(CBeamLattice &self, const sBeamWra
 static void wrap_BeamLattice_SetBeam(CBeamLattice &self, Lib3MF_uint32 Index, const sBeamWrapper& BeamInfo) {
     self.SetBeam(Index, BeamInfo.toStruct());
 }
+static void wrap_BeamLattice_SetBeams(CBeamLattice &self, const std::vector<sBeamWrapper>& BeamInfo) {
+    std::vector<sBeam> converted_BeamInfo;
+converted_BeamInfo.reserve(BeamInfo.size());
+for (const auto& w : BeamInfo) converted_BeamInfo.push_back(w.toStruct());
+    self.SetBeams(converted_BeamInfo);
+}
 static sBallWrapper wrap_BeamLattice_GetBall(CBeamLattice &self, Lib3MF_uint32 Index) {
     auto result = self.GetBall(Index);
     sBallWrapper wrapper;
@@ -390,6 +411,12 @@ static Lib3MF_uint32 wrap_BeamLattice_AddBall(CBeamLattice &self, const sBallWra
 }
 static void wrap_BeamLattice_SetBall(CBeamLattice &self, Lib3MF_uint32 Index, const sBallWrapper& BallInfo) {
     self.SetBall(Index, BallInfo.toStruct());
+}
+static void wrap_BeamLattice_SetBalls(CBeamLattice &self, const std::vector<sBallWrapper>& BallInfo) {
+    std::vector<sBall> converted_BallInfo;
+converted_BallInfo.reserve(BallInfo.size());
+for (const auto& w : BallInfo) converted_BallInfo.push_back(w.toStruct());
+    self.SetBalls(converted_BallInfo);
 }
 static sTransformWrapper wrap_FunctionReference_GetTransform(CFunctionReference &self) {
     auto result = self.GetTransform();
@@ -453,6 +480,13 @@ static sTex2CoordWrapper wrap_Texture2DGroup_GetTex2Coord(CTexture2DGroup &self,
     wrapper.value = result;
     return wrapper;
 }
+static Lib3MF_uint32 wrap_CompositeMaterials_AddComposite(CCompositeMaterials &self, const std::vector<sCompositeConstituentWrapper>& Composite) {
+    std::vector<sCompositeConstituent> converted_Composite;
+converted_Composite.reserve(Composite.size());
+for (const auto& w : Composite) converted_Composite.push_back(w.toStruct());
+    auto result = self.AddComposite(converted_Composite);
+    return result;
+}
 static Lib3MF_uint32 wrap_MultiPropertyGroup_AddLayer(CMultiPropertyGroup &self, const sMultiPropertyLayerWrapper& TheLayer) {
     auto result = self.AddLayer(TheLayer.toStruct());
     return result;
@@ -495,6 +529,12 @@ static sBoxWrapper wrap_BuildItem_GetOutbox(CBuildItem &self) {
     sBoxWrapper wrapper;
     wrapper.value = result;
     return wrapper;
+}
+static void wrap_Slice_SetVertices(CSlice &self, const std::vector<sPosition2DWrapper>& Vertices) {
+    std::vector<sPosition2D> converted_Vertices;
+converted_Vertices.reserve(Vertices.size());
+for (const auto& w : Vertices) converted_Vertices.push_back(w.toStruct());
+    self.SetVertices(converted_Vertices);
 }
 static sBoxWrapper wrap_Model_GetOutbox(CModel &self) {
     auto result = self.GetOutbox();
@@ -913,6 +953,21 @@ static emscripten::val wrap_Wrapper_ColorToFloatRGBA(CWrapper &self, const sColo
 }
 // ================== Emscripten Bindings ==================
 EMSCRIPTEN_BINDINGS(lib3mf) {
+    // ——— Register JS bindings for struct-array wrappers ———
+    register_vector<sTriangleWrapper>("std::vector<sTriangle>");
+    register_vector<sTrianglePropertiesWrapper>("std::vector<sTriangleProperties>");
+    register_vector<sPositionWrapper>("std::vector<sPosition>");
+    register_vector<sPosition2DWrapper>("std::vector<sPosition2D>");
+    register_vector<sCompositeConstituentWrapper>("std::vector<sCompositeConstituent>");
+    register_vector<sMultiPropertyLayerWrapper>("std::vector<sMultiPropertyLayer>");
+    register_vector<sTex2CoordWrapper>("std::vector<sTex2Coord>");
+    register_vector<sTransformWrapper>("std::vector<sTransform>");
+    register_vector<sBoxWrapper>("std::vector<sBox>");
+    register_vector<sColorWrapper>("std::vector<sColor>");
+    register_vector<sBeamWrapper>("std::vector<sBeam>");
+    register_vector<sBallWrapper>("std::vector<sBall>");
+    register_vector<sVectorWrapper>("std::vector<sVector>");
+    register_vector<sMatrix4x4Wrapper>("std::vector<sMatrix4x4>");
     // Enums
     enum_<ePropertyType>("ePropertyType")
         .value("NoPropertyType", ePropertyType::NoPropertyType)
@@ -1463,10 +1518,10 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
            .function("GetObjectLevelProperty", &wrap_MeshObject_GetObjectLevelProperty)
            .function("SetTriangleProperties", &wrap_MeshObject_SetTriangleProperties)
            .function("GetTriangleProperties", &wrap_MeshObject_GetTriangleProperties)
-           .function("SetAllTriangleProperties", &CMeshObject::SetAllTriangleProperties)
+           .function("SetAllTriangleProperties", &wrap_MeshObject_SetAllTriangleProperties)
            .function("GetAllTriangleProperties", &wrap_MeshObject_GetAllTriangleProperties)
            .function("ClearAllProperties", &CMeshObject::ClearAllProperties)
-           .function("SetGeometry", &CMeshObject::SetGeometry)
+           .function("SetGeometry", &wrap_MeshObject_SetGeometry)
            .function("IsManifoldAndOriented", &CMeshObject::IsManifoldAndOriented)
            .function("BeamLattice", &CMeshObject::BeamLattice)
            .function("GetVolumeData", &CMeshObject::GetVolumeData)
@@ -1510,13 +1565,13 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
            .function("GetBeam", &wrap_BeamLattice_GetBeam)
            .function("AddBeam", &wrap_BeamLattice_AddBeam)
            .function("SetBeam", &wrap_BeamLattice_SetBeam)
-           .function("SetBeams", &CBeamLattice::SetBeams)
+           .function("SetBeams", &wrap_BeamLattice_SetBeams)
            .function("GetBeams", &wrap_BeamLattice_GetBeams)
            .function("GetBallCount", &CBeamLattice::GetBallCount)
            .function("GetBall", &wrap_BeamLattice_GetBall)
            .function("AddBall", &wrap_BeamLattice_AddBall)
            .function("SetBall", &wrap_BeamLattice_SetBall)
-           .function("SetBalls", &CBeamLattice::SetBalls)
+           .function("SetBalls", &wrap_BeamLattice_SetBalls)
            .function("GetBalls", &wrap_BeamLattice_GetBalls)
            .function("GetBeamSetCount", &CBeamLattice::GetBeamSetCount)
            .function("AddBeamSet", &CBeamLattice::AddBeamSet)
@@ -1632,7 +1687,7 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
            .function("GetCount", &CCompositeMaterials::GetCount)
            .function("GetAllPropertyIDs", &wrap_CompositeMaterials_GetAllPropertyIDs)
            .function("GetBaseMaterialGroup", &CCompositeMaterials::GetBaseMaterialGroup)
-           .function("AddComposite", &CCompositeMaterials::AddComposite)
+           .function("AddComposite", &wrap_CompositeMaterials_AddComposite)
            .function("RemoveComposite", &CCompositeMaterials::RemoveComposite)
            .function("GetComposite", &wrap_CompositeMaterials_GetComposite)
    ;
@@ -2067,7 +2122,7 @@ EMSCRIPTEN_BINDINGS(lib3mf) {
    ;
    class_<CSlice, base<CBase>> ("CSlice")
        .smart_ptr<std::shared_ptr<CSlice>>("shared_ptr<CSlice>")
-           .function("SetVertices", &CSlice::SetVertices)
+           .function("SetVertices", &wrap_Slice_SetVertices)
            .function("GetVertices", &wrap_Slice_GetVertices)
            .function("GetVertexCount", &CSlice::GetVertexCount)
            .function("AddPolygon", &CSlice::AddPolygon)

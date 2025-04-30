@@ -107,6 +107,11 @@ static {{ w.return_type }} wrap_{{ w.class }}_{{ w.name }}(C{{ w.class }} &self{
 
 // ================== Emscripten Bindings ==================
 EMSCRIPTEN_BINDINGS(lib3mf) {
+    // ——— Register JS bindings for struct-array wrappers ———
+    {% for struct in structs %}
+    register_vector<s{{ struct.name }}Wrapper>("std::vector<s{{ struct.name }}>");
+    {% endfor %}
+
     // Enums
     {%- for enum in enums %}
     enum_<e{{ enum.name }}>("e{{ enum.name }}")

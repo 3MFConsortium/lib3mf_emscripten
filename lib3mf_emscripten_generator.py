@@ -59,10 +59,13 @@ def extract_classes(lib3mf_idl):
             param_objects = []
             has_out_param = False
             has_struct_param = False
+            has_structarray_param = False
             has_callback_param = "Callback" in method["@name"]
             for p in params_data:
                 if p["@type"] == "struct":
                     has_struct_param = True
+                if p["@type"] == "structarray":
+                    has_structarray_param = True
                 if p["@pass"] == "out":
                     has_out_param = True
                 param_objects.append({
@@ -71,7 +74,11 @@ def extract_classes(lib3mf_idl):
                     "pass": p["@pass"],
                     "class": p.get("@class", None)
                 })
-            returns_struct = param_objects and param_objects[-1]["pass"] == "return" and param_objects[-1]["type"] == "struct"
+            returns_struct = (
+                    param_objects and
+                    param_objects[-1]["pass"] == "return" and
+                    param_objects[-1]["type"] == "struct"
+            )
             struct_class = param_objects[-1]["class"] if returns_struct else None
             methods.append({
                 "name": method["@name"],
@@ -79,7 +86,8 @@ def extract_classes(lib3mf_idl):
                 "comment_out": has_out_param or has_callback_param,
                 "returns_struct": returns_struct,
                 "struct_class": struct_class,
-                "has_struct_param": has_struct_param
+                "has_struct_param": has_struct_param,
+                "has_structarray_param": has_structarray_param
             })
         classes.append({
             "name": cls["@name"],
@@ -100,18 +108,25 @@ def extract_wrapper_methods(lib3mf_idl):
         parsed_params = []
         has_out_param = False
         has_struct_param = False
+        has_structarray_param = False
         for p in params:
             if p["@pass"] == "out":
                 has_out_param = True
             if p["@type"] == "struct":
                 has_struct_param = True
+            if p["@type"] == "structarray":
+                has_structarray_param = True
             parsed_params.append({
                 "name": p["@name"],
                 "type": p["@type"],
                 "pass": p["@pass"],
                 "class": p.get("@class")
             })
-        returns_struct = parsed_params and parsed_params[-1]["pass"] == "return" and parsed_params[-1]["type"] == "struct"
+        returns_struct = (
+                parsed_params and
+                parsed_params[-1]["pass"] == "return" and
+                parsed_params[-1]["type"] == "struct"
+        )
         struct_class = parsed_params[-1]["class"] if returns_struct else None
         wrapper_methods.append({
             "name": method["@name"],
@@ -119,7 +134,8 @@ def extract_wrapper_methods(lib3mf_idl):
             "comment_out": has_out_param,
             "returns_struct": returns_struct,
             "struct_class": struct_class,
-            "has_struct_param": has_struct_param
+            "has_struct_param": has_struct_param,
+            "has_structarray_param": has_structarray_param
         })
     return wrapper_methods
 
@@ -130,7 +146,7 @@ def generate_static_wrapper_entries(classes, wrapper_methods):
         if p["type"] == "struct":
             return f"s{p['class']}Wrapper"
         elif p["type"] == "structarray":
-            return f"std::vector<s{p['class']}>"
+            return f"std::vector<s{p['class']}Wrapper>"
         elif p["type"] == "basicarray":
             return f"std::vector<Lib3MF_{p['class']}>"
         elif p["type"] == "handle" and p.get("class"):
@@ -147,26 +163,46 @@ def generate_static_wrapper_entries(classes, wrapper_methods):
             return f"Lib3MF_{p['type']}"
 
     def wrap_method(class_name, method, is_global):
-        # Skip methods that have any out parameter (handled in out_param_wrappers)
+        # Skip methods with out-parameters
         if any(p["pass"] == "out" for p in method["params"]):
             return None
-
-        if not (method["returns_struct"] or method["has_struct_param"]):
+        # Only wrap methods returning or accepting structs/arrays
+        if not (
+                method["returns_struct"] or
+                method["has_struct_param"] or
+                method.get("has_structarray_param", False)
+        ):
             return None
 
-        return_param = next((p for p in method["params"] if p["pass"] == "return"), None)
+        return_param = next(
+            (p for p in method["params"] if p["pass"] == "return"), None
+        )
         param_decls, call_args, out_decls, out_sets = [], [], [], []
-        use_output_object = False
 
         for p in method["params"]:
             if p["pass"] == "return":
                 continue
-            t = resolve_type(p)
 
             if p["type"] == "struct":
                 param_decls.append(f"const s{p['class']}Wrapper& {p['name']}")
                 call_args.append(f"{p['name']}.toStruct()")
+
+            elif p["type"] == "structarray":
+                wrapper_type = f"std::vector<s{p['class']}Wrapper>"
+                native_type  = f"std::vector<s{p['class']}>"
+                param_decls.append(f"const {wrapper_type}& {p['name']}")
+
+                helper = (
+                    f"{native_type} converted_{p['name']};\n"
+                    f"converted_{p['name']}.reserve({p['name']}.size());\n"
+                    f"for (const auto& w : {p['name']}) "
+                    f"converted_{p['name']}.push_back(w.toStruct());"
+                )
+                out_decls.append(helper)
+                call_args.append(f"converted_{p['name']}")
+
             else:
+                t = resolve_type(p)
                 param_decls.append(f"{t} {p['name']}")
                 call_args.append(p["name"])
 
@@ -175,11 +211,13 @@ def generate_static_wrapper_entries(classes, wrapper_methods):
             return_expression = "wrapper"
             has_return = True
             returns_wrapper_directly = True
+
         elif return_param:
             return_type = resolve_type(return_param)
             return_expression = "result"
             has_return = True
             returns_wrapper_directly = False
+
         else:
             return_type = "void"
             return_expression = ""
@@ -200,21 +238,22 @@ def generate_static_wrapper_entries(classes, wrapper_methods):
             "has_return": has_return
         }
 
+    # Instance methods
     for cls in classes:
         for method in cls["methods"]:
-            result = wrap_method(cls["name"], method, is_global=False)
-            if result:
-                static_wrappers.append(result)
-
+            wrapped = wrap_method(cls["name"], method, is_global=False)
+            if wrapped:
+                static_wrappers.append(wrapped)
+    # Global methods
     for method in wrapper_methods:
-        result = wrap_method("Wrapper", method, is_global=True)
-        if result:
-            static_wrappers.append(result)
+        wrapped = wrap_method("Wrapper", method, is_global=True)
+        if wrapped:
+            static_wrappers.append(wrapped)
 
     return static_wrappers
 
-
 def generate_out_param_wrappers(classes, wrapper_methods):
+    # (unchanged from before; handles methods with out-params)
     out_param_wrappers = []
 
     def resolve_type(p):
@@ -241,7 +280,9 @@ def generate_out_param_wrappers(classes, wrapper_methods):
         if not any(p["pass"] == "out" for p in method["params"]):
             return None
 
-        return_param = next((p for p in method["params"] if p["pass"] == "return"), None)
+        return_param = next(
+            (p for p in method["params"] if p["pass"] == "return"), None
+        )
         param_decls, call_args, var_decls, out_sets = [], [], [], []
         call_stmt = ""
 
@@ -250,22 +291,26 @@ def generate_out_param_wrappers(classes, wrapper_methods):
                 continue
 
             t = resolve_type(p)
-
             if p["pass"] == "out":
                 var_decls.append(f"{t} {p['name']};")
-                call_args.append(p["name"] if p["type"] != "struct" else f"{p['name']}.value")
+                call_args.append(
+                    p["name"] if p["type"] != "struct" else f"{p['name']}.value"
+                )
                 out_sets.append(f'output.set("{p["name"]}", {p["name"]});')
+
             elif p["type"] == "struct":
                 param_decls.append(f"const s{p['class']}Wrapper& {p['name']}")
                 call_args.append(f"{p['name']}.toStruct()")
+
             else:
                 param_decls.append(f"{t} {p['name']}")
                 call_args.append(p["name"])
 
-        # Handle return value
         if return_param:
             ret_type = resolve_type(return_param)
-            var_decls.append(f"{ret_type} return_value = self.{method['name']}({', '.join(call_args)});")
+            var_decls.append(
+                f"{ret_type} return_value = self.{method['name']}({', '.join(call_args)});"
+            )
             out_sets.insert(0, 'output.set("return", return_value);')
             call_stmt = None
         else:
@@ -287,30 +332,42 @@ def generate_out_param_wrappers(classes, wrapper_methods):
 
     for cls in classes:
         for method in cls["methods"]:
-            result = wrap_out_method(cls["name"], method, is_global=False)
-            if result:
-                out_param_wrappers.append(result)
-
+            wrapped = wrap_out_method(cls["name"], method, is_global=False)
+            if wrapped:
+                out_param_wrappers.append(wrapped)
     for method in wrapper_methods:
-        result = wrap_out_method("Wrapper", method, is_global=True)
-        if result:
-            out_param_wrappers.append(result)
+        wrapped = wrap_out_method("Wrapper", method, is_global=True)
+        if wrapped:
+            out_param_wrappers.append(wrapped)
 
     return out_param_wrappers
 
-def generate_cpp(enums, structs, classes, wrapper_methods, template_file="lib3mf_bindings.jinja2", output_file="lib3mf_bindings.cpp"):
+def generate_cpp(enums, structs, classes, wrapper_methods,
+                 template_file="lib3mf_bindings.jinja2",
+                 output_file="lib3mf_bindings.cpp"):
     all_methods = []
     for cls in classes:
         for method in cls["methods"]:
-            all_methods.append({"is_global": False, "class": cls["name"], "parent": cls.get("parent"), "method": method})
+            all_methods.append({
+                "is_global": False,
+                "class": cls["name"],
+                "parent": cls.get("parent"),
+                "method": method
+            })
     for method in wrapper_methods:
-        all_methods.append({"is_global": True, "class": "Wrapper", "method": method})
+        all_methods.append({
+            "is_global": True,
+            "class": "Wrapper",
+            "method": method
+        })
 
     static_wrappers = generate_static_wrapper_entries(classes, wrapper_methods)
     out_param_wrappers = generate_out_param_wrappers(classes, wrapper_methods)
 
-    # 🔧 NEW: collect all wrapper function names for lookup in template
-    wrapper_names = [f"wrap_{w['class']}_{w['name']}" for w in static_wrappers + out_param_wrappers]
+    wrapper_names = [
+        f"wrap_{w['class']}_{w['name']}"
+        for w in static_wrappers + out_param_wrappers
+    ]
 
     with open(template_file, "r", encoding="utf-8") as file:
         template = jinja2.Template(file.read())
@@ -323,12 +380,14 @@ def generate_cpp(enums, structs, classes, wrapper_methods, template_file="lib3mf
         all_methods=all_methods,
         static_wrappers=static_wrappers,
         out_param_wrappers=out_param_wrappers,
-        wrapper_names=wrapper_names  # ✅ Added to context
+        wrapper_names=wrapper_names
     )
 
-    Path(output_file).write_text("\n".join([line for line in cpp_code.splitlines() if line.strip() != ""]), encoding="utf-8")
+    Path(output_file).write_text(
+        "\n".join(line for line in cpp_code.splitlines() if line.strip()),
+        encoding="utf-8"
+    )
     print(f"✅ Generated {output_file} (empty lines removed)")
-
 
 if __name__ == "__main__":
     xml_file = "lib3mf.xml"
