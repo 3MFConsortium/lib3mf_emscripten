@@ -53,7 +53,7 @@ jobs:
           python --version
 
       - name: Build WASM wrapper
-        run: python build_bindings.py --build-type Release --out-dir build
+        run: python lib3mf_emscripten_bindings_build.py --build-type Release --out-dir build
 
       - name: Verify outputs (Unix)
         if: runner.os != 'Windows'
