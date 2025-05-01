@@ -1,3 +1,4 @@
+# .github/workflows/ci.yml
 name: CI
 
 on:
@@ -31,7 +32,6 @@ jobs:
           git clone https://github.com/emscripten-core/emsdk.git emsdk
           ./emsdk/emsdk install latest
           ./emsdk/emsdk activate latest
-          # persist emsdk tools on PATH for ALL future steps:
           echo "${{ github.workspace }}/emsdk" >> $GITHUB_PATH
           echo "${{ github.workspace }}/emsdk/upstream/emscripten" >> $GITHUB_PATH
 
@@ -42,9 +42,9 @@ jobs:
           git clone https://github.com/emscripten-core/emsdk.git emsdk
           .\emsdk\emsdk.bat install latest
           .\emsdk\emsdk.bat activate latest
-          # persist emsdk tools on PATH for ALL future steps:
-          '$(Resolve-Path $Env:GITHUB_WORKSPACE)\emsdk' | Out-File -FilePath $Env:GITHUB_PATH -Encoding utf8 -Append
-          '$(Resolve-Path $Env:GITHUB_WORKSPACE)\emsdk\upstream\emscripten' | Out-File -FilePath $Env:GITHUB_PATH -Encoding utf8 -Append
+          # Persist emsdk on PATH for ALL future steps
+          Add-Content -Path $Env:GITHUB_PATH -Value "$Env:GITHUB_WORKSPACE\emsdk"
+          Add-Content -Path $Env:GITHUB_PATH -Value "$Env:GITHUB_WORKSPACE\emsdk\upstream\emscripten"
 
       - name: Verify tools
         run: |
@@ -53,7 +53,7 @@ jobs:
           python --version
 
       - name: Build WASM wrapper
-        run: python lib3mf_emscripten_bindings_build.py --build-type Release --out-dir build
+        run: python build_bindings.py --build-type Release --out-dir build
 
       - name: Verify outputs (Unix)
         if: runner.os != 'Windows'
