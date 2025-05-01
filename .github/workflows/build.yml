@@ -42,7 +42,6 @@ jobs:
           git clone https://github.com/emscripten-core/emsdk.git emsdk
           .\emsdk\emsdk.bat install latest
           .\emsdk\emsdk.bat activate latest
-          # Persist emsdk on PATH for ALL future steps
           Add-Content -Path $Env:GITHUB_PATH -Value "$Env:GITHUB_WORKSPACE\emsdk"
           Add-Content -Path $Env:GITHUB_PATH -Value "$Env:GITHUB_WORKSPACE\emsdk\upstream\emscripten"
 
@@ -53,18 +52,44 @@ jobs:
           python --version
 
       - name: Build WASM wrapper
-        run: python lib3mf_emscripten_bindings_build.py --build-type Release --out-dir build
+        run: python lib3mf_emscripten_bindings_build.py --build-type Release --out-dir build_bindings
 
       - name: Verify outputs (Unix)
         if: runner.os != 'Windows'
         shell: bash
         run: |
-          test -f build/lib3mfEmscriptenTest.js
-          test -f build/lib3mfEmscriptenTest.wasm
+          test -f build_bindings/lib3mfEmscriptenTest.js
+          test -f build_bindings/lib3mfEmscriptenTest.wasm
 
       - name: Verify outputs (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          if (-not (Test-Path build/lib3mfEmscriptenTest.js)) { throw "Missing .js" }
-          if (-not (Test-Path build/lib3mfEmscriptenTest.wasm)) { throw "Missing .wasm" }
+          if (-not (Test-Path build_bindings/lib3mfEmscriptenTest.js)) { throw "Missing .js" }
+          if (-not (Test-Path build_bindings/lib3mfEmscriptenTest.wasm)) { throw "Missing .wasm" }
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Run examples (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          pushd examples
+          node addTriangle.js
+          node beamLattice.js
+          node colorCube.js
+          node createCube.js
+          popd
+
+      - name: Run examples (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Set-Location examples
+          node addTriangle.js
+          node beamLattice.js
+          node colorCube.js
+          node createCube.js
