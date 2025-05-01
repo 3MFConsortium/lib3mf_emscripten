@@ -1,5 +1,4 @@
-# .github/workflows/ci.yml
-name: lib3mf_emscripten_bindings
+name: CI
 
 on:
   push:
@@ -8,7 +7,6 @@ on:
 
 jobs:
   build:
-    name: Build on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -33,7 +31,9 @@ jobs:
           git clone https://github.com/emscripten-core/emsdk.git emsdk
           ./emsdk/emsdk install latest
           ./emsdk/emsdk activate latest
-          source ./emsdk/emsdk_env.sh
+          # persist emsdk tools on PATH for ALL future steps:
+          echo "${{ github.workspace }}/emsdk" >> $GITHUB_PATH
+          echo "${{ github.workspace }}/emsdk/upstream/emscripten" >> $GITHUB_PATH
 
       - name: Install & activate Emscripten (Windows)
         if: runner.os == 'Windows'
@@ -42,7 +42,9 @@ jobs:
           git clone https://github.com/emscripten-core/emsdk.git emsdk
           .\emsdk\emsdk.bat install latest
           .\emsdk\emsdk.bat activate latest
-          & .\emsdk\emsdk_env.bat
+          # persist emsdk tools on PATH for ALL future steps:
+          '$(Resolve-Path $Env:GITHUB_WORKSPACE)\emsdk' | Out-File -FilePath $Env:GITHUB_PATH -Encoding utf8 -Append
+          '$(Resolve-Path $Env:GITHUB_WORKSPACE)\emsdk\upstream\emscripten' | Out-File -FilePath $Env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Verify tools
         run: |
