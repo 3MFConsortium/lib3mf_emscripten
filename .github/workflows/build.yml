@@ -1,0 +1,68 @@
+# .github/workflows/ci.yml
+name: lib3mf_emscripten_bindings
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - name: Checkout (with vcpkg submodule)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install & activate Emscripten (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git emsdk
+          ./emsdk/emsdk install latest
+          ./emsdk/emsdk activate latest
+          source ./emsdk/emsdk_env.sh
+
+      - name: Install & activate Emscripten (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git emsdk
+          .\emsdk\emsdk.bat install latest
+          .\emsdk\emsdk.bat activate latest
+          & .\emsdk\emsdk_env.bat
+
+      - name: Verify tools
+        run: |
+          emcc --version
+          em++ --version
+          python --version
+
+      - name: Build WASM wrapper
+        run: python build_bindings.py --build-type Release --out-dir build
+
+      - name: Verify outputs (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          test -f build/lib3mfEmscriptenTest.js
+          test -f build/lib3mfEmscriptenTest.wasm
+
+      - name: Verify outputs (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          if (-not (Test-Path build/lib3mfEmscriptenTest.js)) { throw "Missing .js" }
+          if (-not (Test-Path build/lib3mfEmscriptenTest.wasm)) { throw "Missing .wasm" }
