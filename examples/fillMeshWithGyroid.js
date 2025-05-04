@@ -11,7 +11,7 @@ function createGyroidFunction(model, lib3mf) {
 
     // Add decompose vector node
     const decomposePos = gyroidFunction.AddDecomposeVectorNode("decomposePos", "decompose pos", "group_a");
-    gyroidFunction.AddLinkByNames("pos", "decomposePos.a");
+    gyroidFunction.AddLink(inputPos, decomposePos.GetInputA());
 
     // Add compose vector node for YZX
     const composeYZX = gyroidFunction.AddComposeVectorNode("composeYZX", "compose yzx", "group_a");
